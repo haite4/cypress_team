@@ -19,11 +19,11 @@ This repository contains automated tests using Cypress, written specifically for
 
 2. **Clone the repository**:
     ```sh
-    https://github.com/haite4/rentzila-cypress
+    https://github.com/haite4/cypress_team
     ```
 3. **Navigate to the project directory**:
     ```sh 
-    cd rentzila-cypress
+    cd cypress_team
     ```
 
 4. **Install dependencies**:
@@ -70,7 +70,7 @@ This repository contains automated tests using Cypress, written specifically for
     ```
 ## Report on CI: 
 
-[Github Pages allure report](https://haite4.github.io/rentzila-cypress/)
+[Github Pages allure report](https://haite4.github.io/cypress_team/)
 
 ## ENV
 - **ADMIN_EMAIL**: you can get from the project owner
