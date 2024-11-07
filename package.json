@@ -1,0 +1,24 @@
+{
+  "scripts": {
+    "cy:open": "npx cypress open",
+    "cy:all": "npx cypress run --browser chrome",
+    "cy:createUnit:headless": "npx cypress run --spec cypress/e2e/createUnitApi.cy.ts --browser chrome",
+    "cy:createUnit:headed": "npx cypress run --spec cypress/e2e/createUnitApi.cy.ts --browser chrome --headed",
+    "cy:createUnit:firefox": "npx cypress run --spec cypress/e2e/createUnitApi.cy.ts --browser firefox",
+    "cy:createUnit:edge": "npx cypress run --spec cypress/e2e/createUnitApi.cy.ts --browser edge",
+    "cy:editUnit": "npx cypress run --spec cypress/e2e/editUnit.cy.ts --browser chrome",
+    "allure:generate": "npx allure generate allure-results --clean",
+    "allure:open":"allure open ./allure-report"
+  },
+  "devDependencies": {
+    "@faker-js/faker": "^9.0.3",
+    "allure-commandline": "^2.31.0",
+    "allure-cypress": "^3.0.5",
+    "cypress": "^13.15.1",
+    "dotenv": "^16.4.5",
+    "typescript": "^5.6.3"
+  },
+  "author": "Stanislav Stankov",
+  "license": "MIT",
+  "description": "Performs automation testing to validate critical user journeys and functionality on the Rentzila website."
+}

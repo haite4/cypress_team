@@ -1,0 +1,6 @@
+{
+    "requiredField": "Це поле обов’язкове",
+    "minimumAnnouncementTitleLengthIsTen": "У назві оголошення повинно бути не менше 10 символів",
+    "maximumAnnouncementTitleLengthIsOneHundred": "У назві оголошення може бути не більше 100 символів",
+    "modelNameMax15": "У назві моделі може бути не більше 15 символів"
+}

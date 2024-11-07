@@ -1,0 +1,10 @@
+{
+  "invalidSymbols": "<>{};^",
+  "announcementPlaceholder": "Введіть назву оголошення",
+  "manufacturerPlaceholder": "Введіть виробника транспортного засобу",
+  "vehicleManufacturerName": "AGCO",
+  "mapEquipmentTitle": "Техніка на мапі",
+  "city": "Київ",
+  "country": "Україна",
+  "region": "Київська область"
+}

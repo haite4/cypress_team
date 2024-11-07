@@ -1,0 +1,47 @@
+name: Cypress Tests
+
+on: push
+
+jobs:
+  cypress-run:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Set environment variable values
+        run: |
+          echo "ADMIN_EMAIL=${{ secrets.ADMIN_EMAIL }}" >> $GITHUB_ENV
+          echo "ADMIN_PASSWORD=${{ secrets.ADMIN_PASSWORD }}" >> $GITHUB_ENV
+          echo "ADMIN_PHONE_NUMBER=${{ secrets.ADMIN_PHONE_NUMBER }}" >> $GITHUB_ENV
+          echo "VALID_PHONE_NUMBER=${{ secrets.VALID_PHONE_NUMBER }}" >> $GITHUB_ENV
+          echo "BASE_URL=${{ secrets.BASE_URL }}" >> $GITHUB_ENV
+          echo "USER_EMAIL=${{ secrets.USER_EMAIL }}" >> $GITHUB_ENV
+          echo "USER_PASSWORD=${{ secrets.USER_PASSWORD }}" >> $GITHUB_ENV
+          echo "USER_PHONE_NUMBER=${{ secrets.USER_PHONE_NUMBER }}" >> $GITHUB_ENV
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run Cypress tests
+        run: npm run cy:all
+        continue-on-error: true
+
+      - name: Generate Allure report
+        if: always()
+        run: npm run allure:generate
+
+
+      - name: Deploy Allure report to GitHub Pages
+        if: always()
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./allure-report
+
+      - name: Upload Allure report as GitHub artifact
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: allure-report
+          path: allure-report
