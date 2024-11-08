@@ -10,8 +10,8 @@ class UnitsPage {
     return cy.get(".MuiButtonBase-root").contains("Очікуючі");
   }
 
-  get pendingAnnouncementsName() {
-    return cy.get('[class*="OwnerUnitCard_name"]').first();
+  get unitName() {
+    return cy.get('[class*="OwnerUnitCard_name"]');
   }
 
   get unitCard() {
@@ -124,8 +124,56 @@ class UnitsPage {
     return cy.get("button").contains("Підтвердити вибір");
   }
 
+  get deactivateBtn(){
+    return cy.get("button").contains("Деактивувати")
+  }
+
+  get popUpWrapper(){
+    return cy.get('[data-testid="wrapper"]')
+  }
+
   get mapLabel() {
     return cy.get('[data-testid="mapLabel"]');
+  }
+
+  get popUpCloseIcon(){
+    return cy.get('[data-testid="closeIcon"]')
+  }
+
+  get popUpCancelBtn(){
+    return cy.get("button").contains("Скасувати")
+  }
+
+  get popUpAgreementBtn(){
+    return cy.get("button").contains("Так")
+  }
+
+  get notificationPopUpDescription(){
+    return cy.get('[class*="NotificationLikePopup_description"]')
+  }
+
+  get notificationPopUpCrossIcon(){
+    return cy.get('[data-testid="notificationClose"]')
+  }
+  
+  get deactivatedTab() {
+    return cy.get(".MuiButtonBase-root").contains("Деактивовані");
+  }
+
+  get activeTab(){
+    return cy.get(".MuiButtonBase-root").contains("Активні");
+  }
+
+  get activateBtn(){
+    return cy.get("button").contains("Активувати")
+  }
+
+  get deleteUnitBtn(){
+    return cy.get("button").contains("Видалити")
+  }
+
+  get rejectedTabs(){
+    return cy.get("button").contains("Відхилені")
   }
 
   createApprovedUnit() {
@@ -133,6 +181,22 @@ class UnitsPage {
       return unitApi.createUnitImages(data.id).then(() => {
         return crmApi.approveUnitCreation(data.id).then((approveData) => {
           expect(approveData.is_approved).to.be.true;
+        });
+      });
+    });
+  }
+
+  createUnitWithoutApprove() {
+    return unitApi.createUnit().then((data) => {
+      return unitApi.createUnitImages(data.id)
+    });
+  }
+
+  createRejectedUnit(){
+    return unitApi.createUnit().then((data) => {
+      return unitApi.createUnitImages(data.id).then(() => {
+        return crmApi.rejectUnitCreation(data.id).then((rejectedData) => {
+          expect(rejectedData.is_approved).to.be.false;
         });
       });
     });
