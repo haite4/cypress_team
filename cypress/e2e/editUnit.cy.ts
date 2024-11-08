@@ -5,7 +5,6 @@ import randomValue from "cypress/helper/randomValue";
 import unitApi from "cypress/api/unitApi";
 
 describe("Unit Edit functionality", () => {
-  const unitIdList = []
   beforeEach("Add unit", () => {
     cy.visit("/");
     loginPage.headerAuthBtn.click();
@@ -14,7 +13,6 @@ describe("Unit Edit functionality", () => {
     unitsPage.unitsInDropDownMenu.click();
     unitsPage.createApprovedUnit().then((data) => {
       cy.reload();
-      unitIdList.push(data.id)
       cy.wrap(data.id).as("unitid");
     });
     unitsPage.unitCard.then((unitcard) => {
@@ -24,10 +22,8 @@ describe("Unit Edit functionality", () => {
     cy.fixture("textSymbols/errorMsg").as("errorMsg");
   });
 
-  after("Remove unit after each test", function () {
-    cy.wrap(unitIdList).each((id) => {
-      unitApi.deleteUnit(Number(id));
-    });
+  afterEach("Remove unit after each test", function () {
+      unitApi.deleteUnit(Number(this.unitid));
   });
 
   it("TC-182 Edit Unit without changes", function () {
