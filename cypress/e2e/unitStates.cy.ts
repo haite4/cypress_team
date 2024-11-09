@@ -146,4 +146,56 @@ describe("Unit Edit functionality", () => {
       this.isUnitDeleted = true;
     }
   });
+
+  it("TC-280 Deleting the unit via the unit page with full information about the ad.", function(){
+    const tabs = ["deactivatedTabs", "expectedTabs", "rejectedTabs"];
+    for (const tab of tabs) {
+      switch (tab) {
+        case "expectedTabs":
+          unitsPage.createUnitWithoutApprove().then((status) => {
+            expect(status).to.be.eq(201);
+          });
+          cy.reload();
+          unitsPage.pendingAnnouncements.click();
+          break;
+
+        case "deactivatedTabs":
+          unitsPage.deactivateBtn.should("be.visible");
+          unitsPage.deactivateBtn.click();
+          unitsPage.popUpAgreementBtn.click();
+          unitsPage.deactivatedTab.click();
+          break;
+
+        case "rejectedTabs":
+          unitsPage.createRejectedUnit();
+          cy.reload();
+          unitsPage.rejectedTabs.click();
+          break;
+      }
+      unitsPage.unitCardTitleText.then((unitName) => {
+      unitsPage.unitName.click()
+      cy.wait(1000)
+      unitsPage.deleteUnitBtn.click()
+      unitsPage.popUpWrapper.should("be.visible");
+      unitsPage.popUpCloseIcon.click();
+      unitsPage.deleteUnitBtn.should("be.visible"); 
+      unitsPage.deleteUnitBtn.click()
+      unitsPage.popUpCancelBtn.click();
+      unitsPage.deleteUnitBtn.should("be.visible"); 
+      unitsPage.deleteUnitBtn.click()
+      unitsPage.popUpAgreementBtn.click();
+      unitsPage.notificationPopUpDescription.should(
+        "have.text",
+        this.successMsg.deletionSuccessMessage
+      );
+      unitsPage.notificationPopUpCrossIcon.click();
+      unitsPage.notificationPopUpDescription.should("not.exist");
+      unitsPage.emptyBlockInfoTitle.should("be.visible");
+      crmApi.searhAdsByName(unitName).then((response) => {
+        expect(response.body.count).to.be.eq(0);
+      });
+      })
+      this.isUnitDeleted = true;
+    }
+  })
 });
