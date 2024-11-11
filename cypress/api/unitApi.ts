@@ -7,7 +7,6 @@ import { TimeOfWork } from "../constants/timeOfWork";
 import { PaymentMethods } from "../constants/paymentMethods";
 
 class UnitApi extends ApiHelper {
-
   createUnit() {
     return super.createUserJwtToken().then((token) => {
       return cy
@@ -28,14 +27,11 @@ class UnitApi extends ApiHelper {
             lng: 30.46777478959968,
             owner: 1777,
             minimal_price: 2222,
-            money_value:
-            randomValue.selectRandomValueFromArray(MoneyCurrency),
-            type_of_work:
-            randomValue.selectRandomValueFromArray(TypeOfWork),
-            time_of_work:
-            randomValue.selectRandomValueFromArray(TimeOfWork),
+            money_value: randomValue.selectRandomValueFromArray(MoneyCurrency),
+            type_of_work: randomValue.selectRandomValueFromArray(TypeOfWork),
+            time_of_work: randomValue.selectRandomValueFromArray(TimeOfWork),
             payment_method:
-            randomValue.selectRandomValueFromArray(PaymentMethods),
+              randomValue.selectRandomValueFromArray(PaymentMethods),
             services: [336],
           },
         })

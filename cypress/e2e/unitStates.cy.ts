@@ -1,7 +1,6 @@
 import crmApi from "cypress/api/crmApi";
 import loginPage from "../pages/loginPage";
 import unitsPage from "../pages/unitsPage";
-import randomValue from "cypress/helper/randomValue";
 import unitApi from "cypress/api/unitApi";
 
 describe("Unit Edit functionality", () => {
@@ -147,7 +146,7 @@ describe("Unit Edit functionality", () => {
     }
   });
 
-  it("TC-280 Deleting the unit via the unit page with full information about the ad.", function(){
+  it("TC-280 Deleting the unit via the unit page with full information about the ad.", function () {
     const tabs = ["deactivatedTabs", "expectedTabs", "rejectedTabs"];
     for (const tab of tabs) {
       switch (tab) {
@@ -173,29 +172,87 @@ describe("Unit Edit functionality", () => {
           break;
       }
       unitsPage.unitCardTitleText.then((unitName) => {
-      unitsPage.unitName.click()
-      cy.wait(1000)
-      unitsPage.deleteUnitBtn.click()
-      unitsPage.popUpWrapper.should("be.visible");
-      unitsPage.popUpCloseIcon.click();
-      unitsPage.deleteUnitBtn.should("be.visible"); 
-      unitsPage.deleteUnitBtn.click()
-      unitsPage.popUpCancelBtn.click();
-      unitsPage.deleteUnitBtn.should("be.visible"); 
-      unitsPage.deleteUnitBtn.click()
-      unitsPage.popUpAgreementBtn.click();
-      unitsPage.notificationPopUpDescription.should(
-        "have.text",
-        this.successMsg.deletionSuccessMessage
-      );
-      unitsPage.notificationPopUpCrossIcon.click();
-      unitsPage.notificationPopUpDescription.should("not.exist");
-      unitsPage.emptyBlockInfoTitle.should("be.visible");
-      crmApi.searhAdsByName(unitName).then((response) => {
-        expect(response.body.count).to.be.eq(0);
+        unitsPage.unitName.click();
+        cy.wait(1000);
+        unitsPage.deleteUnitBtn.click();
+        unitsPage.popUpWrapper.should("be.visible");
+        unitsPage.popUpCloseIcon.click();
+        unitsPage.deleteUnitBtn.should("be.visible");
+        unitsPage.deleteUnitBtn.click();
+        unitsPage.popUpCancelBtn.click();
+        unitsPage.deleteUnitBtn.should("be.visible");
+        unitsPage.deleteUnitBtn.click();
+        unitsPage.popUpAgreementBtn.click();
+        unitsPage.notificationPopUpDescription.should(
+          "have.text",
+          this.successMsg.deletionSuccessMessage
+        );
+        unitsPage.notificationPopUpCrossIcon.click();
+        unitsPage.notificationPopUpDescription.should("not.exist");
+        unitsPage.emptyBlockInfoTitle.should("be.visible");
+        crmApi.searhAdsByName(unitName).then((response) => {
+          expect(response.body.count).to.be.eq(0);
+        });
       });
-      })
       this.isUnitDeleted = true;
     }
-  })
+  });
+
+  it("TC-740", function () {
+    unitsPage.deactivateBtn.should("be.visible");
+    unitsPage.deactivateBtn.click();
+    unitsPage.popUpWrapper.should("be.visible");
+    unitsPage.popUpCloseIcon.click();
+    unitsPage.deactivateBtn.should("be.visible");
+    unitsPage.deactivateBtn.click();
+    unitsPage.popUpCancelBtn.click();
+    unitsPage.deactivateBtn.should("be.visible");
+  });
+
+  it("TC-741", function () {
+    unitsPage.deactivateBtn.should("be.visible");
+    unitsPage.deactivateBtn.click();
+    unitsPage.popUpWrapper.should("be.visible");
+    unitsPage.popUpAgreementBtn.should("be.visible");
+    unitsPage.popUpAgreementBtn.click();
+    unitsPage.notificationPopUpDescription.should(
+      "have.text",
+      this.successMsg.deactivationSuccessMessage
+    );
+    unitsPage.notificationPopUpCrossIcon.click();
+    unitsPage.notificationPopUpDescription.should("not.exist");
+  });
+
+  it("TC-742", function () {
+    unitsPage.deactivateBtn.should("be.visible");
+    unitsPage.deactivateBtn.click();
+    unitsPage.popUpWrapper.should("be.visible");
+    unitsPage.popUpAgreementBtn.click();
+    unitsPage.deactivatedTab.click();
+    unitsPage.activateBtn.should("be.visible");
+    unitsPage.activateBtn.click();
+    unitsPage.popUpWrapper.should("be.visible");
+    unitsPage.popUpCloseIcon.click();
+    unitsPage.activateBtn.should("be.visible");
+    unitsPage.activateBtn.click();
+    unitsPage.popUpCancelBtn.click();
+    unitsPage.activateBtn.should("be.visible");
+  });
+
+  it("TC-743", function () {
+    unitsPage.deactivateBtn.should("be.visible");
+    unitsPage.deactivateBtn.click();
+    unitsPage.popUpWrapper.should("be.visible");
+    unitsPage.popUpAgreementBtn.click();
+    unitsPage.deactivatedTab.click();
+    unitsPage.activateBtn.should("be.visible");
+    unitsPage.activateBtn.click();
+    unitsPage.popUpWrapper.should("be.visible");
+    unitsPage.popUpAgreementBtn.click();
+    unitsPage.notificationPopUpDescription.invoke("text").then((text) => {
+      expect(text).to.be.eq(this.successMsg.activationSuccessMessage);
+    });
+    unitsPage.notificationPopUpCrossIcon.click();
+    unitsPage.notificationPopUpDescription.should("not.exist");
+  });
 });

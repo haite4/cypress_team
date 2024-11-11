@@ -2,24 +2,36 @@ import { Endpoints } from "cypress/constants/enumsEndpoints";
 import { ApiHelper } from "./rentzilaApi";
 
 class CrmApi extends ApiHelper {
-
   approveUnitCreation(unitId: number) {
     return super.createAdminJwtToken().then((token) => {
-      const url = `${Cypress.env("BASE_URL")}${Endpoints.API_MODERATE_UNIT_BASE}${unitId}/moderate/`;
+      const url = `${Cypress.env("BASE_URL")}${
+        Endpoints.API_MODERATE_UNIT_BASE
+      }${unitId}/moderate/`;
       const body = { is_approved: true };
-      return this.makeRequest("PATCH", url, token, body).then((response) => response.body);
-    });
-  }
-  
-  rejectUnitCreation(unitId: number){
-    return super.createAdminJwtToken().then((token) => {
-      const url = `${Cypress.env("BASE_URL")}${Endpoints.API_MODERATE_UNIT_BASE}${unitId}/moderate/`;
-      const body = { is_approved: false, declined_invalid_img: true};
-      return this.makeRequest("PATCH", url, token, body).then((response) => response.body);
+      return this.makeRequest("PATCH", url, token, body).then(
+        (response) => response.body
+      );
     });
   }
 
-  makeRequest(method: "GET" | "POST" | "PATCH", url: string, token: string, body?: object) {
+  rejectUnitCreation(unitId: number) {
+    return super.createAdminJwtToken().then((token) => {
+      const url = `${Cypress.env("BASE_URL")}${
+        Endpoints.API_MODERATE_UNIT_BASE
+      }${unitId}/moderate/`;
+      const body = { is_approved: false, declined_invalid_img: true };
+      return this.makeRequest("PATCH", url, token, body).then(
+        (response) => response.body
+      );
+    });
+  }
+
+  makeRequest(
+    method: "GET" | "POST" | "PATCH",
+    url: string,
+    token: string,
+    body?: object
+  ) {
     return cy
       .request({
         method,

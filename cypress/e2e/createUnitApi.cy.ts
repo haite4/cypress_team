@@ -34,7 +34,7 @@ describe("Create and delete unit functionality", () => {
     unitsPage.unitsInDropDownMenu.click();
     unitsPage.pendingAnnouncements.click();
     unitApi.deleteUnit(unitId).then((status) => {
-      cy.reload()
+      cy.reload();
       unitsPage.emptyBlockInfoTitle.should("be.visible");
       expect(status).to.eq(204);
     });

@@ -40,7 +40,7 @@ describe("Unit Edit functionality", () => {
       unitsPage.viewInMyAdsBtn.click();
       unitsPage.emptyBlockInfoTitle.should("be.visible");
       crmApi.searhAdsByName(unitName).then((response) => {
-        cy.log(`${response.body.results[0].is_approved}`)
+        cy.log(`${response.body.results[0].is_approved}`);
         expect(response.body.results[0].is_approved).to.be.eq(null);
         expect(response.status).to.be.eq(200);
         expect(response.body.results[0].name).to.be.eq(unitName);
