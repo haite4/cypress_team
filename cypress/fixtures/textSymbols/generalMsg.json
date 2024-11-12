@@ -1,5 +1,10 @@
 {
+  "popupClearFavouriteUnitsHeaderMessage": "Очистити список обраних оголошень?",
+  "clearFiltersButtonText": "Скинути фільтри",
+  "announcementListMessage": "До списку оголошень",
+  "noAnnouncementsMessage": "У Вас поки немає обраних оголошень",
   "invalidSymbols": "<>{};^",
+  "spaces": [" ", "  ", "          "],
   "announcementPlaceholder": "Введіть назву оголошення",
   "manufacturerPlaceholder": "Введіть виробника транспортного засобу",
   "vehicleManufacturerName": "AGCO",

@@ -4,6 +4,7 @@ import productsPage from "../pages/productsPage";
 import unitApi from "../api/unitApi";
 import randomValue from "../helper/randomValue";
 import crmApi from "../api/crmApi";
+import { UrlPath } from "../constants/enumUrlPaths";
 import { 
     categoriesDropdownListNames,
     municipalEquipmentCategoryNames,
@@ -14,27 +15,28 @@ describe("Favorite units", () => {
         cy.visit("/");
         loginPage.headerAuthBtn.click();
         loginPage.login(Cypress.env("USER_EMAIL"), Cypress.env("USER_PASSWORD"));
+        cy.fixture("textSymbols/generalMsg").as("generalMsg");
     });
 
-    it('The "Обрані оголошення" page without "Обрані" units', () => {
+    it('The "Обрані оголошення" page without "Обрані" units', function () {
         loginPage.userIcon.click();
         unitsPage.unitsInDropDownMenu.click();
         unitsPage.chosenAnnouncmentsButton.click();
         unitsPage.emptyBlockInfoTitle
             .should("be.visible")
-            .and("have.text", "У Вас поки немає обраних оголошень");
+            .and("have.text", this.generalMsg.noAnnouncementsMessage);
 
         unitsPage.emptyBlockButton
             .should("be.visible")
-            .and("have.text", "До списку оголошень")
+            .and("have.text", this.generalMsg.announcementListMessage)
             .click();
-        cy.url().should("include", "/products/");
+        cy.url().should("include", UrlPath.PRODUCTS);
     });
 
-    it('"Обрані" icon functionality', () => {
+    it('"Обрані" icon functionality', function () {
         cy.window().scrollTo("top");
         loginPage.announcementsButton.click();
-        cy.url().should("include", "/products/");
+        cy.url().should("include", UrlPath.PRODUCTS);
 
         productsPage.cardWrappers.then(cards => {
             cy.wrap(cards[0]).scrollIntoView();
@@ -47,7 +49,7 @@ describe("Favorite units", () => {
 
         loginPage.userIcon.click();
         unitsPage.unitsInDropDownMenu.click();
-        cy.url().should("include", "/owner-units-page/");
+        cy.url().should("include", UrlPath.OWNER_UNITS_PAGE);
 
         unitsPage.chosenAnnouncmentsButton.click();
         unitsPage.unitCard.should("be.visible");
@@ -63,7 +65,7 @@ describe("Favorite units", () => {
         unitsPage.unitCard.should("not.exist");
         unitsPage.emptyBlockInfoTitle
             .should("be.visible")
-            .and("have.text", "У Вас поки немає обраних оголошень");
+            .and("have.text", this.generalMsg.noAnnouncementsMessage);
 
         loginPage.announcementsButton.click();
         productsPage.cardWrappers.then(cards => {
@@ -72,7 +74,7 @@ describe("Favorite units", () => {
         });
     });
 
-    it('"Пошук по назві" search field functionality', () => {
+    it('"Пошук по назві" search field functionality', function () {
         const pageNumber = randomValue.generateRandomNumber(1, 100);
         const favouriteUnits = new Set();
         unitApi.getUnits(pageNumber).then((units) => {
@@ -91,7 +93,7 @@ describe("Favorite units", () => {
         loginPage.userIcon.click();
         unitsPage.unitsInDropDownMenu.click();
         unitsPage.chosenAnnouncmentsButton.click();
-        cy.url().should("include", "/owner-favourite-units/");
+        cy.url().should("include", UrlPath.OWNER_FAVOURITE_UNITS);
 
         cy.reload();
         unitsPage.announcemntTitleInput.click();
@@ -100,12 +102,7 @@ describe("Favorite units", () => {
         unitsPage.announcemntTitleInput.type("{enter}");
         unitsPage.unitCard.should("be.visible");
 
-        const spaces = [
-            " ",
-            "  ",
-            "          "
-        ];
-        for (const spaceValue of spaces) {
+        for (const spaceValue of this.generalMsg.spaces) {
             unitsPage.announcemntTitleInput.type(spaceValue);
             unitsPage.announcemntTitleInput.should("have.value", spaceValue);
             if (spaceValue === "          ") break;
@@ -114,7 +111,7 @@ describe("Favorite units", () => {
 
         unitsPage.emptyBlockButton
             .should("be.visible")
-            .and("have.text", "Скинути фільтри")
+            .and("have.text", this.generalMsg.clearFiltersButtonText)
             .click();
         unitsPage.unitCard.should("be.visible");
 
@@ -133,7 +130,7 @@ describe("Favorite units", () => {
                     .and("have.text", `Оголошення за назвою "${number}" не знайдені`);
                 unitsPage.emptyBlockButton
                     .should("be.visible")
-                    .and("have.text", "Скинути фільтри");
+                    .and("have.text", this.generalMsg.clearFiltersButtonText);
             }
         });
         unitsPage.announcemntTitleInput.clear();
@@ -155,7 +152,7 @@ describe("Favorite units", () => {
                         .and("have.text", `Оголошення за назвою "${symbol}" не знайдені`);
                     unitsPage.emptyBlockButton
                         .should("be.visible")
-                        .and("have.text", "Скинути фільтри");
+                        .and("have.text", this.generalMsg.clearFiltersButtonText);
                 }
             });
 
@@ -169,7 +166,7 @@ describe("Favorite units", () => {
             .and("have.text", `Оголошення за назвою "${nonExistingUnit}" не знайдені`);
         unitsPage.emptyBlockButton
             .should("be.visible")
-            .and("have.text", "Скинути фільтри");
+            .and("have.text", this.generalMsg.clearFiltersButtonText);
         unitsPage.announcemntTitleInput.clear();
 
         cy.window().then(() => {
@@ -188,7 +185,7 @@ describe("Favorite units", () => {
         });
     });
 
-    it('Check the pagination on the "Обрані оголошення" page', () => {
+    it('Check the pagination on the "Обрані оголошення" page', function () {
         let pageNumber = randomValue.generateRandomNumber(1, 100);
         const favouriteUnits = new Set();
         unitApi.getUnits(pageNumber, 25).then((units) => {
@@ -207,7 +204,7 @@ describe("Favorite units", () => {
         loginPage.userIcon.click();
         unitsPage.unitsInDropDownMenu.click();
         unitsPage.chosenAnnouncmentsButton.click();
-        cy.url().should("include", "/owner-favourite-units/");
+        cy.url().should("include", UrlPath.OWNER_FAVOURITE_UNITS);
 
         cy.reload();
         unitsPage.paginationButtons
@@ -269,14 +266,14 @@ describe("Favorite units", () => {
         unitsPage.clearListButton.click();
         unitsPage.popupHeader
             .should("be.visible")
-            .and("have.text", "Очистити список обраних оголошень?");
+            .and("have.text", this.generalMsg.popupClearFavouriteUnitsHeaderMessage);
         unitsPage.popupYesButton.click();
         unitsPage.emptyBlockInfoTitle
             .should("be.visible")
-            .and("have.text", "У Вас поки немає обраних оголошень");
+            .and("have.text", this.generalMsg.noAnnouncementsMessage);
     });
 
-    it('"Всі категорії" dropdown menu functionality', () => {
+    it('"Всі категорії" dropdown menu functionality', function () {
         const favouriteUnits = [];
         unitApi.getCategories().then(response => {
             expect(response.status).to.eq(200);
@@ -314,7 +311,7 @@ describe("Favorite units", () => {
         loginPage.userIcon.click();
         unitsPage.unitsInDropDownMenu.click();
         unitsPage.chosenAnnouncmentsButton.click();
-        cy.url().should("include", "/owner-favourite-units/");
+        cy.url().should("include", UrlPath.OWNER_FAVOURITE_UNITS);
         cy.reload();
 
         let unitCount: number;
@@ -351,10 +348,10 @@ describe("Favorite units", () => {
                     }
                     case "Будівельна техніка": {
                         cy.wrap(cards).first().click();
-                        cy.url().should("include", "/unit/");
+                        cy.url().should("include", UrlPath.UNIT);
 
                         cy.go("back");
-                        cy.url().should("include", "/owner-favourite-units/");
+                        cy.url().should("include", UrlPath.OWNER_FAVOURITE_UNITS);
                         break;
                     }
                     default: {
@@ -374,10 +371,10 @@ describe("Favorite units", () => {
         cy.reload();
         unitsPage.emptyBlockInfoTitle
             .should("be.visible")
-            .and("have.text", "У Вас поки немає обраних оголошень");
+            .and("have.text", this.generalMsg.noAnnouncementsMessage);
     });
 
-    it('"Очистити список" button functionality', () => {
+    it('"Очистити список" button functionality', function () {
         const pageNumber = randomValue.generateRandomNumber(1, 100);
         const favouriteUnits = new Set();
         unitApi.getUnits(pageNumber, 25).then((units) => {
@@ -396,13 +393,13 @@ describe("Favorite units", () => {
         loginPage.userIcon.click();
         unitsPage.unitsInDropDownMenu.click();
         unitsPage.chosenAnnouncmentsButton.click();
-        cy.url().should("include", "/owner-favourite-units/");
+        cy.url().should("include", UrlPath.OWNER_FAVOURITE_UNITS);
         cy.reload();
 
         unitsPage.clearListButton.should("be.visible").click();
         unitsPage.popupHeader
             .should("be.visible")
-            .and("have.text", "Очистити список обраних оголошень?");
+            .and("have.text", this.generalMsg.popupClearFavouriteUnitsHeaderMessage);
         
         unitsPage.popupCancelButton.click();
         unitsPage.popupHeader.should("not.exist");
@@ -411,7 +408,7 @@ describe("Favorite units", () => {
         unitsPage.clearListButton.should("be.visible").click();
         unitsPage.popupHeader
             .should("be.visible")
-            .and("have.text", "Очистити список обраних оголошень?");
+            .and("have.text", this.generalMsg.popupClearFavouriteUnitsHeaderMessage);
         unitsPage.popupCloseIcon.click();
         unitsPage.popupHeader.should("not.exist");
         unitsPage.unitCard.should("be.visible");
@@ -419,14 +416,14 @@ describe("Favorite units", () => {
         unitsPage.clearListButton.click();
         unitsPage.popupHeader
             .should("be.visible")
-            .and("have.text", "Очистити список обраних оголошень?");
+            .and("have.text", this.generalMsg.popupClearFavouriteUnitsHeaderMessage);
         unitsPage.popupYesButton.click();
         unitsPage.emptyBlockInfoTitle
             .should("be.visible")
-            .and("have.text", "У Вас поки немає обраних оголошень");
+            .and("have.text", this.generalMsg.noAnnouncementsMessage);
     });
 
-    it('"Пошук по назві" search field functionality 2', () => {
+    it('"Пошук по назві" search field functionality 2', function () {
         const pageNumber = randomValue.generateRandomNumber(1, 100);
         const favouriteUnits = new Set();
         unitApi.getUnits(pageNumber).then((units) => {
@@ -445,7 +442,7 @@ describe("Favorite units", () => {
         loginPage.userIcon.click();
         unitsPage.unitsInDropDownMenu.click();
         unitsPage.chosenAnnouncmentsButton.click();
-        cy.url().should("include", "/owner-favourite-units/");
+        cy.url().should("include", UrlPath.OWNER_FAVOURITE_UNITS);
 
         cy.reload();
         unitsPage.announcemntTitleInput.click();
@@ -454,12 +451,7 @@ describe("Favorite units", () => {
         unitsPage.announcemntTitleInput.type("{enter}");
         unitsPage.unitCard.should("be.visible");
 
-        const spaces = [
-            " ",
-            "  ",
-            "          "
-        ];
-        for (const spaceValue of spaces) {
+        for (const spaceValue of this.generalMsg.spaces) {
             unitsPage.announcemntTitleInput.type(spaceValue);
             unitsPage.announcemntTitleInput.should("have.value", spaceValue);
             if (spaceValue === "          ") break;
@@ -468,7 +460,7 @@ describe("Favorite units", () => {
 
         unitsPage.emptyBlockButton
             .should("be.visible")
-            .and("have.text", "Скинути фільтри")
+            .and("have.text", this.generalMsg.clearFiltersButtonText)
             .click();
         unitsPage.unitCard.should("be.visible");
 
@@ -479,16 +471,16 @@ describe("Favorite units", () => {
             .and("have.text", `Оголошення за назвою "${nonExistingUnit}" не знайдені`);
         unitsPage.emptyBlockButton
             .should("be.visible")
-            .and("have.text", "Скинути фільтри");
+            .and("have.text", this.generalMsg.clearFiltersButtonText);
         unitsPage.announcemntTitleInput.clear();
 
         unitsPage.clearListButton.click();
         unitsPage.popupHeader
             .should("be.visible")
-            .and("have.text", "Очистити список обраних оголошень?");
+            .and("have.text", this.generalMsg.popupClearFavouriteUnitsHeaderMessage);
         unitsPage.popupYesButton.click();
         unitsPage.emptyBlockInfoTitle
             .should("be.visible")
-            .and("have.text", "У Вас поки немає обраних оголошень");
+            .and("have.text", this.generalMsg.noAnnouncementsMessage);
     });
 });
