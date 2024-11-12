@@ -347,9 +347,11 @@ describe("Favorite units", () => {
                         break;
                     }
                     case "Будівельна техніка": {
+                        cy.wait(1000);
                         cy.wrap(cards).first().click();
                         cy.url().should("include", UrlPath.UNIT);
 
+                        cy.wait(1000);
                         cy.go("back");
                         cy.url().should("include", UrlPath.OWNER_FAVOURITE_UNITS);
                         break;
