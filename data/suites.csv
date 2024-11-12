@@ -1,0 +1,5 @@
+"DESCRIPTION","DURATION IN MS","NAME","PARENT SUITE","START TIME","STATUS","STOP TIME","SUB SUITE","SUITE","TEST CLASS","TEST METHOD"
+"","4578","Verify that unit images uploaded","Create and delete unit functionality","Tue Nov 12 18:10:08 UTC 2024","passed","Tue Nov 12 18:10:12 UTC 2024","","","",""
+"","15648","TC-182 Edit Unit without changes","Unit Edit functionality","Tue Nov 12 18:10:39 UTC 2024","broken","Tue Nov 12 18:10:54 UTC 2024","","","",""
+"","6140","Verify that unit displayed in ""Очікуючі"" tab","Create and delete unit functionality","Tue Nov 12 18:10:01 UTC 2024","passed","Tue Nov 12 18:10:07 UTC 2024","","","",""
+"","22513","Verify that unit removed from ""Очікуючі"" tab","Create and delete unit functionality","Tue Nov 12 18:10:12 UTC 2024","failed","Tue Nov 12 18:10:35 UTC 2024","","","",""
