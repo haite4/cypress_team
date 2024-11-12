@@ -9,6 +9,10 @@ class RandomValue {
   generateStringWithLength(length: number) {
     return faker.string.alphanumeric(length);
   }
+
+  generateRandomNumber(minNumber: number, maxNumber: number) {
+    return faker.number.int({ min: minNumber, max: maxNumber });
+  }
 }
 
 export default new RandomValue()

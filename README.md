@@ -53,7 +53,15 @@ This repository contains automated tests using Cypress, written specifically for
     ```sh
     npm run cy:createUnit:edge
     ```
-6. **Run all tests in chrome browser:**:
+6. **Run favouriteUnits tests in headed mode:**
+    ```sh
+    npm run cy:favouriteUnits:headed
+    ```
+7. **Run favouriteUnits tests in headless mode:**
+    ```sh
+    npm run cy:favouriteUnits:headless
+    ```
+8. **Run all tests in chrome browser:**:
     ```sh
     npm run cy:all
     ```

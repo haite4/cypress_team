@@ -7,6 +7,8 @@
     "cy:createUnit:firefox": "npx cypress run --spec cypress/e2e/createUnitApi.cy.ts --browser firefox",
     "cy:createUnit:edge": "npx cypress run --spec cypress/e2e/createUnitApi.cy.ts --browser edge",
     "cy:editUnit": "npx cypress run --spec cypress/e2e/editUnit.cy.ts --browser chrome",
+    "cy:favouriteUnits:headed": "npx cypress run --spec cypress/e2e/favouriteUnits.cy.ts --browser chrome --headed",
+    "cy:favouriteUnits:headless": "npx cypress run --spec cypress/e2e/favouriteUnits.cy.ts --browser chrome --headed",
     "allure:generate": "npx allure generate allure-results --clean",
     "allure:open":"allure open ./allure-report"
   },
