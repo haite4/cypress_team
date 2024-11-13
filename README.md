@@ -57,6 +57,10 @@ This repository contains automated tests using Cypress, written specifically for
     ```sh
     npm run cy:all
     ```
+7. **Run unitStates tests in chrome browser:**:
+    ```sh
+    npm run cy:unitStates
+    ```
 
 ## Allure Report: 
 
