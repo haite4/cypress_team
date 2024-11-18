@@ -2,6 +2,26 @@ import crmApi from "cypress/api/crmApi";
 import unitApi from "../api/unitApi";
 
 class UnitsPage {
+  get chosenAnnouncmentsButton() {
+    return cy.get('[data-testid="variant"]').contains("Обрані оголошення");
+  }
+
+  get paginationButtons() {
+    return cy.get('[class*="Pagination_page"]');
+  }
+
+  get paginationNextButton() {
+    return cy.get('[aria-label="Next page"]');
+  }
+
+  get paginationPreviousButton() {
+    return cy.get('[aria-label="Previous page"]');
+  }
+
+  get categoriesDropdownList() {
+    return cy.get('[data-testid="div_CustomSelect"]').first();
+  }
+  
   get unitsInDropDownMenu() {
     return cy.get(`[data-testid="units"]`);
   }
@@ -48,6 +68,30 @@ class UnitsPage {
     return cy.get('[class*="EmptyBlockInfo_title"]');
   }
 
+  get emptyBlockButton() {
+    return cy.get('[data-testid="emptyBlockButton"]');
+  }
+
+  get clearListButton() {
+    return cy.get('[class*="OwnerFavouriteUnitsPage_removeList"]');
+  }
+
+  get popupHeader() {
+    return cy.get('[class*="PopupLayout_label"]');
+  }
+
+  get popupYesButton() {
+    return cy.contains("Так");
+  }
+
+  get popupCancelButton() {
+    return cy.contains("Скасувати");
+  }
+
+  get popupCloseIcon() {
+    return cy.get('[data-testid="closeIcon"]');
+  }
+
   get unitCardTitleText() {
     return cy.get('[class*="OwnerUnitCard_name"]').invoke("text");
   }
@@ -62,6 +106,10 @@ class UnitsPage {
     return cy.get(
       '[data-testid="custom-input"][placeholder="Введіть назву моделі"]'
     );
+  }
+
+  get announcemntTitleInput() {
+    return cy.get('[data-testid="input"][placeholder="Заголовок оголошення"]');
   }
 
   get descriptionError() {
@@ -126,6 +174,22 @@ class UnitsPage {
 
   get mapLabel() {
     return cy.get('[data-testid="mapLabel"]');
+  }
+
+  getUnitCardFavouriteButton(card: Cypress.Chainable) {
+    return card.find('[data-testid="favourite"]');
+  }
+
+  getUnitCardCategory(card: Cypress.Chainable) {
+    return card.find('[class*="OwnerUnitCard_category"]');
+  }
+
+  getPaginationPageByNumber(number: number) {
+    return cy.get('[class*="Pagination_page"]').contains(number);
+  }
+
+  selectCategoryItemByName(name: string) {
+    return cy.get('[data-testid="item-customSelect"]').contains(name);
   }
 
   createApprovedUnit() {
