@@ -4,66 +4,72 @@ import { ApiHelper } from "./rentzilaApi";
 class CrmApi extends ApiHelper {
   approveUnitCreation(unitId: number) {
     return super.createAdminJwtToken().then((token) => {
-      return cy.request({
-        method: "PATCH",
-        url: `${Cypress.env("BASE_URL")}${
-          Endpoints.API_MODERATE_UNIT_BASE
-        }${unitId}/moderate/`,
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        body: {
-          is_approved: true,
-        },
-      }).then((response) => {
-        return response.body
-      })
+      const url = `${Cypress.env("BASE_URL")}${
+        Endpoints.API_MODERATE_UNIT_BASE
+      }${unitId}/moderate/`;
+      const body = { is_approved: true };
+      return this.makeRequest("PATCH", url, token, body).then(
+        (response) => response.body
+      );
     });
   }
 
-  searchPendingAdsByName(unitName: string){
+  rejectUnitCreation(unitId: number) {
     return super.createAdminJwtToken().then((token) => {
-      return cy.request({
-        method: "GET",
-        url: `${Cypress.env("BASE_URL")}${
-          Endpoints.API_MODERATE_UNIT_BASE
-        }?page=1&date=desc&search=${unitName}&status=pending`,
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }).then((response) => {
-        return response
-      })
+      const url = `${Cypress.env("BASE_URL")}${
+        Endpoints.API_MODERATE_UNIT_BASE
+      }${unitId}/moderate/`;
+      const body = { is_approved: false, declined_invalid_img: true };
+      return this.makeRequest("PATCH", url, token, body).then(
+        (response) => response.body
+      );
     });
   }
 
-  manufacturersById(manufacturerId: number){
-    return super.createAdminJwtToken().then((token) => {
-      return cy.request({
-        method: "GET",
-        url: `${Cypress.env("BASE_URL")}${Endpoints.API_MANUFACTURER}${manufacturerId}/`,
+  makeRequest(
+    method: "GET" | "POST" | "PATCH",
+    url: string,
+    token: string,
+    body?: object
+  ) {
+    return cy
+      .request({
+        method,
+        url,
         headers: {
           Authorization: `Bearer ${token}`,
         },
-      }).then((response) => {
-        return response
+        ...(body && { body }),
       })
+      .then((response) => {
+        return response;
+      });
+  }
+
+  searhAdsByName(unitName: string) {
+    return super.createAdminJwtToken().then((token) => {
+      const url = `${Cypress.env("BASE_URL")}${
+        Endpoints.API_MODERATE_UNIT_BASE
+      }?search=${unitName}`;
+      return this.makeRequest("GET", url, token);
     });
   }
 
-  getUnitById(unitid: number){
+  manufacturersById(manufacturerId: number) {
     return super.createAdminJwtToken().then((token) => {
-      return cy.request({
-        method: "GET",
-        url: `${Cypress.env("BASE_URL")}${
-          Endpoints.API_MODERATE_UNIT_BASE
-        }${unitid}/`,
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }).then((response) => {
-        return response
-      })
+      const url = `${Cypress.env("BASE_URL")}${
+        Endpoints.API_MANUFACTURER
+      }${manufacturerId}/`;
+      return this.makeRequest("GET", url, token);
+    });
+  }
+
+  getUnitById(unitid: number) {
+    return super.createAdminJwtToken().then((token) => {
+      const url = `${Cypress.env("BASE_URL")}${
+        Endpoints.API_MODERATE_UNIT_BASE
+      }${unitid}/`;
+      return this.makeRequest("GET", url, token);
     });
   }
 }

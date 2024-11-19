@@ -19,7 +19,7 @@ describe("Create and delete unit functionality", () => {
       loginPage.userIcon.click();
       unitsPage.unitsInDropDownMenu.click();
       unitsPage.pendingAnnouncements.click();
-      unitsPage.pendingAnnouncementsName.should("have.text", unitName);
+      unitsPage.unitName.first().should("have.text", unitName);
     });
   });
 
