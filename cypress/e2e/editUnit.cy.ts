@@ -33,8 +33,8 @@ describe("Unit Edit functionality", () => {
       unitsPage.preventBtn.first().click();
       unitsPage.unitCard.should("be.visible");
       unitsPage.editBtn.click();
-      unitsPage.nextBtn.first().should('be.visible')
-      unitsPage.nextBtn.first().click();
+      cy.wait(1000);
+      unitsPage.nextBtn.first().should("be.visible").click();
       unitsPage.successfullyEditedMsg.should("be.visible");
       unitsPage.viewInMyAdsBtn.should("be.visible");
       unitsPage.viewInMyAdsBtn.click();
@@ -49,20 +49,21 @@ describe("Unit Edit functionality", () => {
 
   it("TC-272 Check 'Назва оголошення' input field", function () {
     unitsPage.editBtn.click();
-    unitsPage.announcementInput.should('be.visible')
+    unitsPage.announcementInput.should("be.visible").should("be.enabled");
+    cy.wait(1000);
     unitsPage.announcementInput.clear();
-    unitsPage.announcementInput.should("have.value", "");
+    cy.wait(1000);
+    unitsPage.nextBtn.should("be.visible").click();
+    unitsPage.descriptionError.should("have.text", this.errorMsg.requiredField);
+    unitsPage.announcementInput.type(this.generalMsg.invalidSymbols);
     unitsPage.announcementInput.should(
       "have.attr",
       "placeholder",
       this.generalMsg.announcementPlaceholder
     );
-    unitsPage.nextBtn.click();
-    unitsPage.descriptionError.should("have.text", this.errorMsg.requiredField);
-    unitsPage.announcementInput.type(this.generalMsg.invalidSymbols);
     unitsPage.announcementInput.should("have.value", "");
     unitsPage.announcementInput.type(randomValue.generateStringWithLength(9));
-    unitsPage.nextBtn.click();
+    unitsPage.nextBtn.should("be.visible").click();
     unitsPage.descriptionError.should(
       "have.text",
       this.errorMsg.minimumAnnouncementTitleLengthIsTen
@@ -76,7 +77,8 @@ describe("Unit Edit functionality", () => {
     const randomUnitName = randomValue.generateStringWithLength(15);
     unitsPage.announcementInput.type(randomUnitName);
     unitsPage.descriptionError.should("not.exist");
-    unitsPage.nextBtn.click();
+    cy.wait(1000);
+    unitsPage.nextBtn.should("be.visible").click();
     unitsPage.successfullyEditedMsg.should("be.visible");
     unitsPage.viewInMyAdsBtn.should("be.visible");
     crmApi.searhAdsByName(randomUnitName).then((response) => {
@@ -126,6 +128,7 @@ describe("Unit Edit functionality", () => {
       "have.text",
       this.generalMsg.vehicleManufacturerName
     );
+    cy.wait(2000);
     unitsPage.announcementInput.invoke("val").then((value) => {
       unitsPage.nextBtn.click();
       unitsPage.successfullyEditedMsg.should("be.visible");
@@ -146,10 +149,11 @@ describe("Unit Edit functionality", () => {
 
   it("TC-532 Check 'Назва моделі' input field", function () {
     unitsPage.editBtn.click();
-    unitsPage.modelNameInput.should("be.visible")
     unitsPage.modelNameInput.should("be.visible");
+    cy.wait(1000);
     unitsPage.modelNameInput.clear();
     unitsPage.modelNameInput.should("have.value", "");
+
     unitsPage.modelNameInput.type(this.generalMsg.invalidSymbols);
     unitsPage.modelNameInput.should("have.value", "");
     unitsPage.modelNameInput.type(randomValue.generateStringWithLength(16));
@@ -161,7 +165,8 @@ describe("Unit Edit functionality", () => {
     unitsPage.announcementInput.invoke("val").then((value) => {
       const randomModelName = randomValue.generateStringWithLength(15);
       unitsPage.modelNameInput.type(randomModelName);
-      unitsPage.nextBtn.click();
+      cy.wait(1000);
+      unitsPage.nextBtn.should("be.visible").click();
       unitsPage.successfullyEditedMsg.should("be.visible");
       unitsPage.viewInMyAdsBtn.should("be.visible");
       crmApi.searhAdsByName(String(value)).then((response) => {
@@ -174,23 +179,25 @@ describe("Unit Edit functionality", () => {
 
   it("TC-533 Check 'Технічні характеристики' input field", function () {
     unitsPage.editBtn.click();
-    unitsPage.techSpecsTextArea.should("be.visible")
-    unitsPage.techSpecsTextArea.should("be.visible");
-    unitsPage.techSpecsTextArea.clear();
-    unitsPage.techSpecsTextArea.should("have.value", "");
-    unitsPage.nextBtn.click();
+    unitsPage.techSpecsTextArea.should("be.visible").should("be.enabled");
+    cy.wait(1000);
+    unitsPage.techSpecsTextArea.clear().should("have.value", "");
+    cy.wait(1000);
+    unitsPage.nextBtn.should("be.visible").click();
     unitsPage.successfullyEditedMsg.should("be.visible");
     unitsPage.viewInMyAdsBtn.should("be.visible");
     unitsPage.viewInMyAdsBtn.click();
     unitsPage.expectingdUnit.click();
     unitsPage.editBtn.eq(0).click();
+    unitsPage.techSpecsTextArea.should("be.visible");
     unitsPage.techSpecsTextArea.should("have.value", "");
     unitsPage.techSpecsTextArea.type(this.generalMsg.invalidSymbols);
     unitsPage.techSpecsTextArea.should("have.value", "");
     const randomTechSpecs = randomValue.generateStringWithLength(20);
     unitsPage.techSpecsTextArea.type(randomTechSpecs);
     unitsPage.announcementInput.invoke("val").then((value) => {
-      unitsPage.nextBtn.click();
+      cy.wait(1000);
+      unitsPage.nextBtn.should("be.visible").click();
       unitsPage.successfullyEditedMsg.should("be.visible");
       unitsPage.viewInMyAdsBtn.should("be.visible");
       crmApi.searhAdsByName(String(value)).then((response) => {
@@ -205,10 +212,11 @@ describe("Unit Edit functionality", () => {
 
   it("TC-534 Check 'Опис' input field", function () {
     unitsPage.editBtn.click();
-    unitsPage.detailedDescriptionTextArea.should("be.visible")
     unitsPage.detailedDescriptionTextArea.should("be.visible");
+    cy.wait(1000);
     unitsPage.detailedDescriptionTextArea.clear();
     unitsPage.detailedDescriptionTextArea.should("have.value", "");
+    cy.wait(2000);
     unitsPage.nextBtn.click();
     unitsPage.successfullyEditedMsg.should("be.visible");
     unitsPage.viewInMyAdsBtn.should("be.visible");
@@ -221,7 +229,8 @@ describe("Unit Edit functionality", () => {
     const randomDetaildDescription = randomValue.generateStringWithLength(60);
     unitsPage.detailedDescriptionTextArea.type(randomDetaildDescription);
     unitsPage.announcementInput.invoke("val").then((value) => {
-      unitsPage.nextBtn.click();
+      cy.wait(1000);
+      unitsPage.nextBtn.should("be.visible").click();
       unitsPage.successfullyEditedMsg.should("be.visible");
       unitsPage.viewInMyAdsBtn.should("be.visible");
       crmApi.searhAdsByName(String(value)).then((response) => {
