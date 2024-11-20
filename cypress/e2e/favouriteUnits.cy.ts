@@ -5,6 +5,7 @@ import unitApi from "../api/unitApi";
 import randomValue from "../helper/randomValue";
 import crmApi from "../api/crmApi";
 import { UrlPath } from "../constants/enumUrlPaths";
+import { Colors } from "../constants/colors";
 import { sortDropdownListNames } from "../constants/sortNames";
 import * as categories from "../constants/categoriesNames";
 
@@ -31,7 +32,7 @@ describe("Favorite units", () => {
         }
     });
 
-    it('The "Обрані оголошення" page without "Обрані" units', function () {
+    it('TC-300 The "Обрані оголошення" page without "Обрані" units', function () {
         loginPage.userIcon.click();
         unitsPage.unitsInDropDownMenu.click();
         unitsPage.chosenAnnouncmentsButton.click();
@@ -46,7 +47,7 @@ describe("Favorite units", () => {
         cy.url().should("include", UrlPath.PRODUCTS);
     });
 
-    it('"Обрані" icon functionality', function () {
+    it('TC-302 "Обрані" icon functionality', function () {
         cy.window().scrollTo("top");
         loginPage.announcementsButton.click();
         cy.url().should("include", UrlPath.PRODUCTS);
@@ -57,7 +58,7 @@ describe("Favorite units", () => {
                 cy.wrap(text).as("cardName");
             });
             productsPage.getCardFavouriteButton(cy.wrap(cards[0])).click();
-            productsPage.getFavouriteButtonsPath(cy.wrap(cards[0])).should("have.attr", "fill", "#F73859");
+            productsPage.getFavouriteButtonsPath(cy.wrap(cards[0])).should("have.attr", "fill", Colors.CRIMSON_COLOR);
         });
 
         loginPage.userIcon.click();
@@ -83,11 +84,11 @@ describe("Favorite units", () => {
         loginPage.announcementsButton.click();
         productsPage.cardWrappers.then(cards => {
             cy.wrap(cards[0]).scrollIntoView();
-            productsPage.getFavouriteButtonsPath(cy.wrap(cards[0])).should("not.have.attr", "fill", "#F73859");
+            productsPage.getFavouriteButtonsPath(cy.wrap(cards[0])).should("not.have.attr", "fill", Colors.CRIMSON_COLOR);
         });
     });
 
-    it('"Пошук по назві" search field functionality', function () {
+    it('TC-305 "Пошук по назві" search field functionality', function () {
         const pageNumber = randomValue.generateRandomNumber(1, 100);
         const favouriteUnits = new Set();
         unitApi.getUnits(pageNumber).then((units) => {
@@ -202,7 +203,7 @@ describe("Favorite units", () => {
             .and("have.text", this.generalMsg.noAnnouncementsMessage);
     });
 
-    it('Check the pagination on the "Обрані оголошення" page', function () {
+    it('TC-311 Check the pagination on the "Обрані оголошення" page', function () {
         let pageNumber = randomValue.generateRandomNumber(1, 100);
         const favouriteUnits = new Set();
         unitApi.getUnits(pageNumber, 25).then((units) => {
@@ -290,7 +291,7 @@ describe("Favorite units", () => {
             .and("have.text", this.generalMsg.noAnnouncementsMessage);
     });
 
-    it('"Всі категорії" dropdown menu functionality', function () {
+    it('TC-315 "Всі категорії" dropdown menu functionality', function () {
         const favouriteUnits = [];
         unitApi.getCategories().then(response => {
             expect(response.status).to.eq(200);
@@ -374,6 +375,7 @@ describe("Favorite units", () => {
                     expect(response).to.eq(204);
                 });
             });
+            unitsId = [];
         });
         cy.reload();
         unitsPage.emptyBlockInfoTitle
@@ -381,7 +383,7 @@ describe("Favorite units", () => {
             .and("have.text", this.generalMsg.noAnnouncementsMessage);
     });
 
-    it('"Очистити список" button functionality', function () {
+    it('TC-744 "Очистити список" button functionality', function () {
         const pageNumber = randomValue.generateRandomNumber(1, 100);
         const favouriteUnits = new Set();
         unitApi.getUnits(pageNumber, 25).then((units) => {
@@ -430,7 +432,7 @@ describe("Favorite units", () => {
             .and("have.text", this.generalMsg.noAnnouncementsMessage);
     });
 
-    it('"Пошук по назві" search field functionality 2', function () {
+    it('TC-745 "Пошук по назві" search field functionality 2', function () {
         const pageNumber = randomValue.generateRandomNumber(1, 100);
         const favouriteUnits = new Set();
         unitApi.getUnits(pageNumber).then((units) => {
@@ -491,7 +493,7 @@ describe("Favorite units", () => {
             .and("have.text", this.generalMsg.noAnnouncementsMessage);
     });
 
-    it('"Очистити список" button functionality 2', function () {
+    it('TC-303 "Очистити список" button functionality 2', function () {
         cy.window().scrollTo("top");
         loginPage.announcementsButton.click();
         cy.url().should("include", UrlPath.PRODUCTS);
@@ -501,7 +503,7 @@ describe("Favorite units", () => {
             for (let i = 0; i < 2; ++i) {
                 cy.wrap(cards[i]).scrollIntoView();
                 productsPage.getCardFavouriteButton(cy.wrap(cards[i])).click();
-                productsPage.getFavouriteButtonsPath(cy.wrap(cards[i])).should("have.attr", "fill", "#F73859");
+                productsPage.getFavouriteButtonsPath(cy.wrap(cards[i])).should("have.attr", "fill", Colors.CRIMSON_COLOR);
                 productsPage.getCardName(cy.wrap(cards[i])).invoke("text").then(text => {
                     favouriteUnits.push(text);
                 });
@@ -559,12 +561,12 @@ describe("Favorite units", () => {
                 productsPage.getCardName(cy.wrap(cards[i])).invoke("text").then(text => {
                     expect(text).to.eq(favouriteUnits[i]);
                 });
-                productsPage.getFavouriteButtonsPath(cy.wrap(cards[i])).should("not.have.attr", "fill", "#F73859");
+                productsPage.getFavouriteButtonsPath(cy.wrap(cards[i])).should("not.have.attr", "fill", Colors.CRIMSON_COLOR);
             }
         });
     });
 
-    it('"По даті створення" drop down menu functionality', function () {
+    it('TC-316 "По даті створення" drop down menu functionality', function () {
         const favouriteUnits = [];
         const requests = [];
         cy.window().then(() => {
@@ -637,7 +639,7 @@ describe("Favorite units", () => {
             .and("have.text", this.generalMsg.noAnnouncementsMessage);
     });
 
-    it('Check the "Будівельна техніка" menu functionality', function () {
+    it('TC-746 Check the "Будівельна техніка" menu functionality', function () {
         const favouriteUnits = [];
         unitApi.getCategories().then(response => {
             expect(response.status).to.eq(200);
@@ -655,6 +657,7 @@ describe("Favorite units", () => {
                             expect(status).to.eq(201);
                         });
                         crmApi.approveUnitCreation(result.id);
+                        unitsId.push(result.id);
                         favouriteUnits.push(result);
                     });
                 }
@@ -706,6 +709,7 @@ describe("Favorite units", () => {
                     expect(response).to.eq(204);
                 });
             });
+            unitsId = [];
         });
         cy.reload();
         unitsPage.emptyBlockInfoTitle
@@ -713,7 +717,7 @@ describe("Favorite units", () => {
             .and("have.text", this.generalMsg.noAnnouncementsMessage);
     });
 
-    it('Check the "Комунальна техніка" menu functionality', function () {
+    it('TC-747 Check the "Комунальна техніка" menu functionality', function () {
         const favouriteUnits = [];
         unitApi.getCategories().then(response => {
             expect(response.status).to.eq(200);
@@ -731,6 +735,7 @@ describe("Favorite units", () => {
                             expect(status).to.eq(201);
                         });
                         crmApi.approveUnitCreation(result.id);
+                        unitsId.push(result.id);
                         favouriteUnits.push(result);
                     });
                 }
@@ -782,6 +787,7 @@ describe("Favorite units", () => {
                     expect(response).to.eq(204);
                 });
             });
+            unitsId = [];
         });
         cy.reload();
         unitsPage.emptyBlockInfoTitle
@@ -789,7 +795,7 @@ describe("Favorite units", () => {
             .and("have.text", this.generalMsg.noAnnouncementsMessage);
     });
 
-    it('Check the "Складська техніка" menu functionality', function () {
+    it('TC-748 Check the "Складська техніка" menu functionality', function () {
         const favouriteUnits = [];
         unitApi.getCategories().then(response => {
             expect(response.status).to.eq(200);
@@ -807,6 +813,7 @@ describe("Favorite units", () => {
                             expect(status).to.eq(201);
                         });
                         crmApi.approveUnitCreation(result.id);
+                        unitsId.push(result.id);
                         favouriteUnits.push(result);
                     });
                 }
@@ -858,6 +865,7 @@ describe("Favorite units", () => {
                     expect(response).to.eq(204);
                 });
             });
+            unitsId = [];
         });
         cy.reload();
         unitsPage.emptyBlockInfoTitle
