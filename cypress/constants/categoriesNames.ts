@@ -1,11 +1,25 @@
-export const categoriesDropdownListNames = [
+const categoriesDropdownListNames = [
     "Будівельна техніка",
     "Комунальна техніка",
     "Складська техніка",
     "Всі категорії"
 ];
 
-export const municipalEquipmentCategoryNames = [
+const constructionEquipmentCategoryNames = [
+    "Бурові установки",
+    "Дорожньо-будівельна техніка",
+    "Екскаватори",
+    "Ігша спецтехніка",
+    "Катки",
+    "Контейнери",
+    "Крани",
+    "Навантажувачі",
+    "Обладнання для спецтехніки",
+    "Підйомники",
+    "Техніка для земляних робіт"
+];
+
+const municipalEquipmentCategoryNames = [
     "Аварійні машини",
     "Дорожньо-прибиральна техніка",
     "Клінінгове обладнання",
@@ -14,8 +28,15 @@ export const municipalEquipmentCategoryNames = [
     "Обладнання для комунальної техніки"
 ];
 
-export const warehouseEquipmentCategoryNames = [
+const warehouseEquipmentCategoryNames = [
     "Категорія 1",
     "Обладнання для навантажувачів",
     "Техніка для складування"
 ];
+
+export {
+    categoriesDropdownListNames,
+    constructionEquipmentCategoryNames,
+    municipalEquipmentCategoryNames,
+    warehouseEquipmentCategoryNames
+}

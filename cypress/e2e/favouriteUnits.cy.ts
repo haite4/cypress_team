@@ -5,17 +5,30 @@ import unitApi from "../api/unitApi";
 import randomValue from "../helper/randomValue";
 import crmApi from "../api/crmApi";
 import { UrlPath } from "../constants/enumUrlPaths";
-import { 
-    categoriesDropdownListNames,
-    municipalEquipmentCategoryNames,
-    warehouseEquipmentCategoryNames } from "../constants/categoriesNames";
+import { sortDropdownListNames } from "../constants/sortNames";
+import * as categories from "../constants/categoriesNames";
 
 describe("Favorite units", () => {
+    let unitsId = [];
+
     beforeEach(() => {
         cy.visit("/");
         loginPage.headerAuthBtn.click();
         loginPage.login(Cypress.env("USER_EMAIL"), Cypress.env("USER_PASSWORD"));
         cy.fixture("textSymbols/generalMsg").as("generalMsg");
+    });
+
+    afterEach(function () {
+        if (this.currentTest.state === "failed" && unitsId.length !== 0) {
+            cy.log(`Test "${this.currentTest.title}" failed.`);
+            cy.window().then(() => {
+                for (let i = 0; i < unitsId.length; ++i) {
+                    unitApi.deleteUnit(unitsId[i]).then((response) => {
+                        expect(response).to.eq(204);
+                    });
+                }
+            });
+        }
     });
 
     it('The "Обрані оголошення" page without "Обрані" units', function () {
@@ -179,10 +192,14 @@ describe("Favorite units", () => {
         });
 
         unitsPage.announcemntTitleInput.clear();
-        unitsPage.unitCard.each((card) => {
-            unitsPage.getUnitCardFavouriteButton(cy.wrap(card)).click();
-            cy.wait(500);
-        });
+        unitsPage.clearListButton.should("be.visible").click();
+        unitsPage.popupHeader
+            .should("be.visible")
+            .and("have.text", this.generalMsg.popupClearFavouriteUnitsHeaderMessage);
+        unitsPage.popupYesButton.click();
+        unitsPage.emptyBlockInfoTitle
+            .should("be.visible")
+            .and("have.text", this.generalMsg.noAnnouncementsMessage);
     });
 
     it('Check the pagination on the "Обрані оголошення" page', function () {
@@ -190,7 +207,7 @@ describe("Favorite units", () => {
         const favouriteUnits = new Set();
         unitApi.getUnits(pageNumber, 25).then((units) => {
             expect(units.status).to.eq(200);
-            while (favouriteUnits.size < 15) {
+            while (favouriteUnits.size < 12) {
                 favouriteUnits.add(randomValue.selectRandomValueFromArray(units.body.results));
             }
 
@@ -287,13 +304,11 @@ describe("Favorite units", () => {
                 for (let j = 0; j < 2; ++j) {
                     const randomCategory = randomValue.selectRandomValueFromArray(thirdLevelCategories);
                     unitApi.createUnit(randomCategory.id).then(result => {
-                        cy.log(JSON.stringify(result));
                         unitApi.createUnitImages(result.id).then((status) => {
                             expect(status).to.eq(201);
                         });
-                        crmApi.approveUnitCreation(result.id).then(approveResult => {
-                            cy.log(JSON.stringify(approveResult));
-                        });
+                        crmApi.approveUnitCreation(result.id);
+                        unitsId.push(result.id);
                         favouriteUnits.push(result);
                     });
                 }
@@ -319,13 +334,11 @@ describe("Favorite units", () => {
             unitCount = cards.length;
         });
 
-        for (const categoryName of categoriesDropdownListNames) {
+        for (const categoryName of categories.categoriesDropdownListNames) {
             unitsPage.categoriesDropdownList.should("be.visible").click();
-            unitsPage.selectCategoryItemByName(categoryName).should("be.visible").click();
+            unitsPage.selectListItemByName(categoryName).should("be.visible").click();
             unitsPage.unitCard.then(cards => {
                 cy.wrap(cards).should("be.visible");
-                cy.log(cards.length.toString());
-                cy.log(unitCount.toString());
                 if (categoryName === "Всі категорії") {
                     expect(cards.length).to.eq(unitCount);
                 }
@@ -333,33 +346,25 @@ describe("Favorite units", () => {
                     expect(cards.length).lessThan(unitCount);
                 }
 
-                switch (categoryName) {
-                    case "Комунальна техніка": {
-                        unitsPage.getUnitCardCategory(cy.wrap(cards).first()).invoke("text").then(text => {
-                            expect(municipalEquipmentCategoryNames.some((category) => text.includes(category))).to.be.true;
-                        });
-                        break;
+                unitsPage.getUnitCardCategory(cy.wrap(cards).first()).invoke("text").then(text => {
+                    switch (categoryName) {
+                        case "Комунальна техніка": {
+                            expect(categories.municipalEquipmentCategoryNames.some((category) => text.includes(category))).to.be.true;
+                            break;
+                        }
+                        case "Складська техніка": {
+                            expect(categories.warehouseEquipmentCategoryNames.some((category) => text.includes(category))).to.be.true;
+                            break;
+                        }
+                        case "Будівельна техніка": {
+                            expect(categories.constructionEquipmentCategoryNames.some((category) => text.includes(category))).to.be.true;
+                            break;
+                        }
+                        default: {
+                            break;
+                        }
                     }
-                    case "Складська техніка": {
-                        unitsPage.getUnitCardCategory(cy.wrap(cards).first()).invoke("text").then(text => {
-                            expect(warehouseEquipmentCategoryNames.some((category) => text.includes(category))).to.be.true;
-                        });
-                        break;
-                    }
-                    case "Будівельна техніка": {
-                        cy.wait(1000);
-                        cy.wrap(cards).first().click();
-                        cy.url().should("include", UrlPath.UNIT);
-
-                        cy.wait(1000);
-                        cy.go("back");
-                        cy.url().should("include", UrlPath.OWNER_FAVOURITE_UNITS);
-                        break;
-                    }
-                    default: {
-                        break;
-                    }
-                }
+                });
             });
         }
 
@@ -481,6 +486,380 @@ describe("Favorite units", () => {
             .should("be.visible")
             .and("have.text", this.generalMsg.popupClearFavouriteUnitsHeaderMessage);
         unitsPage.popupYesButton.click();
+        unitsPage.emptyBlockInfoTitle
+            .should("be.visible")
+            .and("have.text", this.generalMsg.noAnnouncementsMessage);
+    });
+
+    it('"Очистити список" button functionality 2', function () {
+        cy.window().scrollTo("top");
+        loginPage.announcementsButton.click();
+        cy.url().should("include", UrlPath.PRODUCTS);
+
+        const favouriteUnits = [];
+        productsPage.cardWrappers.then(cards => {
+            for (let i = 0; i < 2; ++i) {
+                cy.wrap(cards[i]).scrollIntoView();
+                productsPage.getCardFavouriteButton(cy.wrap(cards[i])).click();
+                productsPage.getFavouriteButtonsPath(cy.wrap(cards[i])).should("have.attr", "fill", "#F73859");
+                productsPage.getCardName(cy.wrap(cards[i])).invoke("text").then(text => {
+                    favouriteUnits.push(text);
+                });
+            }
+        });
+
+        loginPage.userIcon.click();
+        unitsPage.unitsInDropDownMenu.click();
+        unitsPage.chosenAnnouncmentsButton.click();
+        cy.url().should("include", UrlPath.OWNER_FAVOURITE_UNITS);
+        cy.reload();
+
+        cy.window().then(() => {
+            unitsPage.unitCard
+                .should("be.visible")
+                .and("have.length", favouriteUnits.length);
+        });
+        unitsPage.unitCard.each((unit, index) => {
+            unitsPage.getUnitCardName(cy.wrap(unit)).invoke("text").then(text => {
+                expect(text).to.eq(favouriteUnits[index]);
+            });
+        });
+
+        unitsPage.clearListButton.should("be.visible").click();
+        unitsPage.popupHeader
+            .should("be.visible")
+            .and("have.text", this.generalMsg.popupClearFavouriteUnitsHeaderMessage);
+
+        unitsPage.popupCancelButton.click();
+        unitsPage.popupHeader.should("not.exist");
+        unitsPage.unitCard.should("be.visible");
+
+        unitsPage.clearListButton.should("be.visible").click();
+        unitsPage.popupHeader
+            .should("be.visible")
+            .and("have.text", this.generalMsg.popupClearFavouriteUnitsHeaderMessage);
+        unitsPage.popupCloseIcon.click();
+        unitsPage.popupHeader.should("not.exist");
+        unitsPage.unitCard.should("be.visible");
+
+        unitsPage.clearListButton.click();
+        unitsPage.popupHeader
+            .should("be.visible")
+            .and("have.text", this.generalMsg.popupClearFavouriteUnitsHeaderMessage);
+        unitsPage.popupYesButton.click();
+        unitsPage.emptyBlockInfoTitle
+            .should("be.visible")
+            .and("have.text", this.generalMsg.noAnnouncementsMessage);
+
+        loginPage.announcementsButton.click();
+        cy.url().should("include", UrlPath.PRODUCTS);
+        productsPage.cardWrappers.then(cards => {
+            for (let i = 0; i < 2; ++i) {
+                cy.wrap(cards[i]).scrollIntoView();
+                productsPage.getCardName(cy.wrap(cards[i])).invoke("text").then(text => {
+                    expect(text).to.eq(favouriteUnits[i]);
+                });
+                productsPage.getFavouriteButtonsPath(cy.wrap(cards[i])).should("not.have.attr", "fill", "#F73859");
+            }
+        });
+    });
+
+    it('"По даті створення" drop down menu functionality', function () {
+        const favouriteUnits = [];
+        const requests = [];
+        cy.window().then(() => {
+            for (let i = 0; i < 4; ++i) {
+                const pageNumber = randomValue.generateRandomNumber(1, 100);
+                const request = unitApi.getUnits(pageNumber).then((units) => {
+                    expect(units.status).to.eq(200);
+                    favouriteUnits.push(randomValue.selectRandomValueFromArray(units.body.results));
+                });
+                requests.push(request);
+            }
+    
+            cy.wrap(Promise.all(requests)).then(() => {
+                favouriteUnits.forEach((unit: { id: number }) => {
+                    unitApi.addFavouriteUnit(unit.id).then((response) => {
+                        expect(response.status).to.eq(201);
+                    });
+                });
+            });
+        });
+
+        loginPage.userIcon.click();
+        unitsPage.unitsInDropDownMenu.click();
+        unitsPage.chosenAnnouncmentsButton.click();
+        cy.url().should("include", UrlPath.OWNER_FAVOURITE_UNITS);
+        cy.reload();
+        
+        for (const sortName of sortDropdownListNames) {
+            unitsPage.sortingDropdownList.should("be.visible").click();
+            unitsPage.selectListItemByName(sortName).should("be.visible").click();
+            unitsPage.unitCard.then(units => {
+                cy.wrap(units).should("be.visible");
+                unitsPage.sortingDropdownList.should("have.text", sortName);
+
+                for (let i = 0; i < units.length - 1; ++i) {
+                    switch (sortName) {
+                        case " по назві": {
+                            unitsPage.getUnitCardName(cy.wrap(units[i])).invoke("text").then(firstUnitName => {
+                                unitsPage.getUnitCardName(cy.wrap(units[i + 1])).invoke("text").then(secondUnitName => {
+                                    expect(firstUnitName.localeCompare(secondUnitName)).to.be.at.most(0);
+                                });
+                            });
+                            break;
+                        }
+                        case "по даті створення": {
+                            unitsPage.getUnitCardCreationDate(cy.wrap(units[i])).invoke("text").then(firstUnitDate => {
+                                unitsPage.getUnitCardCreationDate(cy.wrap(units[i + 1])).invoke("text").then(secondUnitDate => {
+                                    const firstDate = new Date(firstUnitDate.split('.').reverse().join('-'));
+                                    const secondDate = new Date(secondUnitDate.split('.').reverse().join('-'));
+                                    cy.wrap(firstDate.getTime()).should("be.at.least", secondDate.getTime());
+                                });
+                            });
+                            break;
+                        }
+                        default: {
+                            break;
+                        }
+                    }
+                }
+            });
+        }
+
+        unitsPage.clearListButton.click();
+        unitsPage.popupHeader
+            .should("be.visible")
+            .and("have.text", this.generalMsg.popupClearFavouriteUnitsHeaderMessage);
+        unitsPage.popupYesButton.click();
+        unitsPage.emptyBlockInfoTitle
+            .should("be.visible")
+            .and("have.text", this.generalMsg.noAnnouncementsMessage);
+    });
+
+    it('Check the "Будівельна техніка" menu functionality', function () {
+        const favouriteUnits = [];
+        unitApi.getCategories().then(response => {
+            expect(response.status).to.eq(200);
+            const firstLevelCategories = response.body.filter(category => category.parent === null);
+            for (let i = 0; i < firstLevelCategories.length; ++i) {
+                const secondLevelCategories = response.body.filter(category => category.parent === firstLevelCategories[i].id);
+                const thirdLevelCategories = response.body.filter(category => 
+                    secondLevelCategories.some(secondLevel => secondLevel.id === category.parent) && 
+                    category.level === 3
+                );
+                for (let j = 0; j < 2; ++j) {
+                    const randomCategory = randomValue.selectRandomValueFromArray(thirdLevelCategories);
+                    unitApi.createUnit(randomCategory.id).then(result => {
+                        unitApi.createUnitImages(result.id).then((status) => {
+                            expect(status).to.eq(201);
+                        });
+                        crmApi.approveUnitCreation(result.id);
+                        favouriteUnits.push(result);
+                    });
+                }
+            }
+
+            cy.window().then(() => {
+                favouriteUnits.forEach((unit: { id: number }) => {
+                    unitApi.addFavouriteUnit(unit.id).then((response) => {
+                        expect(response.status).to.eq(201);
+                    });
+                });
+            });
+        });
+
+        loginPage.userIcon.click();
+        unitsPage.unitsInDropDownMenu.click();
+        unitsPage.chosenAnnouncmentsButton.click();
+        cy.url().should("include", UrlPath.OWNER_FAVOURITE_UNITS);
+        cy.reload();
+
+        let unitCount: number;
+        const constructionEquipmentCategory = categories.categoriesDropdownListNames[0];
+        const allCategories = categories.categoriesDropdownListNames[3];
+        unitsPage.unitCard.then(cards => {
+            unitCount = cards.length;
+        });
+
+        unitsPage.categoriesDropdownList.should("be.visible").click();
+        unitsPage.selectListItemByName(constructionEquipmentCategory).should("be.visible").click();
+        unitsPage.unitCard.then(cards => {
+            cy.wrap(cards)
+                .should("be.visible")
+                .and("have.length.lessThan", unitCount);
+
+            unitsPage.getUnitCardCategory(cy.wrap(cards).first()).invoke("text").then(text => {
+                expect(categories.constructionEquipmentCategoryNames.some((category) => text.includes(category))).to.be.true;
+            });
+        });
+
+        unitsPage.categoriesDropdownList.should("be.visible").click();
+        unitsPage.selectListItemByName(allCategories).should("be.visible").click();
+        unitsPage.unitCard.then(cards => {
+            expect(cards.length).to.eq(unitCount);
+        });
+
+        cy.window().then(() => {
+            favouriteUnits.forEach((unit: { id: number }) => {
+                unitApi.deleteUnit(unit.id).then((response) => {
+                    expect(response).to.eq(204);
+                });
+            });
+        });
+        cy.reload();
+        unitsPage.emptyBlockInfoTitle
+            .should("be.visible")
+            .and("have.text", this.generalMsg.noAnnouncementsMessage);
+    });
+
+    it('Check the "Комунальна техніка" menu functionality', function () {
+        const favouriteUnits = [];
+        unitApi.getCategories().then(response => {
+            expect(response.status).to.eq(200);
+            const firstLevelCategories = response.body.filter(category => category.parent === null);
+            for (let i = 0; i < firstLevelCategories.length; ++i) {
+                const secondLevelCategories = response.body.filter(category => category.parent === firstLevelCategories[i].id);
+                const thirdLevelCategories = response.body.filter(category => 
+                    secondLevelCategories.some(secondLevel => secondLevel.id === category.parent) && 
+                    category.level === 3
+                );
+                for (let j = 0; j < 2; ++j) {
+                    const randomCategory = randomValue.selectRandomValueFromArray(thirdLevelCategories);
+                    unitApi.createUnit(randomCategory.id).then(result => {
+                        unitApi.createUnitImages(result.id).then((status) => {
+                            expect(status).to.eq(201);
+                        });
+                        crmApi.approveUnitCreation(result.id);
+                        favouriteUnits.push(result);
+                    });
+                }
+            }
+
+            cy.window().then(() => {
+                favouriteUnits.forEach((unit: { id: number }) => {
+                    unitApi.addFavouriteUnit(unit.id).then((response) => {
+                        expect(response.status).to.eq(201);
+                    });
+                });
+            });
+        });
+
+        loginPage.userIcon.click();
+        unitsPage.unitsInDropDownMenu.click();
+        unitsPage.chosenAnnouncmentsButton.click();
+        cy.url().should("include", UrlPath.OWNER_FAVOURITE_UNITS);
+        cy.reload();
+
+        let unitCount: number;
+        const municipalEquipmentCategory = categories.categoriesDropdownListNames[1];
+        const allCategories = categories.categoriesDropdownListNames[3];
+        unitsPage.unitCard.then(cards => {
+            unitCount = cards.length;
+        });
+
+        unitsPage.categoriesDropdownList.should("be.visible").click();
+        unitsPage.selectListItemByName(municipalEquipmentCategory).should("be.visible").click();
+        unitsPage.unitCard.then(cards => {
+            cy.wrap(cards)
+                .should("be.visible")
+                .and("have.length.lessThan", unitCount);
+
+            unitsPage.getUnitCardCategory(cy.wrap(cards).first()).invoke("text").then(text => {
+                expect(categories.municipalEquipmentCategoryNames.some((category) => text.includes(category))).to.be.true;
+            });
+        });
+
+        unitsPage.categoriesDropdownList.should("be.visible").click();
+        unitsPage.selectListItemByName(allCategories).should("be.visible").click();
+        unitsPage.unitCard.then(cards => {
+            expect(cards.length).to.eq(unitCount);
+        });
+
+        cy.window().then(() => {
+            favouriteUnits.forEach((unit: { id: number }) => {
+                unitApi.deleteUnit(unit.id).then((response) => {
+                    expect(response).to.eq(204);
+                });
+            });
+        });
+        cy.reload();
+        unitsPage.emptyBlockInfoTitle
+            .should("be.visible")
+            .and("have.text", this.generalMsg.noAnnouncementsMessage);
+    });
+
+    it('Check the "Складська техніка" menu functionality', function () {
+        const favouriteUnits = [];
+        unitApi.getCategories().then(response => {
+            expect(response.status).to.eq(200);
+            const firstLevelCategories = response.body.filter(category => category.parent === null);
+            for (let i = 0; i < firstLevelCategories.length; ++i) {
+                const secondLevelCategories = response.body.filter(category => category.parent === firstLevelCategories[i].id);
+                const thirdLevelCategories = response.body.filter(category => 
+                    secondLevelCategories.some(secondLevel => secondLevel.id === category.parent) && 
+                    category.level === 3
+                );
+                for (let j = 0; j < 2; ++j) {
+                    const randomCategory = randomValue.selectRandomValueFromArray(thirdLevelCategories);
+                    unitApi.createUnit(randomCategory.id).then(result => {
+                        unitApi.createUnitImages(result.id).then((status) => {
+                            expect(status).to.eq(201);
+                        });
+                        crmApi.approveUnitCreation(result.id);
+                        favouriteUnits.push(result);
+                    });
+                }
+            }
+
+            cy.window().then(() => {
+                favouriteUnits.forEach((unit: { id: number }) => {
+                    unitApi.addFavouriteUnit(unit.id).then((response) => {
+                        expect(response.status).to.eq(201);
+                    });
+                });
+            });
+        });
+
+        loginPage.userIcon.click();
+        unitsPage.unitsInDropDownMenu.click();
+        unitsPage.chosenAnnouncmentsButton.click();
+        cy.url().should("include", UrlPath.OWNER_FAVOURITE_UNITS);
+        cy.reload();
+
+        let unitCount: number;
+        const warehouseEquipmentCategory = categories.categoriesDropdownListNames[2];
+        const allCategories = categories.categoriesDropdownListNames[3];
+        unitsPage.unitCard.then(cards => {
+            unitCount = cards.length;
+        });
+
+        unitsPage.categoriesDropdownList.should("be.visible").click();
+        unitsPage.selectListItemByName(warehouseEquipmentCategory).should("be.visible").click();
+        unitsPage.unitCard.then(cards => {
+            cy.wrap(cards)
+                .should("be.visible")
+                .and("have.length.lessThan", unitCount);
+
+            unitsPage.getUnitCardCategory(cy.wrap(cards).first()).invoke("text").then(text => {
+                expect(categories.warehouseEquipmentCategoryNames.some((category) => text.includes(category))).to.be.true;
+            });
+        });
+
+        unitsPage.categoriesDropdownList.should("be.visible").click();
+        unitsPage.selectListItemByName(allCategories).should("be.visible").click();
+        unitsPage.unitCard.then(cards => {
+            expect(cards.length).to.eq(unitCount);
+        });
+
+        cy.window().then(() => {
+            favouriteUnits.forEach((unit: { id: number }) => {
+                unitApi.deleteUnit(unit.id).then((response) => {
+                    expect(response).to.eq(204);
+                });
+            });
+        });
+        cy.reload();
         unitsPage.emptyBlockInfoTitle
             .should("be.visible")
             .and("have.text", this.generalMsg.noAnnouncementsMessage);
