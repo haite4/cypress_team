@@ -19,7 +19,7 @@ describe("Create and delete unit functionality", () => {
       loginPage.userIcon.click();
       unitsPage.unitsInDropDownMenu.click();
       unitsPage.pendingAnnouncements.click();
-      unitsPage.pendingAnnouncementsName.should("have.text", unitName);
+      unitsPage.unitName.first().should("have.text", unitName);
     });
   });
 
@@ -30,11 +30,12 @@ describe("Create and delete unit functionality", () => {
   });
 
   it('Verify that unit removed from "Очікуючі" tab', () => {
+    loginPage.userIcon.click();
+    unitsPage.unitsInDropDownMenu.click();
+    unitsPage.pendingAnnouncements.click();
     unitApi.deleteUnit(unitId).then((status) => {
-      loginPage.userIcon.click();
-      unitsPage.unitsInDropDownMenu.click();
-      unitsPage.pendingAnnouncements.click();
-      unitsPage.pendingAnnouncementsName.should("not.have.text", unitName);
+      cy.reload();
+      unitsPage.emptyBlockInfoTitle.should("be.visible");
       expect(status).to.eq(204);
     });
   });

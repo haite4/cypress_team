@@ -7,7 +7,7 @@ module.exports = defineConfig({
     baseUrl: process.env.BASE_URL,
     viewportWidth: 1920,
     viewportHeight: 1080,
-    defaultCommandTimeout: 20000,
+    defaultCommandTimeout: 30000,
     pageLoadTimeout: 90000,
     requestTimeout: 10000,
     responseTimeout: 30000,

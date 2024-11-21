@@ -7,7 +7,7 @@ import { TimeOfWork } from "../constants/timeOfWork";
 import { PaymentMethods } from "../constants/paymentMethods";
 
 class UnitApi extends ApiHelper {
-  createUnit(type_of_work?: string) {
+  createUnit(type_of_work?: string, unitCategory: number = 146) {
     return super.createUserJwtToken().then((token) => {
       return cy
         .request({
@@ -17,7 +17,7 @@ class UnitApi extends ApiHelper {
             Authorization: `Bearer ${token}`,
           },
           body: {
-            category: 146,
+            category: unitCategory,
             name: randomValue.generateStringWithLength(10),
             manufacturer: 10,
             model_name: randomValue.generateStringWithLength(10),
@@ -79,6 +79,53 @@ class UnitApi extends ApiHelper {
           .then((response) => {
             return response.status;
           });
+      });
+    });
+  }
+
+  getUnits(
+    pageNumber: number,
+    pageSize: number = 10,
+    unitCategory: number = 0
+  ) {
+    return super.createUserJwtToken().then((token) => {
+      return cy.request({
+        method: "GET",
+        url: `${Cypress.env("BASE_URL")}${Endpoints.API_UNITS}`,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        qs: {
+          page: pageNumber,
+          size: pageSize,
+          ...(unitCategory && { category: unitCategory }),
+        },
+      });
+    });
+  }
+
+  getCategories() {
+    return super.createUserJwtToken().then((token) => {
+      return cy.request({
+        method: "GET",
+        url: `${Cypress.env("BASE_URL")}${Endpoints.API_CATEGORIES}`,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+    });
+  }
+
+  addFavouriteUnit(unitId: number) {
+    return super.createUserJwtToken().then((token) => {
+      return cy.request({
+        method: "POST",
+        url: `${Cypress.env("BASE_URL")}${
+          Endpoints.API_FAVOURITE_UNITS
+        }${unitId}/`,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       });
     });
   }
