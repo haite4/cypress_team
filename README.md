@@ -61,13 +61,13 @@ This repository contains automated tests using Cypress, written specifically for
     ```sh
     npm run cy:favouriteUnits:headless
     ```
-8. **Run all tests in chrome browser:**:
-    ```sh
-    npm run cy:all
-    ```
-7. **Run unitStates tests in chrome browser:**:
+8. **Run unitStates tests in chrome browser:**:
     ```sh
     npm run cy:unitStates
+    ```
+9. **Run all tests in chrome browser:**:
+    ```sh
+    npm run cy:all
     ```
 
 ## Allure Report: 
