@@ -1,6 +1,5 @@
 import crmApi from "cypress/api/crmApi";
 import unitApi from "../api/unitApi";
-import { eq } from "cypress/types/lodash";
 
 class UnitsPage {
   get dropDownOptionWork() {
@@ -271,18 +270,6 @@ class UnitsPage {
       throw new Error("Bounding box not found");
     });
   }
-
-  // uploadImage() {
-  //   cy.fixture('images/1.jpeg', 'base64').then((fileContent) => {
-  //     const blob = Cypress.Blob.base64StringToBlob(fileContent, 'image/jpeg');
-  //     const file = new File([blob], 'test-image.jpg', { type: 'image/jpeg' });
-
-  //     const dataTransfer = new DataTransfer();
-  //     dataTransfer.items.add(file);
-
-  //     this.addImageBtn.eq(0).trigger('change', { dataTransfer });
-  //   });
-  // }
 
   uploadImage() {
     cy.fixture("1.jpeg", "base64").then((fileContent) => {

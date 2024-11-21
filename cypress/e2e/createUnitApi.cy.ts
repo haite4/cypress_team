@@ -12,7 +12,7 @@ describe("Create and delete unit functionality", () => {
     loginPage.login(Cypress.env("USER_EMAIL"), Cypress.env("USER_PASSWORD"));
   });
 
-  it.only('Verify that unit displayed in "Очікуючі" tab', () => {
+  it('Verify that unit displayed in "Очікуючі" tab', () => {
     unitApi.createUnit().then((data) => {
       unitId = data.id;
       unitName = data.name;

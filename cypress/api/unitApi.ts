@@ -43,40 +43,6 @@ class UnitApi extends ApiHelper {
     });
   }
 
-  // createUnit() {
-  //   return super.createUserJwtToken().then((token) => {
-  //     return cy
-  //       .request({
-  //         method: "POST",
-  //         url: `${Cypress.env("BASE_URL")}${Endpoints.API_UNITS}`,
-  //         headers: {
-  //           Authorization: `Bearer ${token}`,
-  //         },
-  //         body: {
-  //           category: 146,
-  //           name: randomValue.generateStringWithLength(10),
-  //           manufacturer: 10,
-  //           model_name: randomValue.generateStringWithLength(10),
-  //           features: randomValue.generateStringWithLength(10),
-  //           description: randomValue.generateStringWithLength(100),
-  //           lat: 50.46013446353369,
-  //           lng: 30.46777478959968,
-  //           owner: 1777,
-  //           minimal_price: 2222,
-  //           money_value: randomValue.selectRandomValueFromArray(MoneyCurrency),
-  //           type_of_work: randomValue.selectRandomValueFromArray(TypeOfWork),
-  //           time_of_work: randomValue.selectRandomValueFromArray(TimeOfWork),
-  //           payment_method:
-  //             randomValue.selectRandomValueFromArray(PaymentMethods),
-  //           services: [336],
-  //         },
-  //       })
-  //       .then((response) => {
-  //         return response.body;
-  //       });
-  //   });
-  // }
-
   deleteUnit(unitId: number) {
     return super.createUserJwtToken().then((token) => {
       return cy
