@@ -9,6 +9,6 @@ class RandomValue {
   generateStringWithLength(length: number) {
     return faker.string.alphanumeric(length);
   }
-}
+};
 
 export default new RandomValue()

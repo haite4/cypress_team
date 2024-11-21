@@ -16,6 +16,7 @@ module.exports = defineConfig({
         resultsDir: "allure-results",
       });
       config.env.BASE_URL = process.env.BASE_URL;
+      config.env.EDIT_UNIT_PATH = process.env.EDIT_UNIT_PATH;
       config.env.USER_EMAIL = process.env.USER_EMAIL;
       config.env.USER_PASSWORD = process.env.USER_PASSWORD;
       config.env.ADMIN_EMAIL = process.env.ADMIN_EMAIL;
