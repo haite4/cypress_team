@@ -8,6 +8,7 @@ import {
   priceText,
   expectedTypeOfPayments,
 } from "../fixtures/textSymbols/expectText";
+import { UrlPath } from "../constants/enumUrlPaths";
 import unitApi from "../api/unitApi";
 import crmApi from "cypress/api/crmApi";
 
@@ -96,17 +97,15 @@ describe("Unit Edit functionality", () => {
     });
 
     unitsPage.addNewServiceBtn.click();
-    cy.wait(1000);
+    cy.wait(500);
     unitsPage.nextBtn.should("be.visible").click();
-    cy.wait(1000);
+    cy.wait(500);
     unitsPage.successfullyEditedMsg.should("exist", { timeout: 10000 });
   });
 
-  it.only("TC-541 Check Спосіб оплати menu", function () {
+  it("TC-541 Check Спосіб оплати menu", function () {
     cy.get("@unitId").then((unitId) => {
-      cy.visit(
-        `${Cypress.env("BASE_URL")}${Cypress.env("EDIT_UNIT_PATH")}${unitId}/`
-      );
+      cy.visit(`${Cypress.env("BASE_URL")}${UrlPath.EDIT_UNIT_PATH}${unitId}/`);
     });
     for (let i = 0; i < paymentsListText.length; i++) {
       cy.wait(500);
@@ -119,7 +118,7 @@ describe("Unit Edit functionality", () => {
       });
 
       unitsPage.nextBtn.scrollIntoView();
-      cy.wait(1000);
+      cy.wait(500);
       unitsPage.nextBtn.should("be.visible").click();
       cy.wait(500);
       unitsPage.successfullyEditedMsg.should("exist", { timeout: 10000 });
@@ -131,9 +130,9 @@ describe("Unit Edit functionality", () => {
         expect(text).to.equal(paymentsListText[i]);
       });
     }
-    cy.wait(1000);
+    cy.wait(500);
     unitsPage.nextBtn.should("be.visible").click();
-    cy.wait(1000);
+    cy.wait(500);
   });
 
   it("TC-276 Check Вартість мінімального замовлення field", function () {
@@ -233,7 +232,7 @@ describe("Unit Edit functionality", () => {
 
       cy.get("@unitId").then((unitId) => {
         cy.visit(
-          `${Cypress.env("BASE_URL")}${Cypress.env("EDIT_UNIT_PATH")}${unitId}/`
+          `${Cypress.env("BASE_URL")}${UrlPath.EDIT_UNIT_PATH}${unitId}/`
         );
       });
       loginPage.login(Cypress.env("USER_EMAIL"), Cypress.env("USER_PASSWORD"));

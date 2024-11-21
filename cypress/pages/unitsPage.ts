@@ -372,8 +372,8 @@ class UnitsPage {
     return cy.get("button").contains("Відхилені");
   }
 
-  createApprovedUnit() {
-    return unitApi.createUnit().then((data) => {
+  createApprovedUnit(type_of_work?: string) {
+    return unitApi.createUnit(type_of_work).then((data) => {
       return unitApi.createUnitImages(data.id).then(() => {
         return crmApi.approveUnitCreation(data.id).then((approveData) => {
           expect(approveData.is_approved).to.be.true;
