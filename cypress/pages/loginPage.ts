@@ -9,16 +9,12 @@ class LoginPage {
 
   get submitProposalBtn() {
     return cy
-      .get('button[class*="ItemButtons_darkBlueRoundBtn"]')
+      .get('button[class*="ItemButtons_DARKBLUERoundBtn"]')
       .contains("Увійти");
   }
 
   get headerAuthBtn() {
     return cy.get('[class*="NavbarAuthBlock_buttonEnter"]');
-  }
-
-  get announcementsButton() {
-    return cy.get('[class*="Navbar_navigation"]').find('[href="/products/"]');
   }
 
   get userIcon() {

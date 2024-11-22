@@ -232,7 +232,7 @@ describe("Proposal functionality", () => {
     unitsPage.proposalOrderUnit.should(
       "have.css",
       "border-color",
-      Colors.DarkBlue
+      Colors.DARKBLUE
     );
   });
 
@@ -288,7 +288,7 @@ describe("Proposal functionality", () => {
     unitsPage.proposalOrderUnit.should(
       "have.css",
       "border-color",
-      Colors.DarkBlue
+      Colors.DARKBLUE
     );
   });
 
@@ -348,7 +348,7 @@ describe("Proposal functionality", () => {
         unitsPage.rejectProposalBtn.click();
         unitsPage.cancelOrderPopUpError
           .should("have.text", this.errorMsg.selectVariantFromList)
-          .and("have.css", "color", Colors.StrongRed);
+          .and("have.css", "color", Colors.STRONGRED);
       });
       unitsPage.cancelPopUpReason
         .eq(3)
@@ -361,12 +361,12 @@ describe("Proposal functionality", () => {
       });
       unitsPage.cancelOrderPopUpError
         .should("have.text", this.errorMsg.canceledOrderPopUpReuiredField)
-        .and("have.css", "color", Colors.StrongRed);
+        .and("have.css", "color", Colors.STRONGRED);
       unitsPage.cancelOrderPopUpInput.should("not.have.attr", "disabled");
       unitsPage.cancelOrderPopUpInput.should(
         "have.css",
         "border-color",
-        Colors.StrongRed
+        Colors.STRONGRED
       );
       unitsPage.cancelOrderPopUpInput
         .type(this.generalMsg.invalidSymbols)

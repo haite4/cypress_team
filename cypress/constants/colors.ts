@@ -3,6 +3,6 @@ export enum Colors {
     REDCOLOR = "rgb(247, 56, 89)",
     LiGHGREEN = "rgb(71, 196, 128)",
     SOFTGREEN = "rgb(71, 195, 128)",
-    DarkBlue = "rgb(40, 49, 73)",
-    StrongRed = "rgb(247, 56, 89)"
+    DARKBLUE = "rgb(40, 49, 73)",
+    STRONGRED = "rgb(247, 56, 89)"
 }

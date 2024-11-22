@@ -1,6 +1,6 @@
 class Page{
     get announcementLink(){
-        return cy.get('[class*="Navbar_link__UhyJF"]').contains("Оголошення")
+        return cy.get('[class*="Navbar_link"]').contains("Оголошення")
     }
 }
 
