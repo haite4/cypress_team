@@ -7,8 +7,7 @@ import { TimeOfWork } from "../constants/timeOfWork";
 import { PaymentMethods } from "../constants/paymentMethods";
 
 class UnitApi extends ApiHelper {
-
-  createUnit(unitCategory: number = 146) {
+  createUnit(type_of_work?: string, unitCategory: number = 146) {
     return super.createUserJwtToken().then((token) => {
       return cy
         .request({
@@ -29,7 +28,9 @@ class UnitApi extends ApiHelper {
             owner: 1777,
             minimal_price: 2222,
             money_value: randomValue.selectRandomValueFromArray(MoneyCurrency),
-            type_of_work: randomValue.selectRandomValueFromArray(TypeOfWork),
+            type_of_work:
+              type_of_work ||
+              randomValue.selectRandomValueFromArray(TypeOfWork),
             time_of_work: randomValue.selectRandomValueFromArray(TimeOfWork),
             payment_method:
               randomValue.selectRandomValueFromArray(PaymentMethods),
@@ -82,7 +83,11 @@ class UnitApi extends ApiHelper {
     });
   }
 
-  getUnits(pageNumber: number, pageSize: number = 10, unitCategory: number = 0) {
+  getUnits(
+    pageNumber: number,
+    pageSize: number = 10,
+    unitCategory: number = 0
+  ) {
     return super.createUserJwtToken().then((token) => {
       return cy.request({
         method: "GET",
@@ -93,8 +98,8 @@ class UnitApi extends ApiHelper {
         qs: {
           page: pageNumber,
           size: pageSize,
-          ...(unitCategory && { category: unitCategory })
-        }
+          ...(unitCategory && { category: unitCategory }),
+        },
       });
     });
   }
@@ -106,7 +111,7 @@ class UnitApi extends ApiHelper {
         url: `${Cypress.env("BASE_URL")}${Endpoints.API_CATEGORIES}`,
         headers: {
           Authorization: `Bearer ${token}`,
-        }
+        },
       });
     });
   }
@@ -115,10 +120,12 @@ class UnitApi extends ApiHelper {
     return super.createUserJwtToken().then((token) => {
       return cy.request({
         method: "POST",
-        url: `${Cypress.env("BASE_URL")}${Endpoints.API_FAVOURITE_UNITS}${unitId}/`,
+        url: `${Cypress.env("BASE_URL")}${
+          Endpoints.API_FAVOURITE_UNITS
+        }${unitId}/`,
         headers: {
           Authorization: `Bearer ${token}`,
-        }
+        },
       });
     });
   }

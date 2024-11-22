@@ -15,4 +15,4 @@ class RandomValue {
   }
 }
 
-export default new RandomValue()
+export default new RandomValue();

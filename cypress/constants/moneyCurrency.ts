@@ -1,1 +1,1 @@
-export const MoneyCurrency = ["UAH", "USD", "EUR"];
+export const MoneyCurrency = ["UAH"];

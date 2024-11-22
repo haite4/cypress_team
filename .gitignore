@@ -4,3 +4,4 @@ screenshots/
 allure-results/
 allure-report/
 downloads/
+.DS_Store
