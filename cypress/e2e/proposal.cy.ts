@@ -5,7 +5,7 @@ import dateTime from "cypress/helper/dateTime";
 import { Colors } from "cypress/constants/colors";
 import randomValue from "cypress/helper/randomValue";
 
-describe("Order by ad functionality", () => {
+describe("Proposal functionality", () => {
   beforeEach("Add unit", function () {
     cy.visit("/");
     loginPage.headerAuthBtn.click();
