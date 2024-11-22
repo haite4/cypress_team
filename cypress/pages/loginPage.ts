@@ -7,7 +7,7 @@ class LoginPage {
     return cy.get("#email");
   }
 
-  get submitBtn() {
+  get submitProposalBtn() {
     return cy
       .get('button[class*="ItemButtons_darkBlueRoundBtn"]')
       .contains("Увійти");
@@ -32,7 +32,7 @@ class LoginPage {
   login(email: string, password: string) {
     this.loginEmailInput.type(email);
     this.loginPasswordInput.type(password);
-    this.submitBtn.click();
+    this.submitProposalBtn.click();
   }
 }
 

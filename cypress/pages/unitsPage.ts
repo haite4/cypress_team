@@ -21,7 +21,7 @@ class UnitsPage {
   get categoriesDropdownList() {
     return cy.get('[data-testid="div_CustomSelect"]').first();
   }
-  
+
   get unitsInDropDownMenu() {
     return cy.get(`[data-testid="units"]`);
   }
@@ -168,20 +168,60 @@ class UnitsPage {
     return cy.get('[data-testid="address"]');
   }
 
-  get mapPopUpSubmitBtn() {
+  get mapPopUpsubmitProposalBtn() {
     return cy.get("button").contains("Підтвердити вибір");
   }
 
-  get deactivateBtn(){
-    return cy.get("button").contains("Деактивувати")
+  get deactivateBtn() {
+    return cy.get("button").contains("Деактивувати");
   }
 
-  get popUpWrapper(){
-    return cy.get('[data-testid="wrapper"]')
+  get popUpWrapper() {
+    return cy.get('[data-testid="wrapper"]');
   }
 
   get mapLabel() {
     return cy.get('[data-testid="mapLabel"]');
+  }
+
+  get orderPopUpLabel() {
+    return cy.get('[class*="OrderPopup_label"]');
+  }
+
+  get popUpPeriodArea() {
+    return cy.get('[class*="OrderPopup_periodArea"]');
+  }
+
+  get popUpPeriodTextArea(){
+    return cy.get('[class*="OrderPopup_periodArea"] textarea')
+  }
+
+  get popUpDateTimePicker() {
+    return cy.get('[class*="OrderPopup_datePickerBlock"]');
+  }
+
+  get confirmationPopUpInfo(){
+    return cy.get('[class*="ConfirmOrderPopup_info"]')
+  }
+
+  get cancelOrderPopUpDescription(){
+    return cy.get('[class*="CancelOrderPopup_description"]')
+  }
+
+  get cancelOrderPopUpInput(){
+    return cy.get('[class*="CancelOrderPopup_myReasonInput"]')
+  }
+
+  get cancelPopUpReason(){
+    return cy.get('[class*="CancelOrderPopup_reason"]')
+  }
+
+  getdatePickerDay(day: number, numberOfElement: number) {
+    return cy
+      .get('[class*="month-container"]')
+      .eq(numberOfElement)
+      .find('[class*="day"][aria-disabled=false]')
+      .contains(day);
   }
 
   getUnitCardFavouriteButton(card: Cypress.Chainable) {
@@ -200,44 +240,140 @@ class UnitsPage {
     return cy.get('[data-testid="item-customSelect"]').contains(name);
   }
 
-  get popUpCloseIcon(){
-    return cy.get('[data-testid="closeIcon"]')
+  get popUpCloseIcon() {
+    return cy.get('[data-testid="closeIcon"]');
   }
 
-  get popUpCancelBtn(){
-    return cy.get("button").contains("Скасувати")
+  get popUpCancelBtn() {
+    return cy.get("button").contains("Скасувати");
   }
 
-  get popUpAgreementBtn(){
-    return cy.get("button").contains("Так")
+  get popUpAgreementBtn() {
+    return cy.get("button").contains("Так");
   }
 
-  get notificationPopUpDescription(){
-    return cy.get('[class*="NotificationLikePopup_description"]')
+  get notificationPopUpDescription() {
+    return cy.get('[class*="NotificationLikePopup_description"]');
   }
 
-  get notificationPopUpCrossIcon(){
-    return cy.get('[data-testid="notificationClose"]')
+  get notificationPopUpCrossIcon() {
+    return cy.get('[data-testid="notificationClose"]');
   }
-  
+
   get deactivatedTab() {
     return cy.get(".MuiButtonBase-root").contains("Деактивовані");
   }
 
-  get activeTab(){
+  get activeTab() {
     return cy.get(".MuiButtonBase-root").contains("Активні");
   }
 
-  get activateBtn(){
-    return cy.get("button").contains("Активувати")
+  get activateBtn() {
+    return cy.get("button").contains("Активувати");
   }
 
-  get deleteUnitBtn(){
-    return cy.get("button").contains("Видалити")
+  get deleteUnitBtn() {
+    return cy.get("button").contains("Видалити");
   }
 
-  get rejectedTabs(){
-    return cy.get("button").contains("Відхилені")
+  get rejectedTabs() {
+    return cy.get("button").contains("Відхилені");
+  }
+
+  get orderBtn() {
+    return cy.get('[class*="ImageWithDescription_orderBtn"]');
+  }
+
+  get filesChoosingInstruction(){
+    return cy.get('[class*="FilesChoosing_instruction"]')
+  }
+
+  get fileChoosingInfo(){
+    return cy.get('[class*="FilesChoosing_info"]')
+  }
+
+  get fileChooserInput(){
+    return cy.get('[class*="FilesChoosing_wrapper"] input')
+  }
+
+  get selectedFilesList(){
+    return cy.get('[class*="FileList_card"]')
+  }
+
+  get bucketIcon(){
+    return cy.get('[data-testid="bucketIcon"]')
+  }
+  
+  get popUpTextArea(){
+    return cy.get('[class*="OrderPopup_description"] textarea')
+  }
+
+  get submitOrder(){
+    return cy.get('button').contains("Відправити заявку")
+  }
+
+  get orderPopUpError(){
+    return cy.get('[class*="OrderPopup_error"]')
+  }
+
+  get fileChooserWrapper(){
+    return cy.get('[class*="FilesChoosing_wrapper"]')
+  }
+  
+  get popUpError(){
+    return cy.get('[data-testid="errorPopup"]')
+  }
+
+  get understoodBtn(){
+    return cy.get('button').contains("Зрозуміло")
+  }
+
+  get proposalBtn(){
+    return cy.get("button").contains("Пропозиції")
+  }
+
+  get proposesUnitTitle(){
+    return cy.get('[class*="ProposesToOwnerUnit_title"]')
+  }
+
+  get submitProposalBtn(){
+    return cy.get("button").contains("Підтвердити")
+  }
+
+  get proposalOrderUnit(){
+    return cy.get('[class*="ProposeOrderCard_wrapper"]')
+  }
+
+  get orderLabelStatus(){
+    return cy.get('[class*="LabelStatusOrder_label"]')
+  }
+
+  get rejectProposalBtn(){
+    return cy.get("button").contains("Відхилити")
+  }
+
+  get backBtn(){
+    return cy.get("button").contains("Назад")
+  }
+
+  get leftArrow(){
+    return cy.get('[data-testid="leftArrow"]')
+  }
+
+  get proposalDetailedBtn(){
+    return cy.get("button").contains("Деталі пропозиції")
+  }
+
+  get proposalDetaiedTitle(){
+    return cy.get('[class*="OrderDetails_title"]')
+  }
+
+  get orderDetailsLabel(){
+    return cy.get('[class*="OrderDetails_label"]')
+  }
+
+  get cancelOrderPopUpError(){
+    return cy.get('[class*="CancelOrderPopup_error"]')
   }
 
   createApprovedUnit() {
@@ -252,11 +388,11 @@ class UnitsPage {
 
   createUnitWithoutApprove() {
     return unitApi.createUnit().then((data) => {
-      return unitApi.createUnitImages(data.id)
+      return unitApi.createUnitImages(data.id);
     });
   }
 
-  createRejectedUnit(){
+  createRejectedUnit() {
     return unitApi.createUnit().then((data) => {
       return unitApi.createUnitImages(data.id).then(() => {
         return crmApi.rejectUnitCreation(data.id).then((rejectedData) => {

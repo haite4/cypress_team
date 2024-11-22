@@ -2,5 +2,16 @@
     "requiredField": "Це поле обов’язкове",
     "minimumAnnouncementTitleLengthIsTen": "У назві оголошення повинно бути не менше 10 символів",
     "maximumAnnouncementTitleLengthIsOneHundred": "У назві оголошення може бути не більше 100 символів",
-    "modelNameMax15": "У назві моделі може бути не більше 15 символів"
+    "modelNameMax15": "У назві моделі може бути не більше 15 символів",
+    "fieldisReuqired": "Це поле є обов’язковим",
+    "orderAlreadyExists": "Вы не можете повторно сделать заказ на те же даты",
+    "fileSelectionRequired": "Выберите хотя бы один файл",
+    "invalidFileFormatOrSize": "Формат документа не підтримується. Допустимі формати: jpg, jpeg, png, pdf, doc, docx, xls, xlsx, gif. Ви не можете завантажити файл більше 20 МВ. ",
+    "duplicateFileUpload": "Ви не можете завантажити двічі один файл.",
+    "fileUploadLimit": "Ви можете додати максимум 5 файлів до одного заказу.",
+    "descriptionMinLengthError": "Опис повинин містити мінімум 40 символів",
+    "descriptionMaxLengthError":"Опис повинин містити максимум 2000 символів",
+    "Canceled": "Скасовано",
+    "selectVariantFromList": "* Оберіть будь-ласка один варіант зі списку",
+    "canceledOrderPopUpReuiredField": "* Це поле обовіязкове"
 }
