@@ -6,6 +6,7 @@ import dateTime from "cypress/helper/dateTime";
 import unitApi from "cypress/api/unitApi";
 import randomValue from "cypress/helper/randomValue";
 import { Colors } from "cypress/constants/colors";
+import { sixImagesJpgFormat } from "../helper/fileData"
 
 describe("Order by ad functionality", () => {
   beforeEach("Add unit", function () {
@@ -264,32 +265,7 @@ describe("Order by ad functionality", () => {
     unitsPage.bucketIcon.click();
     unitsPage.selectedFilesList.should("not.exist");
     unitsPage.fileChooserInput.selectFile(
-      [
-        {
-          contents: "cypress/fixtures/images/1.jpg",
-          fileName: "1.jpg",
-        },
-        {
-          contents: "cypress/fixtures/images/2.jpg",
-          fileName: "2.jpg",
-        },
-        {
-          contents: "cypress/fixtures/images/3.jpg",
-          fileName: "3.jpg",
-        },
-        {
-          contents: "cypress/fixtures/images/4.jpg",
-          fileName: "4.jpg",
-        },
-        {
-          contents: "cypress/fixtures/images/5.jpg",
-          fileName: "5.jpg",
-        },
-        {
-          contents: "cypress/fixtures/images/6.jpg",
-          fileName: "6.jpg",
-        },
-      ],
+      sixImagesJpgFormat,
       { force: true }
     );
 
