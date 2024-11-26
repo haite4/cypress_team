@@ -68,3 +68,35 @@ export const validImage =   [
     fileName: "uploadImage.jpg",
   },
 ]
+
+export const createTenderDuplicatedImage = [
+  {
+    contents: "cypress/fixtures/images/uploadImage.jpg",
+    fileName: "uploadImage.jpg",
+  },
+  {
+    contents: "cypress/fixtures/images/uploadImage.jpg",
+    fileName: "uploadImage.jpg",
+  },
+];
+
+export const invalidFileFormat = [
+  {
+    contents: "cypress/fixtures/files/invalidFormat.txt",
+    fileName: "invalidFormat.txt",
+  },
+];
+
+export const invalidFileSize = [
+  {
+    contents: "cypress/fixtures/images/invalidSize30mb.jpg",
+    fileName: "invalidSize30mb.jpg",
+  },
+];
+
+export const validImage =   [
+  {
+    contents: "cypress/fixtures/images/uploadImage.jpg",
+    fileName: "uploadImage.jpg",
+  },
+]

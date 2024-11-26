@@ -6,6 +6,13 @@ import dateTime from "cypress/helper/dateTime";
 import unitApi from "cypress/api/unitApi";
 import randomValue from "cypress/helper/randomValue";
 import { Colors } from "cypress/constants/colors";
+import {
+  sixImagesJpgFormat,
+  validImage,
+  invalidFileFormat,
+  invalidFileSize,
+  createTenderDuplicatedImage,
+} from "../helper/fileData";
 
 describe("Order by ad functionality", () => {
   beforeEach("Add unit", function () {
@@ -64,14 +71,7 @@ describe("Order by ad functionality", () => {
       );
     });
 
-    unitsPage.fileChooserInput.selectFile(
-      {
-        contents: "cypress/fixtures/images/uploadImage.jpg",
-        fileName: "uploadImage.jpg",
-        mimeType: "image/jpeg",
-      },
-      { force: true }
-    );
+    unitsPage.fileChooserInput.selectFile(validImage, { force: true });
 
     unitsPage.selectedFilesList
       .should("be.visible")
@@ -148,14 +148,7 @@ describe("Order by ad functionality", () => {
       Colors.REDCOLOR
     );
 
-    unitsPage.fileChooserInput.selectFile(
-      {
-        contents: "cypress/fixtures/images/uploadImage.jpg",
-        fileName: "uploadImage.jpg",
-        mimeType: "image/jpeg",
-      },
-      { force: true }
-    );
+    unitsPage.fileChooserInput.selectFile(validImage, { force: true });
 
     unitsPage.selectedFilesList
       .should("be.visible")
@@ -210,13 +203,7 @@ describe("Order by ad functionality", () => {
       "border-color",
       Colors.REDCOLOR
     );
-    unitsPage.fileChooserInput.selectFile(
-      {
-        contents: "cypress/fixtures/files/invalidFormat.txt",
-        fileName: "invalidFormat.txt",
-      },
-      { force: true }
-    );
+    unitsPage.fileChooserInput.selectFile(invalidFileFormat, { force: true });
     unitsPage.popUpWrapper.should("be.visible");
     unitsPage.popUpError.should(
       "have.text",
@@ -229,32 +216,16 @@ describe("Order by ad functionality", () => {
       "border-color",
       Colors.REDCOLOR
     );
-    unitsPage.fileChooserInput.selectFile(
-      {
-        contents: "cypress/fixtures/images/invalidSize30mb.jpg",
-        fileName: "invalidSize30mb.jpg",
-      },
-      { force: true }
-    );
+    unitsPage.fileChooserInput.selectFile(invalidFileSize, { force: true });
     unitsPage.popUpError.should(
       "have.text",
       this.errorMsg.invalidFileFormatOrSize
     );
     unitsPage.understoodBtn.click();
     unitsPage.popUpError.should("not.exist");
-    unitsPage.fileChooserInput.selectFile(
-      [
-        {
-          contents: "cypress/fixtures/images/uploadImage.jpg",
-          fileName: "uploadImage.jpg",
-        },
-        {
-          contents: "cypress/fixtures/images/uploadImage.jpg",
-          fileName: "uploadImage.jpg",
-        },
-      ],
-      { force: true }
-    );
+    unitsPage.fileChooserInput.selectFile(createTenderDuplicatedImage, {
+      force: true,
+    });
 
     unitsPage.popUpError.invoke("text").then((text) => {
       expect(text.trim()).to.be.eq(this.errorMsg.duplicateFileUpload);
@@ -263,35 +234,7 @@ describe("Order by ad functionality", () => {
     unitsPage.popUpError.should("not.exist");
     unitsPage.bucketIcon.click();
     unitsPage.selectedFilesList.should("not.exist");
-    unitsPage.fileChooserInput.selectFile(
-      [
-        {
-          contents: "cypress/fixtures/images/1.jpg",
-          fileName: "1.jpg",
-        },
-        {
-          contents: "cypress/fixtures/images/2.jpg",
-          fileName: "2.jpg",
-        },
-        {
-          contents: "cypress/fixtures/images/3.jpg",
-          fileName: "3.jpg",
-        },
-        {
-          contents: "cypress/fixtures/images/4.jpg",
-          fileName: "4.jpg",
-        },
-        {
-          contents: "cypress/fixtures/images/5.jpg",
-          fileName: "5.jpg",
-        },
-        {
-          contents: "cypress/fixtures/images/6.jpg",
-          fileName: "6.jpg",
-        },
-      ],
-      { force: true }
-    );
+    unitsPage.fileChooserInput.selectFile(sixImagesJpgFormat, { force: true });
 
     unitsPage.popUpError.invoke("text").then((error) => {
       expect(error.trim()).to.be.eq(this.errorMsg.fileUploadLimit);
