@@ -15,6 +15,7 @@
   "orderEquipment": "Замовити техніку",
   "fileUploadInstructions": "Виберіть до 5 файлів або перетягніть їх сюди",
   "fileUploadInfo": "Файли до 20 MB в форматі jpg, jpeg, png, pdf, doc, docx, xls, xlsx, gif",
+  "createTenderUploadInfo": "Файли до 20 MB в форматі jpg, jpeg, png, pdf, doc, docx, xls, xlsx, zip",
   "addCommentForProposal": "Додайте коментар до Вашої пропозиції",
   "rentalOrderConfirmationPopUpTitle": "Підтвердження замовлення на оренду техніки",
   "confirmationPopUpInfo": "Після підтвердження дане замовлення не можна буде скасувати самостійно.При винекненні запитань звертайтесь до нашої служби підтримки.",

@@ -9,7 +9,7 @@ class LoginPage {
 
   get submitProposalBtn() {
     return cy
-      .get('button[class*="ItemButtons_DARKBLUERoundBtn"]')
+      .get('button[type="submit"]')
       .contains("Увійти");
   }
 
