@@ -12,6 +12,7 @@
     "cy:unitStates": "npx cypress run --spec cypress/e2e/unitStates.cy.ts --browser chrome",
     "cy:orderByAd": "npx cypress run --spec cypress/e2e/orderByAd.cy.ts --browser chrome",
     "cy:proposal": "npx cypress run --spec cypress/e2e/proposal.cy.ts --browser chrome",
+    "cy:createTender": "npx cypress run --spec cypress/e2e/createTender.cy.ts --browser chrome",
     "allure:generate": "npx allure generate allure-results --clean",
     "allure:open":"allure open ./allure-report"
   },
