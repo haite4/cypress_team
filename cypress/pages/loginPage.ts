@@ -24,6 +24,17 @@ class LoginPage {
   get userIcon() {
     return cy.get(`[data-testid="avatarBlock"]`);
   }
+  get profileDropdownMenuContainer() {
+    return cy.get('[class*="ProfileDropdownMenu_container"]');
+  }
+
+  get tendersDropdownButton() {
+    return this.profileDropdownMenuContainer.find('[data-testid="tenders"]');
+  }
+
+  get logoutButton() {
+    return this.profileDropdownMenuContainer.find('[data-testid="logout"]');
+  }
 
   get profileDropdownEmail() {
     return cy.get('[class*="ProfileDropdownMenu_email"]');
