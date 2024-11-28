@@ -17,6 +17,9 @@ describe("Tender view", () => {
         cy.visit("/");
         loginPage.headerAuthBtn.click();
         loginPage.login(Cypress.env("USER_EMAIL"), Cypress.env("USER_PASSWORD"));
+        loginPage.userIcon.click();
+        loginPage.tendersDropdownButton.click();
+        cy.url().should("include", UrlPath.OWNER_TENDERS_PAGE);
         cy.fixture("textSymbols/generalMsg").as("generalMsg");
     });
 
@@ -46,9 +49,6 @@ describe("Tender view", () => {
             });
         });
 
-        loginPage.userIcon.click();
-        loginPage.tendersDropdownButton.click();
-        cy.url().should("include", UrlPath.OWNER_TENDERS_PAGE);
         cy.reload();
         tendersPage.tabs.eq(0).click();
         tendersPage.checkTabs(0);
@@ -79,9 +79,6 @@ describe("Tender view", () => {
             });
         });
 
-        loginPage.userIcon.click();
-        loginPage.tendersDropdownButton.click();
-        cy.url().should("include", UrlPath.OWNER_TENDERS_PAGE);
         cy.reload();
         tendersPage.tabs.eq(1).click();
         tendersPage.checkTabs(1);
@@ -104,9 +101,6 @@ describe("Tender view", () => {
             });
         });
 
-        loginPage.userIcon.click();
-        loginPage.tendersDropdownButton.click();
-        cy.url().should("include", UrlPath.OWNER_TENDERS_PAGE);
         cy.reload();
         tendersPage.tabs.eq(2).click();
         tendersPage.checkTabs(2);
@@ -133,9 +127,6 @@ describe("Tender view", () => {
             });
         });
 
-        loginPage.userIcon.click();
-        loginPage.tendersDropdownButton.click();
-        cy.url().should("include", UrlPath.OWNER_TENDERS_PAGE);
         cy.reload();
         tendersPage.tabs.eq(3).click();
         tendersPage.checkTabs(3);
@@ -239,11 +230,8 @@ describe("Tender view", () => {
             }
         });
 
-        loginPage.userIcon.click();
-        loginPage.tendersDropdownButton.click();
-        cy.url().should("include", UrlPath.OWNER_TENDERS_PAGE);
-        cy.reload();
 
+        cy.reload();
         tendersPage.tenderInput.focus();
         tendersPage.tenderInput.should("have.value", "");
         tendersPage.categoryDropdownList.should("have.text", tenderCategoriesDropdownListNames[4]);
