@@ -13,6 +13,10 @@ class RandomValue {
   generateRandomNumber(minNumber: number, maxNumber: number) {
     return faker.number.int({ min: minNumber, max: maxNumber });
   }
+
+  generateRandomDate(firtsDate: Date, secondDate: Date, dateCount: number = 1) {
+    return faker.date.betweens({ from: firtsDate, to: secondDate, count: dateCount });
+  }
 }
 
 export default new RandomValue()

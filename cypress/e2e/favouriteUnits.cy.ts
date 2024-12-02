@@ -7,7 +7,7 @@ import crmApi from "../api/crmApi";
 import { UrlPath } from "../constants/enumUrlPaths";
 import { Colors } from "../constants/colors";
 import { sortDropdownListNames } from "../constants/sortNames";
-import * as categories from "../constants/categoriesNames";
+import * as categories from "../constants/unitCategoriesNames";
 
 describe("Favorite units", () => {
     let unitsId = [];
