@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 class Page{
     get announcementLink(){
         return cy.get('[class*="Navbar_link"]').contains("Оголошення")
@@ -11,12 +10,4 @@ class Page{
 
 
 
-=======
-class Page {
-    get tendersButton() {
-        return cy.get('[class*="Navbar_link"]').contains("Тендери");
-    }
-}
-
->>>>>>> main
 export default new Page();

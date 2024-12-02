@@ -9,7 +9,8 @@ export enum Endpoints {
    API_TENDERS = "/api/tenders/",
    API_TENDER = "/api/tender/",
    API_MODERATE_TENDERS = "api/crm/tenders/",
-   API_TENDER_ATTACH_FILE = "api/tender/attachment-file/",
-   API_SERVICE_CATEGORIES = "api/crm/service/categories/",
-   API_SERVICES = "api/services/"
+   API_TENDER_ATTACH_FILE = "/api/tender/attachment-file/",
+   API_SERVICE_CATEGORIES = "/api/crm/service/categories/",
+   API_SERVICES = "/api/services/",
+   API_ORDERS = "/api/orders/"
   }

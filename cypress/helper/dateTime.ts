@@ -23,11 +23,18 @@ class DateTime {
     return `${startFormatted} - ${endFormatted}`;
   }
 
-  calculateAllDates(
-    proposeDurationDays = 7,
-    tenderStartOffsetDays = 3,
-    tenderDurationDays = 5
-  ) {
+  /**
+   * Generate randomDate in current month and next month, and generate full date in current month and in next month
+   * @param maxDayInCurrentMonth - Number of days in current month
+   * @param maxDayInNextMonth - Number of days in the next month
+   * @param randomStartDate - Generate random date in current month
+   * @param randomEndDate - Generate random date in the next  month
+   * @param startFullDate - Generate fullDate with random start date
+   * @param endFullDate - Generate endFullDate with random end date
+   * @return The datetime, startDate, endDate, startFullDate, endFulldate
+   */
+
+  getSpecificDate() {
     const now = new Date();
     const maxDayInCurrentMonth = this.getDaysinMonth(1);
     const maxDayInNextMonth = this.getDaysinMonth(2);
@@ -46,34 +53,13 @@ class DateTime {
       now.getMonth() + 1,
       randomEndDate
     );
-
-    const startProposalDate = new Date(
-        now.getUTCFullYear(),
-        now.getMonth(),
-        now.getDate() + 1
-    );
-    const endProposalDate = new Date(startProposalDate)
-    endProposalDate.setDate(startProposalDate.getDate() + proposeDurationDays)
-
-    const startTenderDate = new Date(endProposalDate)
-    startTenderDate.setDate(endProposalDate.getDate() + tenderStartOffsetDays)
-
-
-    const endTenderDate = new Date(startTenderDate)
-    endTenderDate.setDate(startTenderDate.getDate() + tenderDurationDays)
-
-
     return {
       randomStartDate,
       randomEndDate,
       startFullDate,
       endFullDate,
-      startProposalDate,
-      endProposalDate,
-      startTenderDate,
-      endTenderDate
     };
   }
 }
 
-export default new DateTime();
+export default new DateTime()
