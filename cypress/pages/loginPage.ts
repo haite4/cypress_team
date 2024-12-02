@@ -25,6 +25,10 @@ class LoginPage {
     return cy.get('[class*="ProfileDropdownMenu_email"]');
   }
 
+  get logoutBtn(){
+    return cy.get('[data-testid="logout"]')
+  }
+
   login(email: string, password: string) {
     this.loginEmailInput.type(email);
     this.loginPasswordInput.type(password);

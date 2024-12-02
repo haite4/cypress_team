@@ -12,7 +12,7 @@ import {
   invalidFileFormat,
   invalidFileSize,
   createTenderDuplicatedImage,
-} from "../helper/fileData";
+} from "../constants/fileData";
 
 describe("Order by ad functionality", () => {
   beforeEach("Add unit", function () {
@@ -46,7 +46,7 @@ describe("Order by ad functionality", () => {
     unitsPage.popUpPeriodArea.click();
     unitsPage.popUpDateTimePicker.should("be.visible");
     const { randomStartDate, randomEndDate, startFullDate, endFullDate } =
-      dateTime.getSpecificDate();
+      dateTime.calculateAllDates();
     unitsPage.getdatePickerDay(randomStartDate, 0).click();
     unitsPage.getdatePickerDay(randomEndDate, 1).click();
 

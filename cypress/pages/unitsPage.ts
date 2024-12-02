@@ -44,7 +44,7 @@ class UnitsPage {
       .contains("Редагувати");
   }
 
-  get editAnnouncmentTitle() {
+  get editUnitTitle() {
     return cy.get('[class*="CreateEditFlowLayout_title"]');
   }
 
@@ -60,7 +60,7 @@ class UnitsPage {
     return cy.get("[class*=SuccessfullyCreatedPage_finishTitle]");
   }
 
-  get viewInMyAdsBtn() {
+  get viewInMyList() {
     return cy.get('[class*="SuccessfullyCreatedPage_buttonWrapper"] button');
   }
 
@@ -116,15 +116,15 @@ class UnitsPage {
     return cy.get('[data-testid="descriptionError"]');
   }
 
-  get closeVehicleBtn() {
+  get closeBtn() {
     return cy.get('[data-testid="closeButton"]');
   }
 
-  get vehicleManufacturerInput() {
+  get servicesInput() {
     return cy.get('[data-testid="input-customSelectWithSearch"]');
   }
 
-  get vehicleManufacturerError() {
+  get serviceError() {
     return cy.get('[class*="CustomSelectWithSearch_errorTextVisible"]');
   }
 
@@ -132,11 +132,11 @@ class UnitsPage {
     return cy.get('[data-testid="p2-notFound-addNewItem"]');
   }
 
-  get vehicleManufacturerDropDownItem() {
+  get servicesDropDownItem() {
     return cy.get('[class*="CustomSelectWithSearch_searchListItem"]');
   }
 
-  get selectedVehicleManufacturer() {
+  get selectedServices() {
     return cy.get('[data-testid="div-service-customSelectWithSearch"]');
   }
 
@@ -214,6 +214,32 @@ class UnitsPage {
 
   get cancelPopUpReason(){
     return cy.get('[class*="CancelOrderPopup_reason"]')
+  }
+
+  get tenderCard(){
+    return cy.get('[class*="OwnerTenderCard_tenderCard"]')
+  }
+
+  get editTenderBtn(){
+    return cy.get("button").contains("Редагувати")
+  }
+
+  get dateTimePicker(){
+    return cy.get('[class*="react-datepicker-wrapper"] input')
+  }
+
+  get budgetInput() {
+    return cy.get(
+      '[data-testid="custom-input"][placeholder="Наприклад, 10 000"]'
+    );
+  }
+
+  get textAreaInput(){
+    return cy.get('[data-testid="textAreaInput"]')
+  }
+
+  get textAreaError(){
+    return cy.get('[data-testid*="textAreaError"]')
   }
 
   getdatePickerDay(day: number, numberOfElement: number) {
@@ -400,7 +426,7 @@ class UnitsPage {
     return cy.get('[class*="DocumentsChoosing_documentsWrapper"]')
   }
 
-  get createTenderDeleteFileRedBucketIcon(){
+  get deleteFileRedBucketIcon(){
     return cy.get('[data-testid="deleteFile"]')
   }
 
@@ -408,12 +434,52 @@ class UnitsPage {
     return cy.get('[class*="MuiTabs-flexContainer"] button')
   }
 
-  get createTenderDocumentChoosingError(){
+  get documentChoosingError(){
     return cy.get('[class*="DocumentsChoosing_errorTextVisible"]')
   }
 
   get createTenderSelectedFile(){
     return cy.get('[class*="DocumentsChoosing_flex"]')
+  }
+
+  get myTender(){
+    return cy.get('[data-testid="variant"] span').contains("Мої тендери")
+  }
+
+  get leftSideCategory(){
+    return cy.get('[data-testid="leftsideCategory"]')
+  }
+
+  get tenderInput(){
+    return cy.get('input[placeholder="Введіть назву тендера"]')
+  }
+
+  get jobContactPersonInput(){
+    return cy.get('[data-testid="operatorCheckbox"]')
+  }
+
+  get jobContactPersonInfoTitle(){
+    return cy.get('[class*="CustomValidInput_title"]')
+  }
+
+  get jobContactPersonInfoPhoneTitle(){
+    return cy.get('[class*="OperatorForm_title"]')
+  }
+
+  get jobContactPersonInfoError(){
+    return cy.get('[data-testid="errorDescr"]')
+  }
+
+  get jobContactPersonInfoPhoneError(){
+    return cy.get('[class*="OperatorForm_errorMessage"]')
+  }
+
+  get jobContactInput(){
+    return cy.get('[class*="OperatorForm_wrapperName"] input')
+  }
+
+  get phoneNumberInput(){
+    return cy.get('[data-testid="phone"]')
   }
 
   createApprovedUnit() {

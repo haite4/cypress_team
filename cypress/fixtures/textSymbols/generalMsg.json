@@ -28,5 +28,8 @@
   "ListOfProposals": "Перелік пропозицій (${unitQuantity})",
   "proposalDetailedTitle": "Деталі пропозиції",
   "rentPeriodTitle": "Період оренди",
-  "commentsTitle": "Коментар"
+  "commentsTitle": "Коментар",
+  "editTenderTitle": "Редагування тендера",
+  "cleaning": "прибирання",
+  "viewInMyTender": "Переглянути в моїх тендерах"
 }

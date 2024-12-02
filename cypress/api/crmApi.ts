@@ -46,6 +46,15 @@ class CrmApi extends ApiHelper {
       });
   }
 
+  searchTenderById(tenderId: number){
+    return super.createAdminJwtToken().then((token) => {
+      const url = `${Cypress.env("BASE_URL")}${
+        Endpoints.API_CRM_TENDERS
+      }?search=${tenderId}`;
+      return this.makeRequest("GET", url, token);
+    });
+  }
+
   searhAdsByName(unitName: string) {
     return super.createAdminJwtToken().then((token) => {
       const url = `${Cypress.env("BASE_URL")}${

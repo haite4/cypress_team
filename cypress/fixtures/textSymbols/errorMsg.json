@@ -16,5 +16,11 @@
     "selectVariantFromList": "* Оберіть будь-ласка один варіант зі списку",
     "canceledOrderPopUpReuiredField": "* Це поле обовіязкове",
     "missingFilesError": "Додайте до вашого тендеру як мінімум один файл",
-    "createTenderFileUploadLimit": "Ви можете додати максимум 5 файлів до одного тендеру. Або заархівуйте свої документи в zip файл."
+    "createTenderFileUploadLimit": "Ви можете додати максимум 5 файлів до одного тендеру. Або заархівуйте свої документи в zip файл.",
+    "tenderNameToShort": "Назва має містити щонайменше 10 символів",
+    "textAreaDescriptionMinLengthError": "Опис має містити щонайменше 40 символів (${symbolLength})",
+    "lastNameValidationError": "Прізвище має містити щонайменше дві літери",
+    "personInfoMaxCharacters": "Введіть не більше 25 символів",
+    "firstNameValidationError": "Ім'я має містити щонайменше дві літери",
+    "errorInvalidPhone": "Введіть коректний мобільний номер телефону"
 }

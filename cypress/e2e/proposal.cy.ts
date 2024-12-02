@@ -12,7 +12,7 @@ describe("Proposal functionality", () => {
     loginPage.login(Cypress.env("USER_EMAIL"), Cypress.env("USER_PASSWORD"));
     loginPage.userIcon.click();
     unitsPage.unitsInDropDownMenu.click();
-    const { startFullDate, endFullDate } = dateTime.getSpecificDate();
+    const { startFullDate, endFullDate } = dateTime.calculateAllDates();
 
     unitsPage.createApprovedUnit().then((data) => {
       cy.wrap(data.id).as("unitid");
