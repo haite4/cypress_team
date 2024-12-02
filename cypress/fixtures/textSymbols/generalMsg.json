@@ -8,7 +8,7 @@
   "announcementPlaceholder": "Введіть назву оголошення",
   "manufacturerPlaceholder": "Введіть виробника транспортного засобу",
   "vehicleManufacturerName": "AGCO",
-  "mapEquipmentTitle": "Техніка на мапі",
+  "mapEquipmenttenderName": "Техніка на мапі",
   "city": "Київ",
   "country": "Україна",
   "region": "Київська область",
@@ -17,7 +17,7 @@
   "fileUploadInfo": "Файли до 20 MB в форматі jpg, jpeg, png, pdf, doc, docx, xls, xlsx, gif",
   "createTenderUploadInfo": "Файли до 20 MB в форматі jpg, jpeg, png, pdf, doc, docx, xls, xlsx, zip",
   "addCommentForProposal": "Додайте коментар до Вашої пропозиції",
-  "rentalOrderConfirmationPopUpTitle": "Підтвердження замовлення на оренду техніки",
+  "rentalOrderConfirmationPopUptenderName": "Підтвердження замовлення на оренду техніки",
   "confirmationPopUpInfo": "Після підтвердження дане замовлення не можна буде скасувати самостійно.При винекненні запитань звертайтесь до нашої служби підтримки.",
   "rejectRentalProposal": "Відхилення заявки на оренду техніки",
   "writeYourOwnVersion": "Напишіть свій варіант",
@@ -26,10 +26,10 @@
   "suggestionsForTheAnnouncement": "Пропозиції по оголошенню",
   "reasonForCanceledApplication": "Вкажіть причину відхилення заявки на оренду ${unitName} *",
   "ListOfProposals": "Перелік пропозицій (${unitQuantity})",
-  "proposalDetailedTitle": "Деталі пропозиції",
-  "rentPeriodTitle": "Період оренди",
-  "commentsTitle": "Коментар",
-  "editTenderTitle": "Редагування тендера",
+  "proposalDetailedtenderName": "Деталі пропозиції",
+  "rentPeriodtenderName": "Період оренди",
+  "commentstenderName": "Коментар",
+  "editTendertenderName": "Редагування тендера",
   "cleaning": "прибирання",
-  "viewInMyTender": "Переглянути в моїх тендерах"
+  "viewIntendersDropdownButton": "Переглянути в моїх тендерах"
 }

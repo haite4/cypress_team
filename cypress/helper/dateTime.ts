@@ -12,8 +12,8 @@ class DateTime {
 
   formatDateRangeIntl(startDate: Date, endDate: Date) {
     const formatter = new Intl.DateTimeFormat("en-US", {
-      month: "2-digit",
-      day: "2-digit",
+      month: "numeric",
+      day: "numeric",
       year: "numeric",
     });
 
@@ -31,10 +31,18 @@ class DateTime {
    * @param randomEndDate - Generate random date in the next  month
    * @param startFullDate - Generate fullDate with random start date
    * @param endFullDate - Generate endFullDate with random end date
-   * @return The datetime, startDate, endDate, startFullDate, endFulldate
+   * @param startProposalDate - The full date that starting of the proposal from the next day
+   * @param endProposalDate -  The full Date of the ending proposal
+   * @param startTenderDate - The full Date that starting from endProposalDate
+   * @param endTenderDate -  The full Date of the end tender date.
+   * @return The datetime, startDate, endDate, startFullDate, endFulldate, startProposalDate, endProposalDate, startTenderDate, endTenderDate
    */
 
-  getSpecificDate() {
+  getSpecificDate(
+    proposeDurationDays = 7,
+    tenderStartOffsetDays = 3,
+    tenderDurationDays = 5
+  ) {
     const now = new Date();
     const maxDayInCurrentMonth = this.getDaysinMonth(1);
     const maxDayInNextMonth = this.getDaysinMonth(2);
@@ -53,13 +61,32 @@ class DateTime {
       now.getMonth() + 1,
       randomEndDate
     );
+
+    const startProposalDate = new Date(
+      now.getUTCFullYear(),
+      now.getMonth(),
+      now.getDate() + 1
+    );
+    const endProposalDate = new Date(startProposalDate);
+    endProposalDate.setDate(startProposalDate.getDate() + proposeDurationDays);
+
+    const startTenderDate = new Date(endProposalDate);
+    startTenderDate.setDate(endProposalDate.getDate() + tenderStartOffsetDays);
+
+    const endTenderDate = new Date(startTenderDate);
+    endTenderDate.setDate(startTenderDate.getDate() + tenderDurationDays);
+
     return {
       randomStartDate,
       randomEndDate,
       startFullDate,
       endFullDate,
+      startProposalDate,
+      endProposalDate,
+      startTenderDate,
+      endTenderDate,
     };
   }
 }
 
-export default new DateTime()
+export default new DateTime();

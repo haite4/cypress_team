@@ -1,8 +1,8 @@
 import loginPage from "cypress/pages/loginPage";
 import unitsPage from "cypress/pages/unitsPage";
-import unitApi from "cypress/api/unitApi";
 import randomValue from "cypress/helper/randomValue";
 import crmApi from "cypress/api/crmApi";
+import tenderApi from "cypress/api/tenderApi";
 
 describe("Edit the pending tender functionality", () => {
   beforeEach("", () => {
@@ -12,16 +12,15 @@ describe("Edit the pending tender functionality", () => {
     loginPage.userIcon.click();
     unitsPage.unitsInDropDownMenu.click();
 
-    unitApi.createTender().then((response) => {
+    tenderApi.createTender().then((response) => {
       cy.wrap(response.id).as("tenderId");
       cy.wrap(response.name).as("tenderName");
       cy.wrap(response.date_created).as("tenderCreatedDate");
       cy.wrap(response.city).as("tenderCity");
       cy.wrap(response.state).as("tenderState");
-      unitApi.attachFileTender(response.id);
+      tenderApi.attachFile(response.id, "cypress/fixtures/images/uploadImage.jpg");
     });
-    unitsPage.leftSideCategory.eq(2).click();
-    unitsPage.myTender.click();
+    loginPage.tendersDropdownButton.click();
     unitsPage.expectingdUnit.click();
     unitsPage.tenderCard.should("be.visible");
     unitsPage.editTenderBtn.click();
@@ -31,14 +30,14 @@ describe("Edit the pending tender functionality", () => {
   });
 
   afterEach("Delete tender", function () {
-    unitApi.closeTender(this.tenderId).then((response) => {
-      unitApi.deleteTender(response.id);
+    tenderApi.closeTender(this.tenderId).then((response) => {
+      tenderApi.deleteTender(response.id);
     });
   });
   it("TC-237 Edit the tender name input", function () {
-    unitsPage.editUnitTitle.should(
+    unitsPage.editUnittenderName.should(
       "have.text",
-      this.generalMsg.editTenderTitle
+      this.generalMsg.editTendertenderName
     );
     unitsPage.tenderInput.clear().should("have.value", "");
     unitsPage.nextBtn.should("be.enabled").click();
@@ -68,9 +67,9 @@ describe("Edit the pending tender functionality", () => {
   });
 
   it("TC-237 Edit the tender service name and datepicker", function () {
-    unitsPage.editUnitTitle.should(
+    unitsPage.editUnittenderName.should(
       "have.text",
-      this.generalMsg.editTenderTitle
+      this.generalMsg.editTendertenderName
     );
     cy.wait(500);
     unitsPage.closeBtn.should("be.enabled").and("be.visible").click();
@@ -155,15 +154,15 @@ describe("Edit the pending tender functionality", () => {
       .should("be.enabled")
       .and("be.visible")
       .uncheck();
-    unitsPage.jobContactPersonInfoTitle
+    unitsPage.jobContactPersonInfotenderName
       .eq(0)
       .invoke("text")
       .should("match", /^Прізвище.*\*$/);
-    unitsPage.jobContactPersonInfoTitle
+    unitsPage.jobContactPersonInfotenderName
       .eq(1)
       .invoke("text")
       .should("match", /^Ім’я.*\*$/);
-    unitsPage.jobContactPersonInfoPhoneTitle
+    unitsPage.jobContactPersonInfoPhonetenderName
       .invoke("text")
       .should("match", /^Телефон.*\*$/);
     unitsPage.jobContactPersonInfoError.each((error) => {
@@ -281,7 +280,7 @@ describe("Edit the pending tender functionality", () => {
       "have.text",
       this.successMsg.tenderSuccesfullyEditMsg
     );
-    unitsPage.viewInMyList.should("have.text", this.generalMsg.viewInMyTender);
+    unitsPage.viewInMyList.should("have.text", this.generalMsg.viewIntendersDropdownButton);
     unitsPage.viewInMyList.click();
     unitsPage.tenderCard.should("be.visible");
     loginPage.userIcon.click();

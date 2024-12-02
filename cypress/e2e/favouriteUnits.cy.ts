@@ -4,10 +4,9 @@ import productsPage from "../pages/productsPage";
 import unitApi from "../api/unitApi";
 import randomValue from "../helper/randomValue";
 import crmApi from "../api/crmApi";
-import page from "../pages/page";
 import { UrlPath } from "../constants/enumUrlPaths";
 import { Colors } from "../constants/colors";
-import { sortDropdownListNames } from "../constants/sortNames";
+import { sortingDropdownListNames } from "../constants/sortNames";
 import * as categories from "../constants/unitCategoriesNames";
 
 describe("Favorite units", () => {
@@ -22,7 +21,6 @@ describe("Favorite units", () => {
 
     afterEach(function () {
         if (this.currentTest.state === "failed" && unitsId.length !== 0) {
-            cy.log(`Test "${this.currentTest.title}" failed.`);
             cy.window().then(() => {
                 for (let i = 0; i < unitsId.length; ++i) {
                     unitApi.deleteUnit(unitsId[i]).then((response) => {
@@ -37,7 +35,7 @@ describe("Favorite units", () => {
         loginPage.userIcon.click();
         unitsPage.unitsInDropDownMenu.click();
         unitsPage.chosenAnnouncmentsButton.click();
-        unitsPage.emptyBlockInfoTitle
+        unitsPage.emptyBlockInfotenderName
             .should("be.visible")
             .and("have.text", this.generalMsg.noAnnouncementsMessage);
 
@@ -69,7 +67,7 @@ describe("Favorite units", () => {
     unitsPage.chosenAnnouncmentsButton.click();
     unitsPage.unitCard.should("be.visible");
     cy.get("@cardName").then((name) => {
-      unitsPage.unitCardTitleText.then((text) => {
+      unitsPage.unitCardtenderNameText.then((text) => {
         expect(name).to.eq(text);
       });
     });
@@ -78,7 +76,7 @@ describe("Favorite units", () => {
       unitsPage.getUnitCardFavouriteButton(cy.wrap(card)).click();
     });
     unitsPage.unitCard.should("not.exist");
-    unitsPage.emptyBlockInfoTitle
+    unitsPage.emptyBlockInfotenderName
       .should("be.visible")
       .and("have.text", this.generalMsg.noAnnouncementsMessage);
 
@@ -111,17 +109,17 @@ describe("Favorite units", () => {
     cy.url().should("include", UrlPath.OWNER_FAVOURITE_UNITS);
 
     cy.reload();
-    unitsPage.announcemntTitleInput.click();
-    unitsPage.announcemntTitleInput.should("be.focused");
+    unitsPage.announcemnttenderNameInput.click();
+    unitsPage.announcemnttenderNameInput.should("be.focused");
 
-    unitsPage.announcemntTitleInput.type("{enter}");
+    unitsPage.announcemnttenderNameInput.type("{enter}");
     unitsPage.unitCard.should("be.visible");
 
     for (const spaceValue of this.generalMsg.spaces) {
-      unitsPage.announcemntTitleInput.type(spaceValue);
-      unitsPage.announcemntTitleInput.should("have.value", spaceValue);
+      unitsPage.announcemnttenderNameInput.type(spaceValue);
+      unitsPage.announcemnttenderNameInput.should("have.value", spaceValue);
       if (spaceValue === "          ") break;
-      unitsPage.announcemntTitleInput.clear();
+      unitsPage.announcemnttenderNameInput.clear();
     }
 
     unitsPage.emptyBlockButton
@@ -131,17 +129,17 @@ describe("Favorite units", () => {
     unitsPage.unitCard.should("be.visible");
 
     const number = "16";
-    unitsPage.announcemntTitleInput.type(number);
+    unitsPage.announcemnttenderNameInput.type(number);
     cy.window().then(() => {
       const existsCard = [...favouriteUnits].some((unit: { name: string }) =>
         unit.name.includes(number)
       );
       if (existsCard) {
-        unitsPage.unitCardTitleText.then((text) => {
+        unitsPage.unitCardtenderNameText.then((text) => {
           expect(text).to.include(number);
         });
       } else {
-        unitsPage.emptyBlockInfoTitle
+        unitsPage.emptyBlockInfotenderName
           .should("be.visible")
           .and("have.text", `Оголошення за назвою "${number}" не знайдені`);
         unitsPage.emptyBlockButton
@@ -149,22 +147,22 @@ describe("Favorite units", () => {
           .and("have.text", this.generalMsg.clearFiltersButtonText);
       }
     });
-    unitsPage.announcemntTitleInput.clear();
+    unitsPage.announcemnttenderNameInput.clear();
 
     const specificSymbols = ["!", "@", "#", "$", "%", "(", ")", "*"];
     for (const symbol of specificSymbols) {
-      unitsPage.announcemntTitleInput.type(symbol);
+      unitsPage.announcemnttenderNameInput.type(symbol);
 
       cy.window().then(() => {
         const exists = [...favouriteUnits].some((unit: { name: string }) =>
           unit.name.includes(symbol)
         );
         if (exists) {
-          unitsPage.unitCardTitleText.then((text) => {
+          unitsPage.unitCardtenderNameText.then((text) => {
             expect(text).to.include(symbol);
           });
         } else {
-          unitsPage.emptyBlockInfoTitle
+          unitsPage.emptyBlockInfotenderName
             .should("be.visible")
             .and("have.text", `Оголошення за назвою "${symbol}" не знайдені`);
           unitsPage.emptyBlockButton
@@ -173,12 +171,12 @@ describe("Favorite units", () => {
         }
       });
 
-      unitsPage.announcemntTitleInput.clear();
+      unitsPage.announcemnttenderNameInput.clear();
     }
 
     const nonExistingUnit = "тест1234567890";
-    unitsPage.announcemntTitleInput.type(nonExistingUnit);
-    unitsPage.emptyBlockInfoTitle
+    unitsPage.announcemnttenderNameInput.type(nonExistingUnit);
+    unitsPage.emptyBlockInfotenderName
       .should("be.visible")
       .and(
         "have.text",
@@ -187,24 +185,24 @@ describe("Favorite units", () => {
     unitsPage.emptyBlockButton
       .should("be.visible")
       .and("have.text", this.generalMsg.clearFiltersButtonText);
-    unitsPage.announcemntTitleInput.clear();
+    unitsPage.announcemnttenderNameInput.clear();
 
     cy.window().then(() => {
       const unit = randomValue.selectRandomValueFromArray([...favouriteUnits]);
-      unitsPage.announcemntTitleInput.type(unit.name);
+      unitsPage.announcemnttenderNameInput.type(unit.name);
       unitsPage.unitCard.should("be.visible");
-      unitsPage.unitCardTitleText.then((text) => {
+      unitsPage.unitCardtenderNameText.then((text) => {
         expect(text).to.eq(unit.name);
       });
     });
 
-        unitsPage.announcemntTitleInput.clear();
+        unitsPage.announcemnttenderNameInput.clear();
         unitsPage.clearListButton.should("be.visible").click();
         unitsPage.popupHeader
             .should("be.visible")
             .and("have.text", this.generalMsg.popupClearFavouriteUnitsHeaderMessage);
         unitsPage.popupYesButton.click();
-        unitsPage.emptyBlockInfoTitle
+        unitsPage.emptyBlockInfotenderName
             .should("be.visible")
             .and("have.text", this.generalMsg.noAnnouncementsMessage);
     });
@@ -314,7 +312,7 @@ describe("Favorite units", () => {
       .should("be.visible")
       .and("have.text", this.generalMsg.popupClearFavouriteUnitsHeaderMessage);
     unitsPage.popupYesButton.click();
-    unitsPage.emptyBlockInfoTitle
+    unitsPage.emptyBlockInfotenderName
       .should("be.visible")
       .and("have.text", this.generalMsg.noAnnouncementsMessage);
   });
@@ -406,7 +404,7 @@ describe("Favorite units", () => {
             unitsId = [];
         });
         cy.reload();
-        unitsPage.emptyBlockInfoTitle
+        unitsPage.emptyBlockInfotenderName
             .should("be.visible")
             .and("have.text", this.generalMsg.noAnnouncementsMessage);
     });
@@ -455,7 +453,7 @@ describe("Favorite units", () => {
       .should("be.visible")
       .and("have.text", this.generalMsg.popupClearFavouriteUnitsHeaderMessage);
     unitsPage.popupYesButton.click();
-    unitsPage.emptyBlockInfoTitle
+    unitsPage.emptyBlockInfotenderName
       .should("be.visible")
       .and("have.text", this.generalMsg.noAnnouncementsMessage);
   });
@@ -482,17 +480,17 @@ describe("Favorite units", () => {
     cy.url().should("include", UrlPath.OWNER_FAVOURITE_UNITS);
 
     cy.reload();
-    unitsPage.announcemntTitleInput.click();
-    unitsPage.announcemntTitleInput.should("be.focused");
+    unitsPage.announcemnttenderNameInput.click();
+    unitsPage.announcemnttenderNameInput.should("be.focused");
 
-    unitsPage.announcemntTitleInput.type("{enter}");
+    unitsPage.announcemnttenderNameInput.type("{enter}");
     unitsPage.unitCard.should("be.visible");
 
     for (const spaceValue of this.generalMsg.spaces) {
-      unitsPage.announcemntTitleInput.type(spaceValue);
-      unitsPage.announcemntTitleInput.should("have.value", spaceValue);
+      unitsPage.announcemnttenderNameInput.type(spaceValue);
+      unitsPage.announcemnttenderNameInput.should("have.value", spaceValue);
       if (spaceValue === "          ") break;
-      unitsPage.announcemntTitleInput.clear();
+      unitsPage.announcemnttenderNameInput.clear();
     }
 
     unitsPage.emptyBlockButton
@@ -502,8 +500,8 @@ describe("Favorite units", () => {
     unitsPage.unitCard.should("be.visible");
 
     const nonExistingUnit = "тест1234567890";
-    unitsPage.announcemntTitleInput.type(nonExistingUnit);
-    unitsPage.emptyBlockInfoTitle
+    unitsPage.announcemnttenderNameInput.type(nonExistingUnit);
+    unitsPage.emptyBlockInfotenderName
       .should("be.visible")
       .and(
         "have.text",
@@ -512,14 +510,14 @@ describe("Favorite units", () => {
     unitsPage.emptyBlockButton
       .should("be.visible")
       .and("have.text", this.generalMsg.clearFiltersButtonText);
-    unitsPage.announcemntTitleInput.clear();
+    unitsPage.announcemnttenderNameInput.clear();
 
         unitsPage.clearListButton.click();
         unitsPage.popupHeader
             .should("be.visible")
             .and("have.text", this.generalMsg.popupClearFavouriteUnitsHeaderMessage);
         unitsPage.popupYesButton.click();
-        unitsPage.emptyBlockInfoTitle
+        unitsPage.emptyBlockInfotenderName
             .should("be.visible")
             .and("have.text", this.generalMsg.noAnnouncementsMessage);
     });
@@ -580,7 +578,7 @@ describe("Favorite units", () => {
             .should("be.visible")
             .and("have.text", this.generalMsg.popupClearFavouriteUnitsHeaderMessage);
         unitsPage.popupYesButton.click();
-        unitsPage.emptyBlockInfoTitle
+        unitsPage.emptyBlockInfotenderName
             .should("be.visible")
             .and("have.text", this.generalMsg.noAnnouncementsMessage);
 
@@ -625,7 +623,7 @@ describe("Favorite units", () => {
         cy.url().should("include", UrlPath.OWNER_FAVOURITE_UNITS);
         cy.reload();
         
-        for (const sortName of sortDropdownListNames) {
+        for (const sortName of sortingDropdownListNames) {
             unitsPage.sortingDropdownList.should("be.visible").click();
             unitsPage.selectListItemByName(sortName).should("be.visible").click();
             unitsPage.unitCard.then(units => {
@@ -665,7 +663,7 @@ describe("Favorite units", () => {
             .should("be.visible")
             .and("have.text", this.generalMsg.popupClearFavouriteUnitsHeaderMessage);
         unitsPage.popupYesButton.click();
-        unitsPage.emptyBlockInfoTitle
+        unitsPage.emptyBlockInfotenderName
             .should("be.visible")
             .and("have.text", this.generalMsg.noAnnouncementsMessage);
     });
@@ -743,7 +741,7 @@ describe("Favorite units", () => {
             unitsId = [];
         });
         cy.reload();
-        unitsPage.emptyBlockInfoTitle
+        unitsPage.emptyBlockInfotenderName
             .should("be.visible")
             .and("have.text", this.generalMsg.noAnnouncementsMessage);
     });
@@ -821,7 +819,7 @@ describe("Favorite units", () => {
             unitsId = [];
         });
         cy.reload();
-        unitsPage.emptyBlockInfoTitle
+        unitsPage.emptyBlockInfotenderName
             .should("be.visible")
             .and("have.text", this.generalMsg.noAnnouncementsMessage);
     });
@@ -899,7 +897,7 @@ describe("Favorite units", () => {
             unitsId = [];
         });
         cy.reload();
-        unitsPage.emptyBlockInfoTitle
+        unitsPage.emptyBlockInfotenderName
             .should("be.visible")
             .and("have.text", this.generalMsg.noAnnouncementsMessage);
     });

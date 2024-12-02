@@ -46,7 +46,7 @@ describe("Order by ad functionality", () => {
     unitsPage.popUpPeriodArea.click();
     unitsPage.popUpDateTimePicker.should("be.visible");
     const { randomStartDate, randomEndDate, startFullDate, endFullDate } =
-      dateTime.calculateAllDates();
+      dateTime.getSpecificDate();
     unitsPage.getdatePickerDay(randomStartDate, 0).click();
     unitsPage.getdatePickerDay(randomEndDate, 1).click();
 
@@ -249,7 +249,7 @@ describe("Order by ad functionality", () => {
   });
 
   it("TC-1003 Verify comment field when order by ad", function () {
-    unitsPage.orderBtn.click();
+    unitsPage.orderBtn.should("be.enabled").and("be.visible").click();
     unitsPage.popUpWrapper.should("be.visible");
     unitsPage.submitOrder.click();
     unitsPage.orderPopUpError

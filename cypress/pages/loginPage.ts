@@ -12,6 +12,10 @@ class LoginPage {
       .get('button[type="submit"]')
       .contains("Увійти");
   }
+  
+  get announcementsButton() {
+    return cy.get('[class*="Navbar_navigation"]').find('[href="/products/"]');
+  }
 
   get headerAuthBtn() {
     return cy.get('[class*="NavbarAuthBlock_buttonEnter"]');
@@ -26,10 +30,6 @@ class LoginPage {
 
   get tendersDropdownButton() {
     return this.profileDropdownMenuContainer.find('[data-testid="tenders"]');
-  }
-
-  get logoutButton() {
-    return this.profileDropdownMenuContainer.find('[data-testid="logout"]');
   }
 
   get profileDropdownEmail() {

@@ -27,9 +27,9 @@ describe("Unit Edit functionality", () => {
   });
 
   it("TC-182 Edit Unit without changes", function () {
-    unitsPage.unitCardTitleText.then((unitName) => {
+    unitsPage.unitCardtenderNameText.then((unitName) => {
       unitsPage.editBtn.click();
-      unitsPage.editUnitTitle.should("be.visible");
+      unitsPage.editUnittenderName.should("be.visible");
       unitsPage.preventBtn.first().click();
       unitsPage.unitCard.should("be.visible");
       unitsPage.editBtn.click();
@@ -38,7 +38,7 @@ describe("Unit Edit functionality", () => {
       unitsPage.successfullyEditedMsg.should("be.visible");
       unitsPage.viewInMyList.should("be.visible");
       unitsPage.viewInMyList.click();
-      unitsPage.emptyBlockInfoTitle.should("be.visible");
+      unitsPage.emptyBlockInfotenderName.should("be.visible");
       crmApi.searhAdsByName(unitName).then((response) => {
         expect(response.body.results[0].is_approved).to.be.eq(null);
         expect(response.status).to.be.eq(200);
@@ -66,12 +66,12 @@ describe("Unit Edit functionality", () => {
     unitsPage.nextBtn.should("be.visible").click();
     unitsPage.descriptionError.should(
       "have.text",
-      this.errorMsg.minimumAnnouncementTitleLengthIsTen
+      this.errorMsg.minimumAnnouncementtenderNameLengthIsTen
     );
     unitsPage.announcementInput.type(randomValue.generateStringWithLength(101));
     unitsPage.descriptionError.should(
       "have.text",
-      this.errorMsg.maximumAnnouncementTitleLengthIsOneHundred
+      this.errorMsg.maximumAnnouncementtenderNameLengthIsOneHundred
     );
     unitsPage.announcementInput.clear();
     const randomUnitName = randomValue.generateStringWithLength(15);
@@ -246,9 +246,9 @@ describe("Unit Edit functionality", () => {
   it("TC-535 Check 'Місце розташування технічного засобу' functionality", function () {
     unitsPage.editBtn.click();
     unitsPage.choseOnMapBtn.click();
-    unitsPage.mapPopUpTitle.should(
+    unitsPage.mapPopUptenderName.should(
       "have.text",
-      this.generalMsg.mapEquipmentTitle
+      this.generalMsg.mapEquipmenttenderName
     );
     unitsPage.getMapPopUpBoundingBox().then(({ x, y }) => {
       cy.get("body").click(x, y);

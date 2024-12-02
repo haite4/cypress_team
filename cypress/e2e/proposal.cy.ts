@@ -12,7 +12,7 @@ describe("Proposal functionality", () => {
     loginPage.login(Cypress.env("USER_EMAIL"), Cypress.env("USER_PASSWORD"));
     loginPage.userIcon.click();
     unitsPage.unitsInDropDownMenu.click();
-    const { startFullDate, endFullDate } = dateTime.calculateAllDates();
+    const { startFullDate, endFullDate } = dateTime.getSpecificDate();
 
     unitsPage.createApprovedUnit().then((data) => {
       cy.wrap(data.id).as("unitid");
@@ -34,12 +34,12 @@ describe("Proposal functionality", () => {
 
   it("TC-1004 Confirm the proposal ", function () {
     unitsPage.proposalBtn.should("be.visible").click();
-    unitsPage.proposesUnitTitle.eq(0).should("be.visible");
+    unitsPage.proposesUnittenderName.eq(0).should("be.visible");
     unitsPage.submitProposalBtn.should("be.visible").click();
     unitsPage.popUpWrapper.should("be.visible");
     unitsPage.popupHeader.should(
       "have.text",
-      this.generalMsg.rentalOrderConfirmationPopUpTitle
+      this.generalMsg.rentalOrderConfirmationPopUptenderName
     );
     unitsPage.confirmationPopUpInfo.should(
       "have.text",
@@ -70,7 +70,7 @@ describe("Proposal functionality", () => {
 
   it("TC-1005 Reject the proposal", function () {
     unitsPage.proposalBtn.click();
-    unitsPage.proposesUnitTitle.eq(0).should("be.visible");
+    unitsPage.proposesUnittenderName.eq(0).should("be.visible");
     unitsPage.unitName.invoke("text").then((unitName) => {
       unitsPage.rejectProposalBtn.click();
       unitsPage.popUpWrapper.should("be.visible");
@@ -140,7 +140,7 @@ describe("Proposal functionality", () => {
 
   it("TC-1006 verify proposal page elements", function () {
     unitsPage.proposalBtn.click();
-    unitsPage.proposesUnitTitle
+    unitsPage.proposesUnittenderName
       .eq(0)
       .should("be.visible")
       .and("have.text", this.generalMsg.suggestionsForTheAnnouncement);
@@ -152,14 +152,14 @@ describe("Proposal functionality", () => {
       const reasonForCanceledApplication = Cypress._.template(
         this.generalMsg.ListOfProposals
       )({ unitQuantity: unitsQuantity.length });
-      unitsPage.proposesUnitTitle
+      unitsPage.proposesUnittenderName
         .eq(1)
         .should("have.text", reasonForCanceledApplication);
     });
     unitsPage.backBtn.click();
     unitsPage.activeTab.should("be.visible");
     unitsPage.proposalBtn.click();
-    unitsPage.proposesUnitTitle
+    unitsPage.proposesUnittenderName
       .eq(0)
       .should("be.visible")
       .and("have.text", this.generalMsg.suggestionsForTheAnnouncement);
@@ -170,7 +170,7 @@ describe("Proposal functionality", () => {
       const reasonForCanceledApplication = Cypress._.template(
         this.generalMsg.ListOfProposals
       )({ unitQuantity: unitsQuantity.length });
-      unitsPage.proposesUnitTitle
+      unitsPage.proposesUnittenderName
         .eq(1)
         .should("have.text", reasonForCanceledApplication);
     });
@@ -178,27 +178,27 @@ describe("Proposal functionality", () => {
 
   it("TC-1007 Proposal details", function () {
     unitsPage.proposalBtn.click();
-    unitsPage.proposesUnitTitle
+    unitsPage.proposesUnittenderName
       .eq(0)
       .should("be.visible")
       .and("have.text", this.generalMsg.suggestionsForTheAnnouncement);
     unitsPage.proposalDetailedBtn.click();
-    unitsPage.proposalDetaiedTitle
+    unitsPage.proposalDetaiedtenderName
       .should("be.visible")
-      .and("have.text", this.generalMsg.proposalDetailedTitle);
+      .and("have.text", this.generalMsg.proposalDetailedtenderName);
     unitsPage.submitProposalBtn.should("be.visible");
     unitsPage.rejectProposalBtn.should("be.visible");
     unitsPage.backBtn.should("be.visible");
     unitsPage.orderDetailsLabel
       .eq(0)
-      .should("have.text", this.generalMsg.rentPeriodTitle);
+      .should("have.text", this.generalMsg.rentPeriodtenderName);
     unitsPage.orderDetailsLabel
       .eq(1)
-      .should("have.text", this.generalMsg.commentsTitle);
+      .should("have.text", this.generalMsg.commentstenderName);
     unitsPage.backBtn.click();
-    unitsPage.proposesUnitTitle.eq(0).should("be.visible");
+    unitsPage.proposesUnittenderName.eq(0).should("be.visible");
     unitsPage.proposalDetailedBtn.click();
-    unitsPage.proposalDetaiedTitle.should("be.visible");
+    unitsPage.proposalDetaiedtenderName.should("be.visible");
   });
 
   it("TC-1008 Confirm proposal in deactivation tab", function () {
@@ -207,12 +207,12 @@ describe("Proposal functionality", () => {
     cy.reload();
     unitsPage.deactivatedTab.click();
     unitsPage.proposalBtn.should("be.visible").click();
-    unitsPage.proposesUnitTitle.eq(0).should("be.visible");
+    unitsPage.proposesUnittenderName.eq(0).should("be.visible");
     unitsPage.submitProposalBtn.should("be.visible").click();
     unitsPage.popUpWrapper.should("be.visible");
     unitsPage.popupHeader.should(
       "have.text",
-      this.generalMsg.rentalOrderConfirmationPopUpTitle
+      this.generalMsg.rentalOrderConfirmationPopUptenderName
     );
     unitsPage.confirmationPopUpInfo.should(
       "have.text",
@@ -242,7 +242,7 @@ describe("Proposal functionality", () => {
     cy.reload();
     unitsPage.deactivatedTab.click();
     unitsPage.proposalBtn.click();
-    unitsPage.proposesUnitTitle.eq(0).should("be.visible");
+    unitsPage.proposesUnittenderName.eq(0).should("be.visible");
     unitsPage.unitName.invoke("text").then((unitName) => {
       unitsPage.rejectProposalBtn.click();
       unitsPage.popUpWrapper.should("be.visible");
