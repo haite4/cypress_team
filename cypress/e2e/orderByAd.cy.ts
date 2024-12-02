@@ -12,7 +12,7 @@ import {
   invalidFileFormat,
   invalidFileSize,
   createTenderDuplicatedImage,
-} from "../helper/fileData";
+} from "../constants/fileData";
 
 describe("Order by ad functionality", () => {
   beforeEach("Add unit", function () {
