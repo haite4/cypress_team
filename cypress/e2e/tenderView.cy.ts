@@ -50,8 +50,7 @@ describe("Tender view", () => {
         });
 
         cy.reload();
-        tendersPage.tabs.eq(0).click();
-        tendersPage.checkTabs(0);
+        tendersPage.activeTab.click();
         tendersPage.tenderCards.then(tender => {
             cy.wrap(tender).should("be.visible");
             tendersPage.getTenderName(cy.wrap(tender)).should("have.text", tenders[0].name);
@@ -80,8 +79,7 @@ describe("Tender view", () => {
         });
 
         cy.reload();
-        tendersPage.tabs.eq(1).click();
-        tendersPage.checkTabs(1);
+        tendersPage.closedTab.click();
         tendersPage.tenderCards.then(tender => {
             cy.wrap(tender).should("be.visible");
             tendersPage.getTenderName(cy.wrap(tender)).should("have.text", tenders[0].name);
@@ -102,8 +100,7 @@ describe("Tender view", () => {
         });
 
         cy.reload();
-        tendersPage.tabs.eq(2).click();
-        tendersPage.checkTabs(2);
+        tendersPage.pendingTab.click();
         tendersPage.tenderCards.then(tender => {
             cy.wrap(tender).should("be.visible");
             tendersPage.getTenderName(cy.wrap(tender)).should("have.text", tenders[0].name);
@@ -128,8 +125,7 @@ describe("Tender view", () => {
         });
 
         cy.reload();
-        tendersPage.tabs.eq(3).click();
-        tendersPage.checkTabs(3);
+        tendersPage.rejectedTab.click();
         tendersPage.tenderCards.then(tender => {
             cy.wrap(tender).should("be.visible");
             tendersPage.getTenderName(cy.wrap(tender)).should("have.text", tenders[0].name);

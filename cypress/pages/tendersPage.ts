@@ -1,12 +1,22 @@
-import { tabNames } from "../constants/tenderTabNames";
-
 class TendersPage {
     get tenderCards() {
         return cy.get('[class*="OwnerTenderCard_tenderCard"]');
     }
 
-    get tabs() {
-        return cy.get('[role="tablist"]').find('[role="tab"]');
+    get activeTab() {
+        return cy.contains("Активні");
+    }
+
+    get closedTab() {
+        return cy.contains("Завершені");
+    }
+
+    get pendingTab() {
+        return cy.contains("Очікуючі");
+    }
+
+    get rejectedTab() {
+        return cy.contains("Відхилені");
     }
 
     get tenderInput() {
@@ -59,20 +69,6 @@ class TendersPage {
 
     selectListItemByName(name: string) {
         return cy.get('[data-testid="item-customSelect"]').contains(name);
-    }
-
-    checkTabs(tabIndex: number) {
-        this.tabs.each((element, index) => {
-          expect(element).to.be.visible;
-          expect(element).to.have.text(tabNames[index]);
-    
-          if (index === tabIndex) {
-            expect(element).to.have.attr("aria-selected", "true");
-          }
-          else {
-            expect(element).to.have.attr("aria-selected", "false");
-          }
-        });
     }
 }
 
