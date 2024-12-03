@@ -21,6 +21,7 @@ describe("Favorite units", () => {
 
     afterEach(function () {
         if (this.currentTest.state === "failed" && unitsId.length !== 0) {
+            cy.log(`Test "${this.currentTest.title}" failed.`);
             cy.window().then(() => {
                 for (let i = 0; i < unitsId.length; ++i) {
                     unitApi.deleteUnit(unitsId[i]).then((response) => {
@@ -35,16 +36,16 @@ describe("Favorite units", () => {
         loginPage.userIcon.click();
         unitsPage.unitsInDropDownMenu.click();
         unitsPage.chosenAnnouncmentsButton.click();
-        unitsPage.emptyBlockInfotenderName
+        unitsPage.emptyBlockInfoTitle
             .should("be.visible")
             .and("have.text", this.generalMsg.noAnnouncementsMessage);
 
-    unitsPage.emptyBlockButton
-      .should("be.visible")
-      .and("have.text", this.generalMsg.announcementListMessage)
-      .click();
-    cy.url().should("include", UrlPath.PRODUCTS);
-  });
+        unitsPage.emptyBlockButton
+            .should("be.visible")
+            .and("have.text", this.generalMsg.announcementListMessage)
+            .click();
+        cy.url().should("include", UrlPath.PRODUCTS);
+    });
 
     it('TC-302 "Обрані" icon functionality', function () {
         cy.window().scrollTo("top");
@@ -60,25 +61,25 @@ describe("Favorite units", () => {
             productsPage.getFavouriteButtonsPath(cy.wrap(cards[0])).should("have.attr", "fill", Colors.CRIMSON_COLOR);
         });
 
-    loginPage.userIcon.click();
-    unitsPage.unitsInDropDownMenu.click();
-    cy.url().should("include", UrlPath.OWNER_UNITS_PAGE);
+        loginPage.userIcon.click();
+        unitsPage.unitsInDropDownMenu.click();
+        cy.url().should("include", UrlPath.OWNER_UNITS_PAGE);
 
-    unitsPage.chosenAnnouncmentsButton.click();
-    unitsPage.unitCard.should("be.visible");
-    cy.get("@cardName").then((name) => {
-      unitsPage.unitCardtenderNameText.then((text) => {
-        expect(name).to.eq(text);
-      });
-    });
+        unitsPage.chosenAnnouncmentsButton.click();
+        unitsPage.unitCard.should("be.visible");
+        cy.get("@cardName").then(name => {
+            unitsPage.unitCardNameText.then(text => {
+                expect(name).to.eq(text);
+            });
+        });
 
-    unitsPage.unitCard.then((card) => {
-      unitsPage.getUnitCardFavouriteButton(cy.wrap(card)).click();
-    });
-    unitsPage.unitCard.should("not.exist");
-    unitsPage.emptyBlockInfotenderName
-      .should("be.visible")
-      .and("have.text", this.generalMsg.noAnnouncementsMessage);
+        unitsPage.unitCard.then((card) => {
+            unitsPage.getUnitCardFavouriteButton(cy.wrap(card)).click();
+        });
+        unitsPage.unitCard.should("not.exist");
+        unitsPage.emptyBlockInfoTitle
+            .should("be.visible")
+            .and("have.text", this.generalMsg.noAnnouncementsMessage);
 
         loginPage.announcementsButton.click();
         productsPage.cardWrappers.then(cards => {
@@ -96,113 +97,108 @@ describe("Favorite units", () => {
                 favouriteUnits.add(randomValue.selectRandomValueFromArray(units.body.results));
             }
 
-      favouriteUnits.forEach((unit: { id: number }) => {
-        unitApi.addFavouriteUnit(unit.id).then((response) => {
-          expect(response.status).to.eq(201);
+            favouriteUnits.forEach((unit: { id: number }) => {
+                unitApi.addFavouriteUnit(unit.id).then((response) => {
+                    expect(response.status).to.eq(201);
+                });
+            });
         });
-      });
-    });
 
-    loginPage.userIcon.click();
-    unitsPage.unitsInDropDownMenu.click();
-    unitsPage.chosenAnnouncmentsButton.click();
-    cy.url().should("include", UrlPath.OWNER_FAVOURITE_UNITS);
+        loginPage.userIcon.click();
+        unitsPage.unitsInDropDownMenu.click();
+        unitsPage.chosenAnnouncmentsButton.click();
+        cy.url().should("include", UrlPath.OWNER_FAVOURITE_UNITS);
 
-    cy.reload();
-    unitsPage.announcemnttenderNameInput.click();
-    unitsPage.announcemnttenderNameInput.should("be.focused");
+        cy.reload();
+        unitsPage.announcementNameInput.click();
+        unitsPage.announcementNameInput.should("be.focused");
 
-    unitsPage.announcemnttenderNameInput.type("{enter}");
-    unitsPage.unitCard.should("be.visible");
+        unitsPage.announcementNameInput.type("{enter}");
+        unitsPage.unitCard.should("be.visible");
 
-    for (const spaceValue of this.generalMsg.spaces) {
-      unitsPage.announcemnttenderNameInput.type(spaceValue);
-      unitsPage.announcemnttenderNameInput.should("have.value", spaceValue);
-      if (spaceValue === "          ") break;
-      unitsPage.announcemnttenderNameInput.clear();
-    }
+        for (const spaceValue of this.generalMsg.spaces) {
+            unitsPage.announcementNameInput.type(spaceValue);
+            unitsPage.announcementNameInput.should("have.value", spaceValue);
+            if (spaceValue === "          ") break;
+            unitsPage.announcementNameInput.clear();
+        }
 
-    unitsPage.emptyBlockButton
-      .should("be.visible")
-      .and("have.text", this.generalMsg.clearFiltersButtonText)
-      .click();
-    unitsPage.unitCard.should("be.visible");
-
-    const number = "16";
-    unitsPage.announcemnttenderNameInput.type(number);
-    cy.window().then(() => {
-      const existsCard = [...favouriteUnits].some((unit: { name: string }) =>
-        unit.name.includes(number)
-      );
-      if (existsCard) {
-        unitsPage.unitCardtenderNameText.then((text) => {
-          expect(text).to.include(number);
-        });
-      } else {
-        unitsPage.emptyBlockInfotenderName
-          .should("be.visible")
-          .and("have.text", `Оголошення за назвою "${number}" не знайдені`);
         unitsPage.emptyBlockButton
-          .should("be.visible")
-          .and("have.text", this.generalMsg.clearFiltersButtonText);
-      }
-    });
-    unitsPage.announcemnttenderNameInput.clear();
-
-    const specificSymbols = ["!", "@", "#", "$", "%", "(", ")", "*"];
-    for (const symbol of specificSymbols) {
-      unitsPage.announcemnttenderNameInput.type(symbol);
-
-      cy.window().then(() => {
-        const exists = [...favouriteUnits].some((unit: { name: string }) =>
-          unit.name.includes(symbol)
-        );
-        if (exists) {
-          unitsPage.unitCardtenderNameText.then((text) => {
-            expect(text).to.include(symbol);
-          });
-        } else {
-          unitsPage.emptyBlockInfotenderName
             .should("be.visible")
-            .and("have.text", `Оголошення за назвою "${symbol}" не знайдені`);
-          unitsPage.emptyBlockButton
+            .and("have.text", this.generalMsg.clearFiltersButtonText)
+            .click();
+        unitsPage.unitCard.should("be.visible");
+
+        const number = "16";
+        unitsPage.announcementNameInput.type(number);
+        cy.window().then(() => {
+            const existsCard = [...favouriteUnits].some((unit: { name: string }) => unit.name.includes(number));
+            if (existsCard) {
+                unitsPage.unitCardNameText.then(text => {
+                    expect(text).to.include(number);
+                });
+            }
+            else {
+                unitsPage.emptyBlockInfoTitle
+                    .should("be.visible")
+                    .and("have.text", `Оголошення за назвою "${number}" не знайдені`);
+                unitsPage.emptyBlockButton
+                    .should("be.visible")
+                    .and("have.text", this.generalMsg.clearFiltersButtonText);
+            }
+        });
+        unitsPage.announcementNameInput.clear();
+
+        const specificSymbols = ['!', '@', '#', '$', '%', '(', ')', '*'];
+        for (const symbol of specificSymbols) {
+            unitsPage.announcementNameInput.type(symbol);
+
+            cy.window().then(() => {
+                const exists = [...favouriteUnits].some((unit: { name: string }) => unit.name.includes(symbol));
+                if (exists) {
+                    unitsPage.unitCardNameText.then(text => {
+                        expect(text).to.include(symbol);
+                    });
+                }
+                else {
+                    unitsPage.emptyBlockInfoTitle
+                        .should("be.visible")
+                        .and("have.text", `Оголошення за назвою "${symbol}" не знайдені`);
+                    unitsPage.emptyBlockButton
+                        .should("be.visible")
+                        .and("have.text", this.generalMsg.clearFiltersButtonText);
+                }
+            });
+
+            unitsPage.announcementNameInput.clear();
+        }
+
+        const nonExistingUnit = "тест1234567890";
+        unitsPage.announcementNameInput.type(nonExistingUnit);
+        unitsPage.emptyBlockInfoTitle
+            .should("be.visible")
+            .and("have.text", `Оголошення за назвою "${nonExistingUnit}" не знайдені`);
+        unitsPage.emptyBlockButton
             .should("be.visible")
             .and("have.text", this.generalMsg.clearFiltersButtonText);
-        }
-      });
+        unitsPage.announcementNameInput.clear();
 
-      unitsPage.announcemnttenderNameInput.clear();
-    }
+        cy.window().then(() => {
+            const unit = randomValue.selectRandomValueFromArray([...favouriteUnits]);
+            unitsPage.announcementNameInput.type(unit.name);
+            unitsPage.unitCard.should("be.visible");
+            unitsPage.unitCardNameText.then(text => {
+                expect(text).to.eq(unit.name);
+            });
+        });
 
-    const nonExistingUnit = "тест1234567890";
-    unitsPage.announcemnttenderNameInput.type(nonExistingUnit);
-    unitsPage.emptyBlockInfotenderName
-      .should("be.visible")
-      .and(
-        "have.text",
-        `Оголошення за назвою "${nonExistingUnit}" не знайдені`
-      );
-    unitsPage.emptyBlockButton
-      .should("be.visible")
-      .and("have.text", this.generalMsg.clearFiltersButtonText);
-    unitsPage.announcemnttenderNameInput.clear();
-
-    cy.window().then(() => {
-      const unit = randomValue.selectRandomValueFromArray([...favouriteUnits]);
-      unitsPage.announcemnttenderNameInput.type(unit.name);
-      unitsPage.unitCard.should("be.visible");
-      unitsPage.unitCardtenderNameText.then((text) => {
-        expect(text).to.eq(unit.name);
-      });
-    });
-
-        unitsPage.announcemnttenderNameInput.clear();
+        unitsPage.announcementNameInput.clear();
         unitsPage.clearListButton.should("be.visible").click();
         unitsPage.popupHeader
             .should("be.visible")
             .and("have.text", this.generalMsg.popupClearFavouriteUnitsHeaderMessage);
         unitsPage.popupYesButton.click();
-        unitsPage.emptyBlockInfotenderName
+        unitsPage.emptyBlockInfoTitle
             .should("be.visible")
             .and("have.text", this.generalMsg.noAnnouncementsMessage);
     });
@@ -216,106 +212,84 @@ describe("Favorite units", () => {
                 favouriteUnits.add(randomValue.selectRandomValueFromArray(units.body.results));
             }
 
-      favouriteUnits.forEach((unit: { id: number }) => {
-        unitApi.addFavouriteUnit(unit.id).then((response) => {
-          expect(response.status).to.eq(201);
+            favouriteUnits.forEach((unit: { id: number }) => {
+                unitApi.addFavouriteUnit(unit.id).then((response) => {
+                    expect(response.status).to.eq(201);
+                });
+            });
         });
-      });
-    });
 
-    loginPage.userIcon.click();
-    unitsPage.unitsInDropDownMenu.click();
-    unitsPage.chosenAnnouncmentsButton.click();
-    cy.url().should("include", UrlPath.OWNER_FAVOURITE_UNITS);
+        loginPage.userIcon.click();
+        unitsPage.unitsInDropDownMenu.click();
+        unitsPage.chosenAnnouncmentsButton.click();
+        cy.url().should("include", UrlPath.OWNER_FAVOURITE_UNITS);
 
-    cy.reload();
-    unitsPage.paginationButtons
-      .should("be.visible")
-      .and("have.length.at.least", 3);
+        cy.reload();
+        unitsPage.paginationButtons
+            .should("be.visible")
+            .and("have.length.at.least", 3);
 
-    unitsPage.unitCard.then((units) => {
-      cy.wrap(units).should("exist");
-      unitsPage.paginationPreviousButton.click();
-      unitsPage.paginationPreviousButton.should(
-        "have.attr",
-        "aria-disabled",
-        "true"
-      );
-      cy.wrap(units).should("exist");
-    });
+        unitsPage.unitCard.then((units) => {
+            cy.wrap(units).should("exist");
+            unitsPage.paginationPreviousButton.click();
+            unitsPage.paginationPreviousButton.should("have.attr", "aria-disabled", "true");
+            cy.wrap(units).should("exist");
+        });
 
-    unitsPage.paginationNextButton.click();
-    unitsPage.paginationButtons
-      .eq(1)
-      .should("have.attr", "aria-label", "Page 2 is your current page");
+        unitsPage.paginationNextButton.click();
+        unitsPage.paginationButtons.eq(1).should("have.attr", "aria-label", "Page 2 is your current page");
 
-    unitsPage.paginationNextButton.click();
-    cy.wait(500);
-    unitsPage.paginationNextButton.click();
-    unitsPage.paginationButtons
-      .eq(2)
-      .should("have.attr", "aria-label", "Page 3 is your current page");
-    unitsPage.paginationNextButton.should("have.attr", "aria-disabled", "true");
+        unitsPage.paginationNextButton.click();
+        cy.wait(500);
+        unitsPage.paginationNextButton.click();
+        unitsPage.paginationButtons.eq(2).should("have.attr", "aria-label", "Page 3 is your current page");
+        unitsPage.paginationNextButton.should("have.attr", "aria-disabled", "true");
 
-    unitsPage.paginationPreviousButton.click();
-    unitsPage.paginationButtons
-      .eq(1)
-      .should("have.attr", "aria-label", "Page 2 is your current page");
+        unitsPage.paginationPreviousButton.click();
+        unitsPage.paginationButtons.eq(1).should("have.attr", "aria-label", "Page 2 is your current page");
 
-    unitsPage.paginationPreviousButton.click();
-    cy.wait(500);
-    unitsPage.paginationPreviousButton.click();
-    unitsPage.paginationButtons
-      .eq(0)
-      .should("have.attr", "aria-label", "Page 1 is your current page");
-    unitsPage.paginationPreviousButton.should(
-      "have.attr",
-      "aria-disabled",
-      "true"
-    );
+        unitsPage.paginationPreviousButton.click();
+        cy.wait(500);
+        unitsPage.paginationPreviousButton.click();
+        unitsPage.paginationButtons.eq(0).should("have.attr", "aria-label", "Page 1 is your current page");
+        unitsPage.paginationPreviousButton.should("have.attr", "aria-disabled", "true");
 
-    pageNumber = randomValue.generateRandomNumber(1, 30);
-    const newFavouriteUnits = new Set();
-    unitApi.getUnits(pageNumber, 100).then((units) => {
-      expect(units.status).to.eq(200);
-      while (newFavouriteUnits.size < 45) {
-        const randomUnit = randomValue.selectRandomValueFromArray(
-          units.body.results
-        );
-        if (!favouriteUnits.has(randomUnit)) {
-          newFavouriteUnits.add(randomUnit);
+        pageNumber = randomValue.generateRandomNumber(1, 30);
+        const newFavouriteUnits = new Set();
+        unitApi.getUnits(pageNumber, 100).then((units) => {
+            expect(units.status).to.eq(200);
+            while (newFavouriteUnits.size < 45) {
+                const randomUnit = randomValue.selectRandomValueFromArray(units.body.results);
+                if (!favouriteUnits.has(randomUnit)) {
+                    newFavouriteUnits.add(randomUnit);
+                }
+            }
+
+            newFavouriteUnits.forEach((unit: { id: number }) => {
+                unitApi.addFavouriteUnit(unit.id).then((response) => {
+                    expect(response.status).to.eq(201);
+                });
+            });
+        });
+        cy.reload();
+
+        for (let i = 2; i <= 12; ++i) {
+            unitsPage.paginationNextButton.click();
+            unitsPage.getPaginationPageByNumber(i).should("have.attr", "aria-label", `Page ${i} is your current page`);
         }
-      }
+        unitsPage.paginationNextButton.should("have.attr", "aria-disabled", "true");
 
-      newFavouriteUnits.forEach((unit: { id: number }) => {
-        unitApi.addFavouriteUnit(unit.id).then((response) => {
-          expect(response.status).to.eq(201);
-        });
-      });
+        unitsPage.paginationButtons.eq(0).click();
+        unitsPage.paginationButtons.eq(0).should("have.attr", "aria-label", "Page 1 is your current page");
+        unitsPage.clearListButton.click();
+        unitsPage.popupHeader
+            .should("be.visible")
+            .and("have.text", this.generalMsg.popupClearFavouriteUnitsHeaderMessage);
+        unitsPage.popupYesButton.click();
+        unitsPage.emptyBlockInfoTitle
+            .should("be.visible")
+            .and("have.text", this.generalMsg.noAnnouncementsMessage);
     });
-    cy.reload();
-
-    for (let i = 2; i <= 12; ++i) {
-      unitsPage.paginationNextButton.click();
-      unitsPage
-        .getPaginationPageByNumber(i)
-        .should("have.attr", "aria-label", `Page ${i} is your current page`);
-    }
-    unitsPage.paginationNextButton.should("have.attr", "aria-disabled", "true");
-
-    unitsPage.paginationButtons.eq(0).click();
-    unitsPage.paginationButtons
-      .eq(0)
-      .should("have.attr", "aria-label", "Page 1 is your current page");
-    unitsPage.clearListButton.click();
-    unitsPage.popupHeader
-      .should("be.visible")
-      .and("have.text", this.generalMsg.popupClearFavouriteUnitsHeaderMessage);
-    unitsPage.popupYesButton.click();
-    unitsPage.emptyBlockInfotenderName
-      .should("be.visible")
-      .and("have.text", this.generalMsg.noAnnouncementsMessage);
-  });
 
     it('TC-315 "Всі категорії" dropdown menu functionality', function () {
         const favouriteUnits = [];
@@ -341,25 +315,25 @@ describe("Favorite units", () => {
                 }
             }
 
-      cy.window().then(() => {
-        favouriteUnits.forEach((unit: { id: number }) => {
-          unitApi.addFavouriteUnit(unit.id).then((response) => {
-            expect(response.status).to.eq(201);
-          });
+            cy.window().then(() => {
+                favouriteUnits.forEach((unit: { id: number }) => {
+                    unitApi.addFavouriteUnit(unit.id).then((response) => {
+                        expect(response.status).to.eq(201);
+                    });
+                });
+            });
         });
-      });
-    });
 
-    loginPage.userIcon.click();
-    unitsPage.unitsInDropDownMenu.click();
-    unitsPage.chosenAnnouncmentsButton.click();
-    cy.url().should("include", UrlPath.OWNER_FAVOURITE_UNITS);
-    cy.reload();
+        loginPage.userIcon.click();
+        unitsPage.unitsInDropDownMenu.click();
+        unitsPage.chosenAnnouncmentsButton.click();
+        cy.url().should("include", UrlPath.OWNER_FAVOURITE_UNITS);
+        cy.reload();
 
-    let unitCount: number;
-    unitsPage.unitCard.then((cards) => {
-      unitCount = cards.length;
-    });
+        let unitCount: number;
+        unitsPage.unitCard.then(cards => {
+            unitCount = cards.length;
+        });
 
         for (const categoryName of categories.categoriesDropdownListNames) {
             unitsPage.categoriesDropdownList.should("be.visible").click();
@@ -404,7 +378,7 @@ describe("Favorite units", () => {
             unitsId = [];
         });
         cy.reload();
-        unitsPage.emptyBlockInfotenderName
+        unitsPage.emptyBlockInfoTitle
             .should("be.visible")
             .and("have.text", this.generalMsg.noAnnouncementsMessage);
     });
@@ -418,45 +392,45 @@ describe("Favorite units", () => {
                 favouriteUnits.add(randomValue.selectRandomValueFromArray(units.body.results));
             }
 
-      favouriteUnits.forEach((unit: { id: number }) => {
-        unitApi.addFavouriteUnit(unit.id).then((response) => {
-          expect(response.status).to.eq(201);
+            favouriteUnits.forEach((unit: { id: number }) => {
+                unitApi.addFavouriteUnit(unit.id).then((response) => {
+                    expect(response.status).to.eq(201);
+                });
+            });
         });
-      });
+
+        loginPage.userIcon.click();
+        unitsPage.unitsInDropDownMenu.click();
+        unitsPage.chosenAnnouncmentsButton.click();
+        cy.url().should("include", UrlPath.OWNER_FAVOURITE_UNITS);
+        cy.reload();
+
+        unitsPage.clearListButton.should("be.visible").click();
+        unitsPage.popupHeader
+            .should("be.visible")
+            .and("have.text", this.generalMsg.popupClearFavouriteUnitsHeaderMessage);
+        
+        unitsPage.popupCancelButton.click();
+        unitsPage.popupHeader.should("not.exist");
+        unitsPage.unitCard.should("be.visible");
+
+        unitsPage.clearListButton.should("be.visible").click();
+        unitsPage.popupHeader
+            .should("be.visible")
+            .and("have.text", this.generalMsg.popupClearFavouriteUnitsHeaderMessage);
+        unitsPage.popupCloseIcon.click();
+        unitsPage.popupHeader.should("not.exist");
+        unitsPage.unitCard.should("be.visible");
+
+        unitsPage.clearListButton.click();
+        unitsPage.popupHeader
+            .should("be.visible")
+            .and("have.text", this.generalMsg.popupClearFavouriteUnitsHeaderMessage);
+        unitsPage.popupYesButton.click();
+        unitsPage.emptyBlockInfoTitle
+            .should("be.visible")
+            .and("have.text", this.generalMsg.noAnnouncementsMessage);
     });
-
-    loginPage.userIcon.click();
-    unitsPage.unitsInDropDownMenu.click();
-    unitsPage.chosenAnnouncmentsButton.click();
-    cy.url().should("include", UrlPath.OWNER_FAVOURITE_UNITS);
-    cy.reload();
-
-    unitsPage.clearListButton.should("be.visible").click();
-    unitsPage.popupHeader
-      .should("be.visible")
-      .and("have.text", this.generalMsg.popupClearFavouriteUnitsHeaderMessage);
-
-    unitsPage.popupCancelButton.click();
-    unitsPage.popupHeader.should("not.exist");
-    unitsPage.unitCard.should("be.visible");
-
-    unitsPage.clearListButton.should("be.visible").click();
-    unitsPage.popupHeader
-      .should("be.visible")
-      .and("have.text", this.generalMsg.popupClearFavouriteUnitsHeaderMessage);
-    unitsPage.popupCloseIcon.click();
-    unitsPage.popupHeader.should("not.exist");
-    unitsPage.unitCard.should("be.visible");
-
-    unitsPage.clearListButton.click();
-    unitsPage.popupHeader
-      .should("be.visible")
-      .and("have.text", this.generalMsg.popupClearFavouriteUnitsHeaderMessage);
-    unitsPage.popupYesButton.click();
-    unitsPage.emptyBlockInfotenderName
-      .should("be.visible")
-      .and("have.text", this.generalMsg.noAnnouncementsMessage);
-  });
 
     it('TC-745 "Пошук по назві" search field functionality 2', function () {
         const pageNumber = randomValue.generateRandomNumber(1, 100);
@@ -467,57 +441,54 @@ describe("Favorite units", () => {
                 favouriteUnits.add(randomValue.selectRandomValueFromArray(units.body.results));
             }
 
-      favouriteUnits.forEach((unit: { id: number }) => {
-        unitApi.addFavouriteUnit(unit.id).then((response) => {
-          expect(response.status).to.eq(201);
+            favouriteUnits.forEach((unit: { id: number }) => {
+                unitApi.addFavouriteUnit(unit.id).then((response) => {
+                    expect(response.status).to.eq(201);
+                });
+            });
         });
-      });
-    });
 
-    loginPage.userIcon.click();
-    unitsPage.unitsInDropDownMenu.click();
-    unitsPage.chosenAnnouncmentsButton.click();
-    cy.url().should("include", UrlPath.OWNER_FAVOURITE_UNITS);
+        loginPage.userIcon.click();
+        unitsPage.unitsInDropDownMenu.click();
+        unitsPage.chosenAnnouncmentsButton.click();
+        cy.url().should("include", UrlPath.OWNER_FAVOURITE_UNITS);
 
-    cy.reload();
-    unitsPage.announcemnttenderNameInput.click();
-    unitsPage.announcemnttenderNameInput.should("be.focused");
+        cy.reload();
+        unitsPage.announcementNameInput.click();
+        unitsPage.announcementNameInput.should("be.focused");
 
-    unitsPage.announcemnttenderNameInput.type("{enter}");
-    unitsPage.unitCard.should("be.visible");
+        unitsPage.announcementNameInput.type("{enter}");
+        unitsPage.unitCard.should("be.visible");
 
-    for (const spaceValue of this.generalMsg.spaces) {
-      unitsPage.announcemnttenderNameInput.type(spaceValue);
-      unitsPage.announcemnttenderNameInput.should("have.value", spaceValue);
-      if (spaceValue === "          ") break;
-      unitsPage.announcemnttenderNameInput.clear();
-    }
+        for (const spaceValue of this.generalMsg.spaces) {
+            unitsPage.announcementNameInput.type(spaceValue);
+            unitsPage.announcementNameInput.should("have.value", spaceValue);
+            if (spaceValue === "          ") break;
+            unitsPage.announcementNameInput.clear();
+        }
 
-    unitsPage.emptyBlockButton
-      .should("be.visible")
-      .and("have.text", this.generalMsg.clearFiltersButtonText)
-      .click();
-    unitsPage.unitCard.should("be.visible");
+        unitsPage.emptyBlockButton
+            .should("be.visible")
+            .and("have.text", this.generalMsg.clearFiltersButtonText)
+            .click();
+        unitsPage.unitCard.should("be.visible");
 
-    const nonExistingUnit = "тест1234567890";
-    unitsPage.announcemnttenderNameInput.type(nonExistingUnit);
-    unitsPage.emptyBlockInfotenderName
-      .should("be.visible")
-      .and(
-        "have.text",
-        `Оголошення за назвою "${nonExistingUnit}" не знайдені`
-      );
-    unitsPage.emptyBlockButton
-      .should("be.visible")
-      .and("have.text", this.generalMsg.clearFiltersButtonText);
-    unitsPage.announcemnttenderNameInput.clear();
+        const nonExistingUnit = "тест1234567890";
+        unitsPage.announcementNameInput.type(nonExistingUnit);
+        unitsPage.emptyBlockInfoTitle
+            .should("be.visible")
+            .and("have.text", `Оголошення за назвою "${nonExistingUnit}" не знайдені`);
+        unitsPage.emptyBlockButton
+            .should("be.visible")
+            .and("have.text", this.generalMsg.clearFiltersButtonText);
+        unitsPage.announcementNameInput.clear();
 
         unitsPage.clearListButton.click();
         unitsPage.popupHeader
             .should("be.visible")
             .and("have.text", this.generalMsg.popupClearFavouriteUnitsHeaderMessage);
         unitsPage.popupYesButton.click();
-        unitsPage.emptyBlockInfotenderName
+        unitsPage.emptyBlockInfoTitle
             .should("be.visible")
             .and("have.text", this.generalMsg.noAnnouncementsMessage);
     });
@@ -578,7 +549,7 @@ describe("Favorite units", () => {
             .should("be.visible")
             .and("have.text", this.generalMsg.popupClearFavouriteUnitsHeaderMessage);
         unitsPage.popupYesButton.click();
-        unitsPage.emptyBlockInfotenderName
+        unitsPage.emptyBlockInfoTitle
             .should("be.visible")
             .and("have.text", this.generalMsg.noAnnouncementsMessage);
 
@@ -663,7 +634,7 @@ describe("Favorite units", () => {
             .should("be.visible")
             .and("have.text", this.generalMsg.popupClearFavouriteUnitsHeaderMessage);
         unitsPage.popupYesButton.click();
-        unitsPage.emptyBlockInfotenderName
+        unitsPage.emptyBlockInfoTitle
             .should("be.visible")
             .and("have.text", this.generalMsg.noAnnouncementsMessage);
     });
@@ -741,7 +712,7 @@ describe("Favorite units", () => {
             unitsId = [];
         });
         cy.reload();
-        unitsPage.emptyBlockInfotenderName
+        unitsPage.emptyBlockInfoTitle
             .should("be.visible")
             .and("have.text", this.generalMsg.noAnnouncementsMessage);
     });
@@ -819,7 +790,7 @@ describe("Favorite units", () => {
             unitsId = [];
         });
         cy.reload();
-        unitsPage.emptyBlockInfotenderName
+        unitsPage.emptyBlockInfoTitle
             .should("be.visible")
             .and("have.text", this.generalMsg.noAnnouncementsMessage);
     });
@@ -897,7 +868,7 @@ describe("Favorite units", () => {
             unitsId = [];
         });
         cy.reload();
-        unitsPage.emptyBlockInfotenderName
+        unitsPage.emptyBlockInfoTitle
             .should("be.visible")
             .and("have.text", this.generalMsg.noAnnouncementsMessage);
     });

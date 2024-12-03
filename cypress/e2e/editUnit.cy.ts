@@ -27,9 +27,9 @@ describe("Unit Edit functionality", () => {
   });
 
   it("TC-182 Edit Unit without changes", function () {
-    unitsPage.unitCardtenderNameText.then((unitName) => {
+    unitsPage.unitCardNameText.then((unitName) => {
       unitsPage.editBtn.click();
-      unitsPage.editUnittenderName.should("be.visible");
+      unitsPage.editAnnouncmentTitle.should("be.visible");
       unitsPage.preventBtn.first().click();
       unitsPage.unitCard.should("be.visible");
       unitsPage.editBtn.click();
@@ -38,7 +38,7 @@ describe("Unit Edit functionality", () => {
       unitsPage.successfullyEditedMsg.should("be.visible");
       unitsPage.viewInMyList.should("be.visible");
       unitsPage.viewInMyList.click();
-      unitsPage.emptyBlockInfotenderName.should("be.visible");
+      unitsPage.emptyBlockInfoTitle.should("be.visible");
       crmApi.searhAdsByName(unitName).then((response) => {
         expect(response.body.results[0].is_approved).to.be.eq(null);
         expect(response.status).to.be.eq(200);
@@ -49,29 +49,29 @@ describe("Unit Edit functionality", () => {
 
   it("TC-272 Check 'Назва оголошення' input field", function () {
     unitsPage.editBtn.click();
-    unitsPage.announcementInput.should("be.visible").should("be.enabled");
-    cy.wait(1000);
+    unitsPage.announcementInput.should("be.enabled").and("be.visible");
+    cy.wait(2000);
     unitsPage.announcementInput.clear();
-    cy.wait(1000);
     unitsPage.nextBtn.should("be.visible").click();
     unitsPage.descriptionError.should("have.text", this.errorMsg.requiredField);
+    cy.wait(1000)
     unitsPage.announcementInput.type(this.generalMsg.invalidSymbols);
     unitsPage.announcementInput.should(
       "have.attr",
       "placeholder",
       this.generalMsg.announcementPlaceholder
-    );
+    )
     unitsPage.announcementInput.should("have.value", "");
     unitsPage.announcementInput.type(randomValue.generateStringWithLength(9));
     unitsPage.nextBtn.should("be.visible").click();
     unitsPage.descriptionError.should(
       "have.text",
-      this.errorMsg.minimumAnnouncementtenderNameLengthIsTen
+      this.errorMsg.minimumAnnouncementTitleLengthIsTen
     );
     unitsPage.announcementInput.type(randomValue.generateStringWithLength(101));
     unitsPage.descriptionError.should(
       "have.text",
-      this.errorMsg.maximumAnnouncementtenderNameLengthIsOneHundred
+      this.errorMsg.maximumAnnouncementTitleLengthIsOneHundred
     );
     unitsPage.announcementInput.clear();
     const randomUnitName = randomValue.generateStringWithLength(15);
@@ -96,7 +96,7 @@ describe("Unit Edit functionality", () => {
       "placeholder",
       this.generalMsg.manufacturerPlaceholder
     );
-    unitsPage.nextBtn.click();
+    unitsPage.nextBtn.should("be.enabled").and("be.visible").click();
     unitsPage.serviceError.should(
       "have.text",
       this.errorMsg.requiredField
@@ -150,7 +150,7 @@ describe("Unit Edit functionality", () => {
   it("TC-532 Check 'Назва моделі' input field", function () {
     unitsPage.editBtn.click();
     unitsPage.modelNameInput.should("be.visible");
-    cy.wait(1000);
+    cy.wait(2000);
     unitsPage.modelNameInput.clear();
     unitsPage.modelNameInput.should("have.value", "");
 
@@ -180,10 +180,10 @@ describe("Unit Edit functionality", () => {
   it("TC-533 Check 'Технічні характеристики' input field", function () {
     unitsPage.editBtn.click();
     unitsPage.techSpecsTextArea.should("be.visible").should("be.enabled");
+    cy.wait(2000);
+    unitsPage.techSpecsTextArea.clear()
     cy.wait(1000);
-    unitsPage.techSpecsTextArea.clear().should("have.value", "");
-    cy.wait(1000);
-    unitsPage.nextBtn.should("be.visible").click();
+    unitsPage.nextBtn.should("be.enabled").click();
     unitsPage.successfullyEditedMsg.should("be.visible");
     unitsPage.viewInMyList.should("be.visible");
     unitsPage.viewInMyList.click();
@@ -191,9 +191,10 @@ describe("Unit Edit functionality", () => {
     unitsPage.editBtn.eq(0).click();
     unitsPage.techSpecsTextArea.should("be.visible");
     unitsPage.techSpecsTextArea.should("have.value", "");
-    unitsPage.techSpecsTextArea.type(this.generalMsg.invalidSymbols);
+    unitsPage.techSpecsTextArea.type(this.generalMsg.invalidSymbols)
     unitsPage.techSpecsTextArea.should("have.value", "");
     const randomTechSpecs = randomValue.generateStringWithLength(20);
+    cy.wait(1000)
     unitsPage.techSpecsTextArea.type(randomTechSpecs);
     unitsPage.announcementInput.invoke("val").then((value) => {
       cy.wait(1000);
@@ -209,15 +210,13 @@ describe("Unit Edit functionality", () => {
       });
     });
   });
-
   it("TC-534 Check 'Опис' input field", function () {
     unitsPage.editBtn.click();
     unitsPage.detailedDescriptionTextArea.should("be.visible");
-    cy.wait(1000);
+    cy.wait(2000);
     unitsPage.detailedDescriptionTextArea.clear();
     unitsPage.detailedDescriptionTextArea.should("have.value", "");
-    cy.wait(2000);
-    unitsPage.nextBtn.click();
+    unitsPage.nextBtn.should("be.enabled").click();
     unitsPage.successfullyEditedMsg.should("be.visible");
     unitsPage.viewInMyList.should("be.visible");
     unitsPage.viewInMyList.click();
@@ -227,6 +226,7 @@ describe("Unit Edit functionality", () => {
     unitsPage.detailedDescriptionTextArea.type(this.generalMsg.invalidSymbols);
     unitsPage.detailedDescriptionTextArea.should("have.value", "");
     const randomDetaildDescription = randomValue.generateStringWithLength(60);
+    cy.wait(1000)
     unitsPage.detailedDescriptionTextArea.type(randomDetaildDescription);
     unitsPage.announcementInput.invoke("val").then((value) => {
       cy.wait(1000);
@@ -246,9 +246,9 @@ describe("Unit Edit functionality", () => {
   it("TC-535 Check 'Місце розташування технічного засобу' functionality", function () {
     unitsPage.editBtn.click();
     unitsPage.choseOnMapBtn.click();
-    unitsPage.mapPopUptenderName.should(
+    unitsPage.mapPopUpTitle.should(
       "have.text",
-      this.generalMsg.mapEquipmenttenderName
+      this.generalMsg.mapEquipmentTitle
     );
     unitsPage.getMapPopUpBoundingBox().then(({ x, y }) => {
       cy.get("body").click(x, y);

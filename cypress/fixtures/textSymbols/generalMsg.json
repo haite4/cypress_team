@@ -8,7 +8,7 @@
   "announcementPlaceholder": "Введіть назву оголошення",
   "manufacturerPlaceholder": "Введіть виробника транспортного засобу",
   "vehicleManufacturerName": "AGCO",
-  "mapEquipmenttenderName": "Техніка на мапі",
+  "mapEquipmentTitle": "Техніка на мапі",
   "city": "Київ",
   "country": "Україна",
   "region": "Київська область",
@@ -31,5 +31,6 @@
   "commentstenderName": "Коментар",
   "editTendertenderName": "Редагування тендера",
   "cleaning": "прибирання",
-  "viewIntendersDropdownButton": "Переглянути в моїх тендерах"
+  "viewIntendersDropdownButton": "Переглянути в моїх тендерах",
+  "rentalOrderConfirmationPopUpTitle": "Підтвердження замовлення на оренду техніки"
 }

@@ -22,5 +22,7 @@
     "lastNameValidationError": "Прізвище має містити щонайменше дві літери",
     "personInfoMaxCharacters": "Введіть не більше 25 символів",
     "firstNameValidationError": "Ім'я має містити щонайменше дві літери",
-    "errorInvalidPhone": "Введіть коректний мобільний номер телефону"
+    "errorInvalidPhone": "Введіть коректний мобільний номер телефону",
+    "minimumAnnouncementTitleLengthIsTen": "У назві оголошення повинно бути не менше 10 символів",
+    "maximumAnnouncementTitleLengthIsOneHundred": "У назві оголошення може бути не більше 100 символів"
 }

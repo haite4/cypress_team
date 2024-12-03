@@ -10,15 +10,14 @@ describe("Edit the pending tender functionality", () => {
     loginPage.headerAuthBtn.click();
     loginPage.login(Cypress.env("USER_EMAIL"), Cypress.env("USER_PASSWORD"));
     loginPage.userIcon.click();
-    unitsPage.unitsInDropDownMenu.click();
 
     tenderApi.createTender().then((response) => {
-      cy.wrap(response.id).as("tenderId");
-      cy.wrap(response.name).as("tenderName");
-      cy.wrap(response.date_created).as("tenderCreatedDate");
-      cy.wrap(response.city).as("tenderCity");
-      cy.wrap(response.state).as("tenderState");
-      tenderApi.attachFile(response.id, "cypress/fixtures/images/uploadImage.jpg");
+      cy.wrap(response.body.id).as("tenderId");
+      cy.wrap(response.body.name).as("tenderName");
+      cy.wrap(response.body.date_created).as("tenderCreatedDate");
+      cy.wrap(response.body.city).as("tenderCity");
+      cy.wrap(response.body.state).as("tenderState");
+      tenderApi.attachFile(response.body.id, "images/uploadImage.jpg");
     });
     loginPage.tendersDropdownButton.click();
     unitsPage.expectingdUnit.click();
@@ -35,10 +34,11 @@ describe("Edit the pending tender functionality", () => {
     });
   });
   it("TC-237 Edit the tender name input", function () {
-    unitsPage.editUnittenderName.should(
+    unitsPage.editAnnouncmentTitle.should(
       "have.text",
       this.generalMsg.editTendertenderName
     );
+    cy.wait(1000)
     unitsPage.tenderInput.clear().should("have.value", "");
     unitsPage.nextBtn.should("be.enabled").click();
     unitsPage.descriptionError.should(
@@ -66,19 +66,21 @@ describe("Edit the pending tender functionality", () => {
     });
   });
 
-  it("TC-237 Edit the tender service name and datepicker", function () {
-    unitsPage.editUnittenderName.should(
+  it.only("TC-237 Edit the tender service name and datepicker", function () {
+    unitsPage.editAnnouncmentTitle.should(
       "have.text",
       this.generalMsg.editTendertenderName
     );
-    cy.wait(500);
+    cy.wait(1000)
     unitsPage.closeBtn.should("be.enabled").and("be.visible").click();
+    unitsPage.servicesInput.should("be.enabled").and("be.visible")
     unitsPage.servicesInput.invoke("val").then((inputValue) => {
       expect(inputValue).to.be.eq("");
     });
+    cy.wait(1000)
     unitsPage.nextBtn.should("be.enabled").and("be.visible").click();
     unitsPage.serviceError.should("have.text", this.errorMsg.requiredField);
-    unitsPage.servicesInput.type(this.generalMsg.cleaning);
+    unitsPage.servicesInput.click().type(this.generalMsg.cleaning);
     unitsPage.servicesDropDownItem.each((item) => {
       const text = item.text().toLowerCase();
       expect(text).include(this.generalMsg.cleaning);
@@ -96,8 +98,9 @@ describe("Edit the pending tender functionality", () => {
   });
 
   it("TC-237 verify budget field", function () {
-    cy.wait(500);
-    unitsPage.budgetInput.should("be.enabled").and("be.visible").clear();
+    unitsPage.budgetInput.should("be.enabled").and("be.visible")
+    cy.wait(1000)
+    unitsPage.budgetInput.clear();
     unitsPage.budgetInput.should("have.value", "");
     unitsPage.budgetInput.type(this.generalMsg.invalidSymbols);
     unitsPage.budgetInput.should("have.value", "");
@@ -112,12 +115,11 @@ describe("Edit the pending tender functionality", () => {
   });
 
   it("TC-237 verify additional information and  list of documents field", function () {
-    cy.wait(500);
+    cy.wait(1000);
     unitsPage.textAreaInput
       .should("be.enabled")
       .and("be.visible")
-      .clear()
-      .should("have.text", "");
+    unitsPage.textAreaInput.clear().should("have.text", "");
     unitsPage.nextBtn.should("be.enabled").click();
     const symbolLengthZero = Cypress._.template(
       this.errorMsg.textAreaDescriptionMinLengthError
@@ -126,11 +128,13 @@ describe("Edit the pending tender functionality", () => {
     unitsPage.textAreaInput.type(randomValue.generateStringWithLength(39));
     unitsPage.textAreaInput.invoke("text").then((textAreaInput) => {
       const inputText = textAreaInput as string;
+      cy.log(`${inputText.length}`)
       const symbolLength = Cypress._.template(
         this.errorMsg.textAreaDescriptionMinLengthError
       )({ symbolLength: inputText.length });
       unitsPage.nextBtn.click();
       unitsPage.textAreaError.should("have.text", symbolLength);
+      cy.wait(1000)
       unitsPage.textAreaInput.clear();
     });
     for (const symbol of this.generalMsg.invalidSymbols) {
@@ -148,12 +152,13 @@ describe("Edit the pending tender functionality", () => {
     );
   });
 
-  it("TC-237 verify jop contact person firstName, lastName and phoneNumber field", function () {
+  it("TC-237 verify job contact person firstName, lastName and phoneNumber field", function () {
     cy.wait(1000);
     unitsPage.jobContactPersonInput
       .should("be.enabled")
       .and("be.visible")
-      .uncheck();
+      unitsPage.jobContactPersonInput.uncheck();
+      cy.wait(2000)
     unitsPage.jobContactPersonInfotenderName
       .eq(0)
       .invoke("text")

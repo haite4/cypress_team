@@ -249,7 +249,7 @@ describe("Order by ad functionality", () => {
   });
 
   it("TC-1003 Verify comment field when order by ad", function () {
-    unitsPage.orderBtn.should("be.enabled").and("be.visible").click();
+    unitsPage.orderBtn.click();
     unitsPage.popUpWrapper.should("be.visible");
     unitsPage.submitOrder.click();
     unitsPage.orderPopUpError

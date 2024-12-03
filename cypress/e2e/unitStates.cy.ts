@@ -31,7 +31,7 @@ describe("Unit Edit functionality", () => {
 
   it("TC-278 Deactivation of an active unit.", function () {
     unitsPage.deactivateBtn.should("be.visible");
-    unitsPage.unitCardtenderNameText.then((unitName) => {
+    unitsPage.unitCardNameText.then((unitName) => {
       unitsPage.deactivateBtn.click();
       unitsPage.popUpWrapper.should("be.visible");
       unitsPage.popUpCloseIcon.click();
@@ -65,7 +65,7 @@ describe("Unit Edit functionality", () => {
     unitsPage.deactivatedTab.should("be.visible");
     unitsPage.deactivatedTab.click();
     unitsPage.activateBtn.should("be.visible");
-    unitsPage.unitCardtenderNameText.then((unitName) => {
+    unitsPage.unitCardNameText.then((unitName) => {
       unitsPage.activateBtn.click();
       unitsPage.popUpWrapper.should("be.visible");
       unitsPage.popUpCloseIcon.click();
@@ -128,7 +128,7 @@ describe("Unit Edit functionality", () => {
       unitsPage.deleteBtn.click();
       unitsPage.popUpCancelBtn.click();
       unitsPage.deleteBtn.should("be.visible");
-      unitsPage.unitCardtenderNameText.then((unitName) => {
+      unitsPage.unitCardNameText.then((unitName) => {
         unitsPage.deleteBtn.click();
         unitsPage.popUpAgreementBtn.click();
         unitsPage.notificationPopUpDescription.should(
@@ -171,7 +171,7 @@ describe("Unit Edit functionality", () => {
           unitsPage.rejectedTabs.click();
           break;
       }
-      unitsPage.unitCardtenderNameText.then((unitName) => {
+      unitsPage.unitCardNameText.then((unitName) => {
         unitsPage.unitName.click();
         cy.wait(1000);
         unitsPage.deleteBtn.click();

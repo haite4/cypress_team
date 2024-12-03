@@ -49,7 +49,7 @@ class CrmApi extends ApiHelper {
   searchTenderById(tenderId: number){
     return super.createAdminJwtToken().then((token) => {
       const url = `${Cypress.env("BASE_URL")}${
-        Endpoints.API_CRM_TENDERS
+        Endpoints.API_MODERATE_TENDERS
       }?search=${tenderId}`;
       return this.makeRequest("GET", url, token);
     });

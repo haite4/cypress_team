@@ -48,7 +48,7 @@ class UnitsPage {
       .contains("Редагувати");
   }
 
-  get editUnittenderName() {
+  get editUnitTenderName() {
     return cy.get('[class*="CreateEditFlowLayout_tenderName"]');
   }
 
@@ -56,12 +56,20 @@ class UnitsPage {
     return cy.get('[data-testid="prevButton"]');
   }
 
+    get editAnnouncmentTitle() {
+    return cy.get('[class*="CreateEditFlowLayout_title"]');
+  }
+
   get nextBtn() {
     return cy.get('[data-testid="nextButton"]');
   }
 
-  get successfullyEditedMsg() {
+  get successfullyEditTenderMsg() {
     return cy.get("[class*=SuccessfullyCreatedPage_finishtenderName]");
+  }
+
+  get successfullyEditedMsg() {
+    return cy.get("[class*=SuccessfullyCreatedPage_finishTitle]");
   }
 
   get viewInMyList() {
@@ -74,6 +82,10 @@ class UnitsPage {
 
   get emptyBlockButton() {
     return cy.get('[data-testid="emptyBlockButton"]');
+  }
+
+  get emptyBlockInfoTitle() {
+    return cy.get('[class*="EmptyBlockInfo_title"]');
   }
 
   get clearListButton() {
@@ -96,7 +108,7 @@ class UnitsPage {
     return cy.get('[data-testid="closeIcon"]');
   }
 
-  get unitCardtenderNameText() {
+  get unitCardNameText() {
     return cy.get('[class*="OwnerUnitCard_name"]').invoke("text");
   }
 
@@ -112,12 +124,20 @@ class UnitsPage {
     );
   }
 
-  get announcemnttenderNameInput() {
+  get announcementNameInput() {
     return cy.get('[data-testid="input"][placeholder="Заголовок оголошення"]');
   }
 
   get descriptionError() {
     return cy.get('[data-testid="descriptionError"]');
+  }
+
+  get proposesUnitTitle(){
+    return cy.get('[class*="ProposesToOwnerUnit_title"]')
+  }
+
+  get proposalDetaiedTitle(){
+    return cy.get('[class*="OrderDetails_title"]')
   }
 
   get closeBtn() {
@@ -146,6 +166,10 @@ class UnitsPage {
 
   get techSpecsTextArea() {
     return cy.get('[data-testid="textarea-customTextAriaDescription"]').eq(0);
+  }
+
+  get mapPopUpTitle() {
+    return cy.get('[class*="MapPopup_title"]');
   }
 
   get detailedDescriptionTextArea() {
@@ -475,11 +499,11 @@ class UnitsPage {
   }
 
   get jobContactPersonInfotenderName() {
-    return cy.get('[class*="CustomValidInput_tenderName"]');
+    return cy.get('[class*="CustomValidInput_title"]');
   }
 
   get jobContactPersonInfoPhonetenderName() {
-    return cy.get('[class*="OperatorForm_tenderName"]');
+    return cy.get('[class*="OperatorForm_title"]');
   }
 
   get jobContactPersonInfoError() {

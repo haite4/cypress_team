@@ -35,7 +35,7 @@ class TenderApi extends ApiHelper {
             currency: randomValue.selectRandomValueFromArray(MoneyCurrency),
             type_of_work: "HOUR",
             time_of_work: "EIGHT",
-            services: serviceId,
+            services: [serviceId],
             start_propose_date: startProposalDate.toISOString(),
             end_propose_date: endProposalDate.toISOString(),
             start_tender_date: startTenderDate.toISOString(),
@@ -43,7 +43,7 @@ class TenderApi extends ApiHelper {
           },
         })
         .then((response) => {
-          return response.body;
+          return response;
         });
     });
   }

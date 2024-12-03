@@ -18,10 +18,10 @@ class UnitApi extends ApiHelper {
           },
           body: {
             category: unitCategory,
-            name: randomValue.generateStringWithLength(10),
+            name: randomValue.generateStringWithLength(12),
             manufacturer: 10,
-            model_name: randomValue.generateStringWithLength(10),
-            features: randomValue.generateStringWithLength(10),
+            model_name: randomValue.generateStringWithLength(12),
+            features: randomValue.generateStringWithLength(12),
             description: randomValue.generateStringWithLength(100),
             lat: 50.46013446353369,
             lng: 30.46777478959968,
