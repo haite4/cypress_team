@@ -66,7 +66,7 @@ describe("Edit the pending tender functionality", () => {
     });
   });
 
-  it.only("TC-237 Edit the tender service name and datepicker", function () {
+  it("TC-237 Edit the tender service name and datepicker", function () {
     unitsPage.editAnnouncmentTitle.should(
       "have.text",
       this.generalMsg.editTendertenderName
