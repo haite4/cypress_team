@@ -30,7 +30,7 @@ describe("Edit the pending tender functionality", () => {
 
   afterEach("Delete tender", function () {
     tenderApi.closeTender(this.tenderId).then((response) => {
-      tenderApi.deleteTender(response.id);
+      tenderApi.deleteTender(response.body.id);
     });
   });
   it("TC-237 Edit the tender name input", function () {

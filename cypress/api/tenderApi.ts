@@ -135,7 +135,7 @@ class TenderApi extends ApiHelper {
           is_closed: true,
         },
       }).then((response) => {
-        return response.body
+        return response
       });
     });
   }
