@@ -6,7 +6,7 @@ import randomValue from "../helper/randomValue";
 import crmApi from "../api/crmApi";
 import { UrlPath } from "../constants/enumUrlPaths";
 import { Colors } from "../constants/colors";
-import { sortDropdownListNames } from "../constants/sortNames";
+import { sortingDropdownListNames } from "../constants/sortNames";
 import * as categories from "../constants/unitCategoriesNames";
 
 describe("Favorite units", () => {
@@ -68,7 +68,7 @@ describe("Favorite units", () => {
         unitsPage.chosenAnnouncmentsButton.click();
         unitsPage.unitCard.should("be.visible");
         cy.get("@cardName").then(name => {
-            unitsPage.unitCardTitleText.then(text => {
+            unitsPage.unitCardNameText.then(text => {
                 expect(name).to.eq(text);
             });
         });
@@ -110,17 +110,17 @@ describe("Favorite units", () => {
         cy.url().should("include", UrlPath.OWNER_FAVOURITE_UNITS);
 
         cy.reload();
-        unitsPage.announcemntTitleInput.click();
-        unitsPage.announcemntTitleInput.should("be.focused");
+        unitsPage.announcementNameInput.click();
+        unitsPage.announcementNameInput.should("be.focused");
 
-        unitsPage.announcemntTitleInput.type("{enter}");
+        unitsPage.announcementNameInput.type("{enter}");
         unitsPage.unitCard.should("be.visible");
 
         for (const spaceValue of this.generalMsg.spaces) {
-            unitsPage.announcemntTitleInput.type(spaceValue);
-            unitsPage.announcemntTitleInput.should("have.value", spaceValue);
+            unitsPage.announcementNameInput.type(spaceValue);
+            unitsPage.announcementNameInput.should("have.value", spaceValue);
             if (spaceValue === "          ") break;
-            unitsPage.announcemntTitleInput.clear();
+            unitsPage.announcementNameInput.clear();
         }
 
         unitsPage.emptyBlockButton
@@ -130,11 +130,11 @@ describe("Favorite units", () => {
         unitsPage.unitCard.should("be.visible");
 
         const number = "16";
-        unitsPage.announcemntTitleInput.type(number);
+        unitsPage.announcementNameInput.type(number);
         cy.window().then(() => {
             const existsCard = [...favouriteUnits].some((unit: { name: string }) => unit.name.includes(number));
             if (existsCard) {
-                unitsPage.unitCardTitleText.then(text => {
+                unitsPage.unitCardNameText.then(text => {
                     expect(text).to.include(number);
                 });
             }
@@ -147,16 +147,16 @@ describe("Favorite units", () => {
                     .and("have.text", this.generalMsg.clearFiltersButtonText);
             }
         });
-        unitsPage.announcemntTitleInput.clear();
+        unitsPage.announcementNameInput.clear();
 
         const specificSymbols = ['!', '@', '#', '$', '%', '(', ')', '*'];
         for (const symbol of specificSymbols) {
-            unitsPage.announcemntTitleInput.type(symbol);
+            unitsPage.announcementNameInput.type(symbol);
 
             cy.window().then(() => {
                 const exists = [...favouriteUnits].some((unit: { name: string }) => unit.name.includes(symbol));
                 if (exists) {
-                    unitsPage.unitCardTitleText.then(text => {
+                    unitsPage.unitCardNameText.then(text => {
                         expect(text).to.include(symbol);
                     });
                 }
@@ -170,29 +170,29 @@ describe("Favorite units", () => {
                 }
             });
 
-            unitsPage.announcemntTitleInput.clear();
+            unitsPage.announcementNameInput.clear();
         }
 
         const nonExistingUnit = "тест1234567890";
-        unitsPage.announcemntTitleInput.type(nonExistingUnit);
+        unitsPage.announcementNameInput.type(nonExistingUnit);
         unitsPage.emptyBlockInfoTitle
             .should("be.visible")
             .and("have.text", `Оголошення за назвою "${nonExistingUnit}" не знайдені`);
         unitsPage.emptyBlockButton
             .should("be.visible")
             .and("have.text", this.generalMsg.clearFiltersButtonText);
-        unitsPage.announcemntTitleInput.clear();
+        unitsPage.announcementNameInput.clear();
 
         cy.window().then(() => {
             const unit = randomValue.selectRandomValueFromArray([...favouriteUnits]);
-            unitsPage.announcemntTitleInput.type(unit.name);
+            unitsPage.announcementNameInput.type(unit.name);
             unitsPage.unitCard.should("be.visible");
-            unitsPage.unitCardTitleText.then(text => {
+            unitsPage.unitCardNameText.then(text => {
                 expect(text).to.eq(unit.name);
             });
         });
 
-        unitsPage.announcemntTitleInput.clear();
+        unitsPage.announcementNameInput.clear();
         unitsPage.clearListButton.should("be.visible").click();
         unitsPage.popupHeader
             .should("be.visible")
@@ -454,17 +454,17 @@ describe("Favorite units", () => {
         cy.url().should("include", UrlPath.OWNER_FAVOURITE_UNITS);
 
         cy.reload();
-        unitsPage.announcemntTitleInput.click();
-        unitsPage.announcemntTitleInput.should("be.focused");
+        unitsPage.announcementNameInput.click();
+        unitsPage.announcementNameInput.should("be.focused");
 
-        unitsPage.announcemntTitleInput.type("{enter}");
+        unitsPage.announcementNameInput.type("{enter}");
         unitsPage.unitCard.should("be.visible");
 
         for (const spaceValue of this.generalMsg.spaces) {
-            unitsPage.announcemntTitleInput.type(spaceValue);
-            unitsPage.announcemntTitleInput.should("have.value", spaceValue);
+            unitsPage.announcementNameInput.type(spaceValue);
+            unitsPage.announcementNameInput.should("have.value", spaceValue);
             if (spaceValue === "          ") break;
-            unitsPage.announcemntTitleInput.clear();
+            unitsPage.announcementNameInput.clear();
         }
 
         unitsPage.emptyBlockButton
@@ -474,14 +474,14 @@ describe("Favorite units", () => {
         unitsPage.unitCard.should("be.visible");
 
         const nonExistingUnit = "тест1234567890";
-        unitsPage.announcemntTitleInput.type(nonExistingUnit);
+        unitsPage.announcementNameInput.type(nonExistingUnit);
         unitsPage.emptyBlockInfoTitle
             .should("be.visible")
             .and("have.text", `Оголошення за назвою "${nonExistingUnit}" не знайдені`);
         unitsPage.emptyBlockButton
             .should("be.visible")
             .and("have.text", this.generalMsg.clearFiltersButtonText);
-        unitsPage.announcemntTitleInput.clear();
+        unitsPage.announcementNameInput.clear();
 
         unitsPage.clearListButton.click();
         unitsPage.popupHeader
@@ -594,7 +594,7 @@ describe("Favorite units", () => {
         cy.url().should("include", UrlPath.OWNER_FAVOURITE_UNITS);
         cy.reload();
         
-        for (const sortName of sortDropdownListNames) {
+        for (const sortName of sortingDropdownListNames) {
             unitsPage.sortingDropdownList.should("be.visible").click();
             unitsPage.selectListItemByName(sortName).should("be.visible").click();
             unitsPage.unitCard.then(units => {

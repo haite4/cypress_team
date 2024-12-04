@@ -7,18 +7,18 @@ class LoginPage {
     return cy.get("#email");
   }
 
-  get submitBtn() {
+  get submitProposalBtn() {
     return cy
-      .get('button[class*="ItemButtons_darkBlueRoundBtn"]')
+      .get('button[type="submit"]')
       .contains("Увійти");
+  }
+  
+  get announcementsButton() {
+    return cy.get('[class*="Navbar_navigation"]').find('[href="/products/"]');
   }
 
   get headerAuthBtn() {
     return cy.get('[class*="NavbarAuthBlock_buttonEnter"]');
-  }
-
-  get announcementsButton() {
-    return cy.get('[class*="Navbar_navigation"]').find('[href="/products/"]');
   }
 
   get userIcon() {
@@ -32,18 +32,18 @@ class LoginPage {
     return this.profileDropdownMenuContainer.find('[data-testid="tenders"]');
   }
 
-  get logoutButton() {
-    return this.profileDropdownMenuContainer.find('[data-testid="logout"]');
-  }
-
   get profileDropdownEmail() {
     return cy.get('[class*="ProfileDropdownMenu_email"]');
+  }
+
+  get logoutBtn(){
+    return cy.get('[data-testid="logout"]')
   }
 
   login(email: string, password: string) {
     this.loginEmailInput.type(email);
     this.loginPasswordInput.type(password);
-    this.submitBtn.click();
+    this.submitProposalBtn.click();
   }
 }
 
