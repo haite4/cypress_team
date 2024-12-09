@@ -36,6 +36,10 @@ class LoginPage {
     return cy.get('[class*="ProfileDropdownMenu_email"]');
   }
 
+  get announcementsButton() {
+    return cy.get('[class*="Navbar_navigation"]').find('[href="/products/"]');
+  }
+
   login(email: string, password: string) {
     this.loginEmailInput.type(email);
     this.loginPasswordInput.type(password);
