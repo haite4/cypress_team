@@ -22,6 +22,10 @@ class UnitsPage {
     return cy.get('[data-testid="div_CustomSelect"]').first();
   }
 
+  get sortingDropdownList() {
+    return cy.get('[data-testid="div_CustomSelect"]').last();
+  }
+  
   get unitsInDropDownMenu() {
     return cy.get(`[data-testid="units"]`);
   }
@@ -228,6 +232,14 @@ class UnitsPage {
     return card.find('[data-testid="favourite"]');
   }
 
+  getUnitCardName(card: Cypress.Chainable) {
+    return card.find('[class*="OwnerUnitCard_name"]');
+  }
+
+  getUnitCardCreationDate(card: Cypress.Chainable) {
+    return card.find('[class*="OwnerUnitCard_dateWithDot"] div').last();
+  }
+
   getUnitCardCategory(card: Cypress.Chainable) {
     return card.find('[class*="OwnerUnitCard_category"]');
   }
@@ -236,7 +248,7 @@ class UnitsPage {
     return cy.get('[class*="Pagination_page"]').contains(number);
   }
 
-  selectCategoryItemByName(name: string) {
+  selectListItemByName(name: string) {
     return cy.get('[data-testid="item-customSelect"]').contains(name);
   }
 
