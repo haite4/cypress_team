@@ -7,9 +7,9 @@ class LoginPage {
     return cy.get("#email");
   }
 
-  get submitProposalBtn() {
+  get submitBtn() {
     return cy
-      .get('button[class*="ItemButtons_DARKBLUERoundBtn"]')
+      .get('button[class*="ItemButtons_darkBlueRoundBtn"]')
       .contains("Увійти");
   }
 
@@ -39,7 +39,7 @@ class LoginPage {
   login(email: string, password: string) {
     this.loginEmailInput.type(email);
     this.loginPasswordInput.type(password);
-    this.submitProposalBtn.click();
+    this.submitBtn.click();
   }
 }
 
