@@ -255,7 +255,7 @@ describe("Unit Edit functionality", () => {
     });
     cy.wait(3000);
     unitsPage.selectedAdress.invoke("text").then((address) => {
-      unitsPage.mapPopUpSubmitBtn.click();
+      unitsPage.mapPopUpsubmitProposalBtn.click();
       unitsPage.mapPopUp.should("not.exist");
       unitsPage.mapLabel.should("have.text", address);
       cy.wait(2000);

@@ -4,6 +4,7 @@ import productsPage from "../pages/productsPage";
 import unitApi from "../api/unitApi";
 import randomValue from "../helper/randomValue";
 import crmApi from "../api/crmApi";
+import page from "../pages/page"
 import { UrlPath } from "../constants/enumUrlPaths";
 import { Colors } from "../constants/colors";
 import { sortDropdownListNames } from "../constants/sortNames";
@@ -49,7 +50,7 @@ describe("Favorite units", () => {
 
     it('TC-302 "Обрані" icon functionality', function () {
         cy.window().scrollTo("top");
-        loginPage.announcementsButton.click();
+        page.announcementLink.click();
         cy.url().should("include", UrlPath.PRODUCTS);
 
         productsPage.cardWrappers.then(cards => {
@@ -81,7 +82,7 @@ describe("Favorite units", () => {
             .should("be.visible")
             .and("have.text", this.generalMsg.noAnnouncementsMessage);
 
-        loginPage.announcementsButton.click();
+            page.announcementLink.click();
         productsPage.cardWrappers.then(cards => {
             cy.wrap(cards[0]).scrollIntoView();
             productsPage.getFavouriteButtonsPath(cy.wrap(cards[0])).should("not.have.attr", "fill", Colors.CRIMSON_COLOR);

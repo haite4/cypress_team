@@ -11,5 +11,21 @@
   "mapEquipmentTitle": "Техніка на мапі",
   "city": "Київ",
   "country": "Україна",
-  "region": "Київська область"
+  "region": "Київська область",
+  "orderEquipment": "Замовити техніку",
+  "fileUploadInstructions": "Виберіть до 5 файлів або перетягніть їх сюди",
+  "fileUploadInfo": "Файли до 20 MB в форматі jpg, jpeg, png, pdf, doc, docx, xls, xlsx, gif",
+  "addCommentForProposal": "Додайте коментар до Вашої пропозиції",
+  "rentalOrderConfirmationPopUpTitle": "Підтвердження замовлення на оренду техніки",
+  "confirmationPopUpInfo": "Після підтвердження дане замовлення не можна буде скасувати самостійно.При винекненні запитань звертайтесь до нашої служби підтримки.",
+  "rejectRentalProposal": "Відхилення заявки на оренду техніки",
+  "writeYourOwnVersion": "Напишіть свій варіант",
+  "canceledReason": ["Техніка в даний період не доступна", "Змінилась ціна надання послуги", "Інша причина", "Свій варіант"],
+  "ownVariant": "Свій варіант",
+  "suggestionsForTheAnnouncement": "Пропозиції по оголошенню",
+  "reasonForCanceledApplication": "Вкажіть причину відхилення заявки на оренду ${unitName} *",
+  "ListOfProposals": "Перелік пропозицій (${unitQuantity})",
+  "proposalDetailedTitle": "Деталі пропозиції",
+  "rentPeriodTitle": "Період оренди",
+  "commentsTitle": "Коментар"
 }
