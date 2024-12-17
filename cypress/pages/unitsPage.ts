@@ -388,6 +388,46 @@ class UnitsPage {
     return cy.get('[class*="CancelOrderPopup_error"]')
   }
 
+  get createTenderDocumentationTab(){
+    return cy.get("button").contains("Документація")
+  }
+
+  get tenderDocumentChoosingHeader(){
+    return cy.get('[class*="DocumentsChoosing_header"]')
+  }
+
+  get documentChoosingText1(){
+    return cy.get('[class*="DocumentsChoosing_text1"]')
+  }
+
+  get documentChoosingText2(){
+    return cy.get('[class*="DocumentsChoosing_text2"]')
+  }
+
+  get createTenderDocumentFileChoosingInput(){
+    return cy.get('[class*="DocumentsChoosing_inputWrapper"] input')
+  }
+
+  get createTenderDocumentSelectedFileWrapper(){
+    return cy.get('[class*="DocumentsChoosing_documentsWrapper"]')
+  }
+
+  get createTenderDeleteFileRedBucketIcon(){
+    return cy.get('[data-testid="deleteFile"]')
+  }
+
+  get navigationTabs(){
+    return cy.get('[class*="MuiTabs-flexContainer"] button')
+  }
+
+  get createTenderDocumentChoosingError(){
+    return cy.get('[class*="DocumentsChoosing_errorTextVisible"]')
+  }
+
+  get createTenderSelectedFile(){
+    return cy.get('[class*="DocumentsChoosing_flex"]')
+  }
+
   createApprovedUnit() {
     return unitApi.createUnit().then((data) => {
       return unitApi.createUnitImages(data.id).then(() => {

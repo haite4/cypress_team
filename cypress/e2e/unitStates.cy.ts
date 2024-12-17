@@ -62,7 +62,7 @@ describe("Unit Edit functionality", () => {
     unitsPage.deactivateBtn.click();
     unitsPage.popUpAgreementBtn.click();
     unitsPage.notificationPopUpCrossIcon.click();
-    unitsPage.deactivatedTab.should("be.visible")
+    unitsPage.deactivatedTab.should("be.visible");
     unitsPage.deactivatedTab.click();
     unitsPage.activateBtn.should("be.visible");
     unitsPage.unitCardTitleText.then((unitName) => {
@@ -81,7 +81,7 @@ describe("Unit Edit functionality", () => {
       unitsPage.emptyBlockInfoTitle.should("be.visible");
       unitsPage.notificationPopUpCrossIcon.click();
       unitsPage.notificationPopUpDescription.should("not.exist");
-      unitsPage.activeTab.should('be.visible')
+      unitsPage.activeTab.should("be.visible");
       unitsPage.activeTab.click();
       unitsPage.unitName.should("have.text", unitName);
       crmApi.searhAdsByName(unitName).then((response) => {
