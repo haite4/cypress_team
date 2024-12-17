@@ -2,16 +2,6 @@
   "scripts": {
     "cy:open": "npx cypress open",
     "cy:all": "npx cypress run --browser chrome",
-    "cy:createUnit:headless": "npx cypress run --spec cypress/e2e/createUnitApi.cy.ts --browser chrome",
-    "cy:createUnit:headed": "npx cypress run --spec cypress/e2e/createUnitApi.cy.ts --browser chrome --headed",
-    "cy:createUnit:firefox": "npx cypress run --spec cypress/e2e/createUnitApi.cy.ts --browser firefox",
-    "cy:createUnit:edge": "npx cypress run --spec cypress/e2e/createUnitApi.cy.ts --browser edge",
-    "cy:editUnit": "npx cypress run --spec cypress/e2e/editUnit.cy.ts --browser chrome",
-    "cy:favouriteUnits:headed": "npx cypress run --spec cypress/e2e/favouriteUnits.cy.ts --browser chrome --headed",
-    "cy:favouriteUnits:headless": "npx cypress run --spec cypress/e2e/favouriteUnits.cy.ts --browser chrome --headless",
-    "cy:tenderView:headed": "npx cypress run --spec cypress/e2e/tenderView.cy.ts --browser chrome --headed",
-    "cy:tenderView:headless": "npx cypress run --spec cypress/e2e/tenderView.cy.ts --browser chrome --headless",
-    "cy:unitStates": "npx cypress run --spec cypress/e2e/unitStates.cy.ts --browser chrome",
     "allure:generate": "npx allure generate allure-results --clean",
     "allure:open": "allure open ./allure-report"
   },

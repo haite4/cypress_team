@@ -122,6 +122,26 @@ class UnitApi extends ApiHelper {
       });
     });
   }
+
+  createOrderAsAdmin(unitId: number, startDate: string, endDate: string) {
+    return super.createAdminJwtToken().then((token) => {
+      return cy.request({
+        method: "POST",
+        url: `${Cypress.env("BASE_URL")}${Endpoints.API_ORDERS}`,
+        failOnStatusCode: false,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        body: {
+          customer: 1746,
+          description: randomValue.generateStringWithLength(41),
+          start_date: startDate,
+          end_date: endDate,
+          unit: unitId
+        }
+      })
+    });
+  }
 }
 
 export default new UnitApi();
