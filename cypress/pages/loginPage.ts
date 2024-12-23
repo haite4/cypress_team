@@ -12,6 +12,10 @@ class LoginPage {
       .get('button[class*="ItemButtons_darkBlueRoundBtn"]')
       .contains("Увійти");
   }
+  
+  get announcementsButton() {
+    return cy.get('[class*="Navbar_navigation"]').find('[href="/products/"]');
+  }
 
   get headerAuthBtn() {
     return cy.get('[class*="NavbarAuthBlock_buttonEnter"]');
@@ -28,16 +32,12 @@ class LoginPage {
     return this.profileDropdownMenuContainer.find('[data-testid="tenders"]');
   }
 
-  get logoutButton() {
-    return this.profileDropdownMenuContainer.find('[data-testid="logout"]');
-  }
-
   get profileDropdownEmail() {
     return cy.get('[class*="ProfileDropdownMenu_email"]');
   }
 
-  get announcementsButton() {
-    return cy.get('[class*="Navbar_navigation"]').find('[href="/products/"]');
+  get logoutBtn(){
+    return cy.get('[data-testid="logout"]')
   }
 
   login(email: string, password: string) {

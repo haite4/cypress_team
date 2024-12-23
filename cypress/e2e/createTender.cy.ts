@@ -41,7 +41,7 @@ describe("Verify create tender functionality", () => {
         force: true,
       });
       unitsPage.createTenderDocumentSelectedFileWrapper.should("be.visible");
-      unitsPage.createTenderDeleteFileRedBucketIcon.click();
+      unitsPage.deleteFileRedBucketIcon.click();
     }
   });
 
@@ -84,7 +84,7 @@ describe("Verify create tender functionality", () => {
       force: true,
     });
     unitsPage.createTenderDocumentSelectedFileWrapper.should("be.visible");
-    unitsPage.createTenderDeleteFileRedBucketIcon.click();
+    unitsPage.deleteFileRedBucketIcon.click();
     unitsPage.createTenderDocumentSelectedFileWrapper.should("not.exist");
   });
 
@@ -101,7 +101,7 @@ describe("Verify create tender functionality", () => {
 
   it("TC-792 Verify 'Далі' button", function () {
     unitsPage.nextBtn.click();
-    unitsPage.createTenderDocumentChoosingError.should(
+    unitsPage.documentChoosingError.should(
       "have.text",
       this.errorMsg.missingFilesError
     );
