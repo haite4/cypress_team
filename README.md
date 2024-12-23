@@ -39,44 +39,33 @@ This repository contains automated tests using Cypress, written specifically for
     ```
 2. **Run createUnit tests in headless mode:**:
     ```sh
-    npm run cy:createUnit:headles
+    ./run-cypress.sh -s createUnitApi.cy.ts
     ```
-3. **Run createUnit tests in headed mode:**:
+3. **Run favouriteUnits tests in headless mode:**
     ```sh
-    npm run cy:createUnit:headed
+    ./run-cypress.sh -s favouriteUnits.cy.ts
     ```
-4. **Run createUnit tests in firefox browser:**:
+4. **Run unitStates tests in chrome browser:**:
     ```sh
-    npm run cy:createUnit:firefox
+    ./run-cypress.sh -s unitStates.cy.ts
     ```
-5. **Run createUnit tests in edge browser:**:
+5. **Run tenderView tests in headless mode:**
     ```sh
-    npm run cy:createUnit:edge
+     ./run-cypress.sh -s tenderView.cy.ts
     ```
-6. **Run favouriteUnits tests in headed mode:**
+6. **Run proposal tests in headless mode:**
     ```sh
-    npm run cy:favouriteUnits:headed
+     ./run-cypress.sh -s proposal.cy.ts
     ```
-7. **Run favouriteUnits tests in headless mode:**
+7. **Run orderByAd tests in headless mode:**
     ```sh
-    npm run cy:favouriteUnits:headless
+     ./run-cypress.sh -s orderByAd.cy.ts
     ```
-8. **Run unitStates tests in chrome browser:**:
+8. **Run editUnit tests in headless mode:**
     ```sh
-    npm run cy:unitStates
+     ./run-cypress.sh -s editUnit.cy.ts
     ```
-9. **Run tenderView tests in headed mode:**
-    ```sh
-    npm run cy:tenderView:headed
-    ```
-10. **Run tenderView tests in headless mode:**
-    ```sh
-    npm run cy:tenderView:headless
-    ```
-11. **Run all tests in chrome browser:**:
-    ```sh
-    npm run cy:all
-    ```
+
 
 ## Allure Report: 
 

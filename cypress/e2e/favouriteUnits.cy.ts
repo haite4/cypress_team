@@ -40,6 +40,14 @@ describe("Favorite units", () => {
             .should("be.visible")
             .and("have.text", this.generalMsg.noAnnouncementsMessage);
 
+    unitsPage.emptyBlockButton
+      .should("be.visible")
+      .and("have.text", this.generalMsg.announcementListMessage)
+      .click();
+    cy.url().should("include", UrlPath.PRODUCTS);
+  });
+
+
         unitsPage.emptyBlockButton
             .should("be.visible")
             .and("have.text", this.generalMsg.announcementListMessage)
@@ -49,7 +57,7 @@ describe("Favorite units", () => {
 
     it('TC-302 "Обрані" icon functionality', function () {
         cy.window().scrollTo("top");
-        loginPage.announcementsButton.click();
+        page.announcementLink.click();
         cy.url().should("include", UrlPath.PRODUCTS);
 
         productsPage.cardWrappers.then(cards => {
@@ -61,10 +69,17 @@ describe("Favorite units", () => {
             productsPage.getFavouriteButtonsPath(cy.wrap(cards[0])).should("have.attr", "fill", Colors.CRIMSON_COLOR);
         });
 
-        loginPage.userIcon.click();
-        unitsPage.unitsInDropDownMenu.click();
-        cy.url().should("include", UrlPath.OWNER_UNITS_PAGE);
+    loginPage.userIcon.click();
+    unitsPage.unitsInDropDownMenu.click();
+    cy.url().should("include", UrlPath.OWNER_UNITS_PAGE);
 
+    unitsPage.chosenAnnouncmentsButton.click();
+    unitsPage.unitCard.should("be.visible");
+    cy.get("@cardName").then((name) => {
+      unitsPage.unitCardTitleText.then((text) => {
+        expect(name).to.eq(text);
+      });
+    });
         unitsPage.chosenAnnouncmentsButton.click();
         unitsPage.unitCard.should("be.visible");
         cy.get("@cardName").then(name => {
@@ -73,18 +88,19 @@ describe("Favorite units", () => {
             });
         });
 
-        unitsPage.unitCard.then((card) => {
-            unitsPage.getUnitCardFavouriteButton(cy.wrap(card)).click();
-        });
-        unitsPage.unitCard.should("not.exist");
-        unitsPage.emptyBlockInfoTitle
-            .should("be.visible")
-            .and("have.text", this.generalMsg.noAnnouncementsMessage);
+    unitsPage.unitCard.then((card) => {
+      unitsPage.getUnitCardFavouriteButton(cy.wrap(card)).click();
+    });
+    unitsPage.unitCard.should("not.exist");
+    unitsPage.emptyBlockInfoTitle
+      .should("be.visible")
+      .and("have.text", this.generalMsg.noAnnouncementsMessage);
 
-        loginPage.announcementsButton.click();
+            page.announcementLink.click();
         productsPage.cardWrappers.then(cards => {
             cy.wrap(cards[0]).scrollIntoView();
             productsPage.getFavouriteButtonsPath(cy.wrap(cards[0])).should("not.have.attr", "fill", Colors.CRIMSON_COLOR);
+        });
         });
     });
 
@@ -96,6 +112,18 @@ describe("Favorite units", () => {
             while (favouriteUnits.size < 4) {
                 favouriteUnits.add(randomValue.selectRandomValueFromArray(units.body.results));
             }
+
+      favouriteUnits.forEach((unit: { id: number }) => {
+        unitApi.addFavouriteUnit(unit.id).then((response) => {
+          expect(response.status).to.eq(201);
+        });
+      });
+    });
+
+    loginPage.userIcon.click();
+    unitsPage.unitsInDropDownMenu.click();
+    unitsPage.chosenAnnouncmentsButton.click();
+    cy.url().should("include", UrlPath.OWNER_FAVOURITE_UNITS);
 
             favouriteUnits.forEach((unit: { id: number }) => {
                 unitApi.addFavouriteUnit(unit.id).then((response) => {
@@ -392,45 +420,45 @@ describe("Favorite units", () => {
                 favouriteUnits.add(randomValue.selectRandomValueFromArray(units.body.results));
             }
 
-            favouriteUnits.forEach((unit: { id: number }) => {
-                unitApi.addFavouriteUnit(unit.id).then((response) => {
-                    expect(response.status).to.eq(201);
-                });
-            });
+      favouriteUnits.forEach((unit: { id: number }) => {
+        unitApi.addFavouriteUnit(unit.id).then((response) => {
+          expect(response.status).to.eq(201);
         });
-
-        loginPage.userIcon.click();
-        unitsPage.unitsInDropDownMenu.click();
-        unitsPage.chosenAnnouncmentsButton.click();
-        cy.url().should("include", UrlPath.OWNER_FAVOURITE_UNITS);
-        cy.reload();
-
-        unitsPage.clearListButton.should("be.visible").click();
-        unitsPage.popupHeader
-            .should("be.visible")
-            .and("have.text", this.generalMsg.popupClearFavouriteUnitsHeaderMessage);
-        
-        unitsPage.popupCancelButton.click();
-        unitsPage.popupHeader.should("not.exist");
-        unitsPage.unitCard.should("be.visible");
-
-        unitsPage.clearListButton.should("be.visible").click();
-        unitsPage.popupHeader
-            .should("be.visible")
-            .and("have.text", this.generalMsg.popupClearFavouriteUnitsHeaderMessage);
-        unitsPage.popupCloseIcon.click();
-        unitsPage.popupHeader.should("not.exist");
-        unitsPage.unitCard.should("be.visible");
-
-        unitsPage.clearListButton.click();
-        unitsPage.popupHeader
-            .should("be.visible")
-            .and("have.text", this.generalMsg.popupClearFavouriteUnitsHeaderMessage);
-        unitsPage.popupYesButton.click();
-        unitsPage.emptyBlockInfoTitle
-            .should("be.visible")
-            .and("have.text", this.generalMsg.noAnnouncementsMessage);
+      });
     });
+
+    loginPage.userIcon.click();
+    unitsPage.unitsInDropDownMenu.click();
+    unitsPage.chosenAnnouncmentsButton.click();
+    cy.url().should("include", UrlPath.OWNER_FAVOURITE_UNITS);
+    cy.reload();
+
+    unitsPage.clearListButton.should("be.visible").click();
+    unitsPage.popupHeader
+      .should("be.visible")
+      .and("have.text", this.generalMsg.popupClearFavouriteUnitsHeaderMessage);
+
+    unitsPage.popupCancelButton.click();
+    unitsPage.popupHeader.should("not.exist");
+    unitsPage.unitCard.should("be.visible");
+
+    unitsPage.clearListButton.should("be.visible").click();
+    unitsPage.popupHeader
+      .should("be.visible")
+      .and("have.text", this.generalMsg.popupClearFavouriteUnitsHeaderMessage);
+    unitsPage.popupCloseIcon.click();
+    unitsPage.popupHeader.should("not.exist");
+    unitsPage.unitCard.should("be.visible");
+
+    unitsPage.clearListButton.click();
+    unitsPage.popupHeader
+      .should("be.visible")
+      .and("have.text", this.generalMsg.popupClearFavouriteUnitsHeaderMessage);
+    unitsPage.popupYesButton.click();
+    unitsPage.emptyBlockInfoTitle
+      .should("be.visible")
+      .and("have.text", this.generalMsg.noAnnouncementsMessage);
+  });
 
     it('TC-745 "Пошук по назві" search field functionality 2', function () {
         const pageNumber = randomValue.generateRandomNumber(1, 100);
@@ -483,6 +511,15 @@ describe("Favorite units", () => {
             .and("have.text", this.generalMsg.clearFiltersButtonText);
         unitsPage.announcementNameInput.clear();
 
+        unitsPage.clearListButton.click();
+        unitsPage.popupHeader
+            .should("be.visible")
+            .and("have.text", this.generalMsg.popupClearFavouriteUnitsHeaderMessage);
+        unitsPage.popupYesButton.click();
+        unitsPage.emptyBlockInfoTitle
+            .should("be.visible")
+            .and("have.text", this.generalMsg.noAnnouncementsMessage);
+    });
         unitsPage.clearListButton.click();
         unitsPage.popupHeader
             .should("be.visible")
