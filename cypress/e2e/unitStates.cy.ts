@@ -177,9 +177,11 @@ describe("Unit Edit functionality", () => {
         unitsPage.deleteBtn.click();
         unitsPage.popUpWrapper.should("be.visible");
         unitsPage.popUpCloseIcon.click();
+        cy.wait(1000);
         unitsPage.deleteBtn.should("be.visible");
         unitsPage.deleteBtn.click();
         unitsPage.popUpCancelBtn.click();
+        cy.wait(1000)
         unitsPage.deleteBtn.should("be.visible");
         unitsPage.deleteBtn.click();
         unitsPage.popUpAgreementBtn.click();

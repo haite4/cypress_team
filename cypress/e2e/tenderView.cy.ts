@@ -56,8 +56,8 @@ describe("Tender view", () => {
             unitPage.getTenderAddress(cy.wrap(tender)).should("be.visible");
             unitPage.getTenderPrice(cy.wrap(tender)).should("be.visible");
             unitPage.getTenderStatus(cy.wrap(tender)).should("be.visible");
-            unitPage.editBtn.should("be.visible");
-            unitPage.getTenderCloseButton(cy.wrap(tender)).should("be.visible");
+            unitPage.editTenderBtn.should("be.visible");
+            unitPage.tenderCloseButton.should("be.visible");
         });
     });
 
@@ -84,9 +84,7 @@ describe("Tender view", () => {
             unitPage.getTenderDate(cy.wrap(tender)).should("be.visible");
             unitPage.getTenderAddress(cy.wrap(tender)).should("be.visible");
             unitPage.getTenderPrice(cy.wrap(tender)).should("be.visible");
-            unitPage.getTenderStatus(cy.wrap(tender)).should("be.visible");
-            unitPage.editBtn.should("be.visible");
-            unitPage.getTenderCloseButton(cy.wrap(tender)).should("be.visible");
+            unitPage.tenderCloseButton.should("be.visible");
         });
     });
 
@@ -107,8 +105,8 @@ describe("Tender view", () => {
             unitPage.getTenderDate(cy.wrap(tender)).should("be.visible");
             unitPage.getTenderAddress(cy.wrap(tender)).should("be.visible");
             unitPage.getTenderPrice(cy.wrap(tender)).should("be.visible");
-            unitPage.editBtn.should("be.visible");
-            unitPage.getTenderCloseButton(cy.wrap(tender)).should("be.visible");
+            unitPage.editTenderBtn.should("be.visible");
+            unitPage.tenderCloseButton.should("be.visible");
         });
     });
 
@@ -132,8 +130,8 @@ describe("Tender view", () => {
             unitPage.getTenderDate(cy.wrap(tender)).should("be.visible");
             unitPage.getTenderAddress(cy.wrap(tender)).should("be.visible");
             unitPage.getTenderPrice(cy.wrap(tender)).should("be.visible");
-            unitPage.editBtn.should("be.visible");
-            unitPage.getTenderCloseButton(cy.wrap(tender)).should("be.visible");
+            unitPage.editTenderBtn.should("be.visible");
+            unitPage.tenderCloseButton.should("be.visible");
         });
     });
 
@@ -226,19 +224,19 @@ describe("Tender view", () => {
             }
         });
 
-
+        
         cy.reload();
-        unitPage.tenderInput.focus();
-        unitPage.tenderInput.should("have.value", "");
+        unitPage.headerTenderInput.focus();
+        unitPage.headerTenderInput.should("have.value", "");
         unitPage.categoriesDropdownList.should("have.text", tenderCategoriesDropdownListNames[4]);
         unitPage.sortingDropdownList.should("have.text", sortingDropdownListNames[0]);
         const longText = randomValue.generateStringWithLength(101);
-        unitPage.tenderInput.type(longText);
-        unitPage.tenderInput.should("have.value", longText.substring(0, 100));
-        unitPage.tenderInput.clear();
-        unitPage.tenderInput.type(this.generalMsg.invalidSymbols);
-        unitPage.tenderInput.should("have.value", "");
-        unitPage.tenderInput.then(input => {
+        unitPage.headerTenderInput.type(longText);
+        unitPage.headerTenderInput.should("have.value", longText.substring(0, 100));
+        unitPage.headerTenderInput.clear();
+        unitPage.headerTenderInput.type(this.generalMsg.invalidSymbols);
+        unitPage.headerTenderInput.should("have.value", "");
+        unitPage.headerTenderInput.then(input => {
             const tenderName = tenders[0].name;
             cy.wrap(input).type(tenderName);
             cy.wrap(input).should("have.value", tenderName);

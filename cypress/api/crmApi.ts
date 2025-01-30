@@ -4,7 +4,7 @@ import { ApiHelper } from "./rentzilaApi";
 class CrmApi extends ApiHelper {
   approveUnitCreation(unitId: number) {
     return super.createAdminJwtToken().then((token) => {
-      const url = `${Cypress.env("BASE_URL")}${
+      const url = `${Cypress.env("STAGE_BASE_URL")}${
         Endpoints.API_MODERATE_UNIT_BASE
       }${unitId}/moderate/`;
       const body = { is_approved: true };
@@ -16,7 +16,7 @@ class CrmApi extends ApiHelper {
 
   rejectUnitCreation(unitId: number) {
     return super.createAdminJwtToken().then((token) => {
-      const url = `${Cypress.env("BASE_URL")}${
+      const url = `${Cypress.env("STAGE_BASE_URL")}${
         Endpoints.API_MODERATE_UNIT_BASE
       }${unitId}/moderate/`;
       const body = { is_approved: false, declined_invalid_img: true };
@@ -48,16 +48,14 @@ class CrmApi extends ApiHelper {
 
   searchTenderById(tenderId: number){
     return super.createAdminJwtToken().then((token) => {
-      const url = `${Cypress.env("BASE_URL")}${
-        Endpoints.API_MODERATE_TENDERS
-      }?search=${tenderId}`;
+      const url = `${Cypress.env("STAGE_BASE_URL")}${Endpoints.API_MODERATE_TENDERS}?search=${tenderId}`;
       return this.makeRequest("GET", url, token);
     });
   }
 
   searhAdsByName(unitName: string) {
     return super.createAdminJwtToken().then((token) => {
-      const url = `${Cypress.env("BASE_URL")}${
+      const url = `${Cypress.env("STAGE_BASE_URL")}${
         Endpoints.API_MODERATE_UNIT_BASE
       }?search=${unitName}`;
       return this.makeRequest("GET", url, token);
@@ -66,7 +64,7 @@ class CrmApi extends ApiHelper {
 
   manufacturersById(manufacturerId: number) {
     return super.createAdminJwtToken().then((token) => {
-      const url = `${Cypress.env("BASE_URL")}${
+      const url = `${Cypress.env("STAGE_BASE_URL")}${
         Endpoints.API_MANUFACTURER
       }${manufacturerId}/`;
       return this.makeRequest("GET", url, token);
@@ -75,7 +73,7 @@ class CrmApi extends ApiHelper {
 
   getUnitById(unitid: number) {
     return super.createAdminJwtToken().then((token) => {
-      const url = `${Cypress.env("BASE_URL")}${
+      const url = `${Cypress.env("STAGE_BASE_URL")}${
         Endpoints.API_MODERATE_UNIT_BASE
       }${unitid}/`;
       return this.makeRequest("GET", url, token);

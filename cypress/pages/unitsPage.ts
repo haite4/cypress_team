@@ -42,10 +42,13 @@ class UnitsPage {
     return cy.get('[data-testid="unitCard"]');
   }
 
-  get editBtn() {
+  get editTenderBtn() {
     return cy
-      .get('[class*="ItemButtons_wrapper"] button')
-      .contains("Редагувати");
+      .get('[class*=CurrentTenderButtons_fillBtn]')
+  }
+
+  get editAdsBtn(){
+    return cy.get(`button`).contains("Редагувати")
   }
 
   get editUnitTenderName() {
@@ -77,7 +80,11 @@ class UnitsPage {
   }
 
   get emptyBlockInfotenderName() {
-    return cy.get('[class*="EmptyBlockInfo_tenderName"]');
+    return cy.get('[class*="EmptyBlockInfo_title"]');
+  }
+
+  get emptyBlockTitle(){
+    return cy.get(`[class*="EmptyBlockInfo_title"]`)
   }
 
   get emptyBlockButton() {
@@ -137,7 +144,7 @@ class UnitsPage {
   }
 
   get proposalDetaiedTitle(){
-    return cy.get('[class*="OrderDetails_title"]')
+    return cy.get('[class*="OrderDetails_title"] span')
   }
 
   get closeBtn() {
@@ -248,10 +255,6 @@ class UnitsPage {
     return cy.get('[class*="OwnerTenderCard_tenderCard"]');
   }
 
-  get editTenderBtn() {
-    return cy.get("button").contains("Редагувати");
-  }
-
   get dateTimePicker() {
     return cy.get('[class*="react-datepicker-wrapper"] input');
   }
@@ -270,8 +273,8 @@ class UnitsPage {
     return cy.get('[data-testid*="textAreaError"]');
   }
 
-  getTenderCloseButton(tender: Cypress.Chainable) {
-    return tender.contains("Завершити");
+ get tenderCloseButton() {
+    return cy.get(`[class*="CurrentTenderButtons_redBtn"]`)
   }
 
   getTenderName(tender: Cypress.Chainable) {
@@ -319,7 +322,7 @@ class UnitsPage {
   }
 
   get popUpCancelBtn() {
-    return cy.get("button").contains("Скасувати");
+    return cy.get(`[data-testid="wrapper"] button[class*=ItemButtons_lightRedBtn]`);
   }
 
   get popUpAgreementBtn() {
@@ -492,6 +495,10 @@ class UnitsPage {
 
   get tenderInput() {
     return cy.get('input[placeholder="Введіть назву тендера"]');
+  }
+
+  get headerTenderInput(){
+    return cy.get('input[placeholder="Заголовок тендера"]')
   }
 
   get jobContactPersonInput() {

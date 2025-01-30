@@ -44,13 +44,13 @@ class DateTime {
     tenderDurationDays = 5
   ) {
     const now = new Date();
-    const maxDayInCurrentMonth = this.getDaysinMonth(1);
+    const maxDayInCurrentMonth = this.getDaysinMonth(0);
     const maxDayInNextMonth = this.getDaysinMonth(2);
     const randomStartDate = this.getRandomDate(
       now.getDate(),
       maxDayInCurrentMonth
     );
-    const randomEndDate = this.getRandomDate(now.getDate(), maxDayInNextMonth);
+    const randomEndDate = this.getRandomDate(1, maxDayInNextMonth);
     const startFullDate = new Date(
       now.getFullYear(),
       now.getMonth(),

@@ -17,7 +17,7 @@ class TenderApi extends ApiHelper {
       return cy
         .request({
           method: "POST",
-          url: `${Cypress.env("BASE_URL")}${Endpoints.API_TENDERS}`,
+          url: `${Cypress.env("STAGE_BASE_URL")}${Endpoints.API_TENDERS}`,
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -52,7 +52,7 @@ class TenderApi extends ApiHelper {
     return super.createAdminJwtToken().then((token) => {
       return cy.request({
         method: "POST",
-        url: `${Endpoints.API_MODERATE_TENDERS}${id}/moderate/`,
+        url: `${Cypress.env("STAGE_BASE_URL")}${Endpoints.API_MODERATE_TENDERS}${id}/moderate/`,
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -77,7 +77,7 @@ class TenderApi extends ApiHelper {
 
         return cy.request({
           method: "POST",
-          url: Endpoints.API_TENDER_ATTACH_FILE,
+          url: `${Cypress.env("STAGE_BASE_URL")}${Endpoints.API_TENDER_ATTACH_FILE}`,
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -91,7 +91,7 @@ class TenderApi extends ApiHelper {
     return super.createAdminJwtToken().then((token) => {
       return cy.request({
         method: "GET",
-        url: Endpoints.API_SERVICE_CATEGORIES,
+        url: `${Cypress.env("STAGE_BASE_URL")}${Endpoints.API_SERVICE_CATEGORIES}`,
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -103,7 +103,7 @@ class TenderApi extends ApiHelper {
     return super.createAdminJwtToken().then((token) => {
       return cy.request({
         method: "GET",
-        url: `${Endpoints.API_SERVICES}${categoty}/`,
+        url: `${Cypress.env("STAGE_BASE_URL")}${Endpoints.API_SERVICES}${categoty}/`,
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -115,7 +115,7 @@ class TenderApi extends ApiHelper {
     return super.createAdminJwtToken().then((token) => {
       return cy.request({
         method: "GET",
-        url: Endpoints.API_SERVICES,
+        url: `${Cypress.env("STAGE_BASE_URL")}${Endpoints.API_SERVICES}`,
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -127,7 +127,7 @@ class TenderApi extends ApiHelper {
     return super.createUserJwtToken().then((token) => {
       return cy.request({
         method: "PATCH",
-        url: `${Endpoints.API_TENDER}${id}/`,
+        url: `${Cypress.env("STAGE_BASE_URL")}${Endpoints.API_TENDER}${id}/`,
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -144,7 +144,7 @@ class TenderApi extends ApiHelper {
     return super.createUserJwtToken().then((token) => {
       return cy.request({
         method: "DELETE",
-        url: `${Endpoints.API_TENDER}${id}/`,
+        url: `${Cypress.env("STAGE_BASE_URL")}${Endpoints.API_TENDER}${id}/`,
         headers: {
           Authorization: `Bearer ${token}`,
         },

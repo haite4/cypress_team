@@ -99,7 +99,7 @@ describe("Edit the pending tender functionality", () => {
 
   it("TC-237 verify budget field", function () {
     unitsPage.budgetInput.should("be.enabled").and("be.visible")
-    cy.wait(1000)
+    cy.wait(2000)
     unitsPage.budgetInput.clear();
     unitsPage.budgetInput.should("have.value", "");
     unitsPage.budgetInput.type(this.generalMsg.invalidSymbols);
@@ -119,6 +119,7 @@ describe("Edit the pending tender functionality", () => {
     unitsPage.textAreaInput
       .should("be.enabled")
       .and("be.visible")
+    cy.wait(1000)
     unitsPage.textAreaInput.clear().should("have.text", "");
     unitsPage.nextBtn.should("be.enabled").click();
     const symbolLengthZero = Cypress._.template(
@@ -128,10 +129,10 @@ describe("Edit the pending tender functionality", () => {
     unitsPage.textAreaInput.type(randomValue.generateStringWithLength(39));
     unitsPage.textAreaInput.invoke("text").then((textAreaInput) => {
       const inputText = textAreaInput as string;
-      cy.log(`${inputText.length}`)
       const symbolLength = Cypress._.template(
         this.errorMsg.textAreaDescriptionMinLengthError
       )({ symbolLength: inputText.length });
+      cy.wait(1000)
       unitsPage.nextBtn.click();
       unitsPage.textAreaError.should("have.text", symbolLength);
       cy.wait(1000)
@@ -142,6 +143,7 @@ describe("Edit the pending tender functionality", () => {
       const textWithSymbol = `${randomString}${symbol}`;
       unitsPage.textAreaInput.type(textWithSymbol);
       unitsPage.textAreaInput.should("have.text", randomString);
+      cy.wait(1000)
       unitsPage.textAreaInput.clear();
     }
     unitsPage.deleteFileRedBucketIcon.click();
@@ -157,8 +159,8 @@ describe("Edit the pending tender functionality", () => {
     unitsPage.jobContactPersonInput
       .should("be.enabled")
       .and("be.visible")
-      unitsPage.jobContactPersonInput.uncheck();
       cy.wait(2000)
+      unitsPage.jobContactPersonInput.uncheck();
     unitsPage.jobContactPersonInfotenderName
       .eq(0)
       .invoke("text")
@@ -208,6 +210,7 @@ describe("Edit the pending tender functionality", () => {
     unitsPage.jobContactInput
       .eq(0)
       .type(randomValue.generateStringWithLength(1));
+    cy.wait(5000)
     unitsPage.nextBtn.click();
     unitsPage.jobContactPersonInfoError.should(
       "have.text",
@@ -275,6 +278,7 @@ describe("Edit the pending tender functionality", () => {
       );
       unitsPage.phoneNumberInput.clear();
     }
+    unitsPage.phoneNumberInput.click().clear();
     unitsPage.phoneNumberInput.type(`+38050${randomValue.phoneNumeric(8)}`);
     unitsPage.phoneNumberInput.invoke("val").then((val) => {
       const inputValue = val as string;
@@ -292,6 +296,7 @@ describe("Edit the pending tender functionality", () => {
     loginPage.logoutBtn.click();
     loginPage.headerAuthBtn.should("be.visible");
     crmApi.searchTenderById(this.tenderId).then((response) => {
+      cy.log(`${response}`)
       expect(response.body.results[0].id).to.be.eq(this.tenderId);
       expect(response.body.results[0].name).to.be.eq(this.tenderName);
       expect(response.body.results[0].date_created).to.be.eq(

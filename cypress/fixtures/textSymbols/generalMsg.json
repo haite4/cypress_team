@@ -32,5 +32,8 @@
   "editTendertenderName": "Редагування тендера",
   "cleaning": "прибирання",
   "viewIntendersDropdownButton": "Переглянути в моїх тендерах",
-  "rentalOrderConfirmationPopUpTitle": "Підтвердження замовлення на оренду техніки"
+  "rentalOrderConfirmationPopUpTitle": "Підтвердження замовлення на оренду техніки",
+  "proposalDetailedTitle": "Деталі пропозиції",
+  "rentPeriodTitle": "Період оренди",
+  "commentsTitle": "Коментар"
 }

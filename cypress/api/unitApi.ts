@@ -12,7 +12,7 @@ class UnitApi extends ApiHelper {
       return cy
         .request({
           method: "POST",
-          url: `${Cypress.env("BASE_URL")}${Endpoints.API_UNITS}`,
+          url: `${Cypress.env("STAGE_BASE_URL")}${Endpoints.API_UNITS}`,
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -46,7 +46,7 @@ class UnitApi extends ApiHelper {
       return cy
         .request({
           method: "DELETE",
-          url: `${Cypress.env("BASE_URL")}${Endpoints.API_UNITS}${unitId}/`,
+          url: `${Cypress.env("STAGE_BASE_URL")}${Endpoints.API_UNITS}${unitId}/`,
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -68,7 +68,7 @@ class UnitApi extends ApiHelper {
         return cy
           .request({
             method: "POST",
-            url: `${Cypress.env("BASE_URL")}${Endpoints.API_UNITS_IMAGES}`,
+            url: `${Cypress.env("STAGE_BASE_URL")}${Endpoints.API_UNITS_IMAGES}`,
             headers: {
               Authorization: `Bearer ${token}`,
             },
@@ -89,7 +89,7 @@ class UnitApi extends ApiHelper {
     return super.createUserJwtToken().then((token) => {
       return cy.request({
         method: "GET",
-        url: `${Cypress.env("BASE_URL")}${Endpoints.API_UNITS}`,
+        url: `${Cypress.env("STAGE_BASE_URL")}${Endpoints.API_UNITS}`,
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -106,7 +106,7 @@ class UnitApi extends ApiHelper {
     return super.createUserJwtToken().then((token) => {
       return cy.request({
         method: "GET",
-        url: `${Cypress.env("BASE_URL")}${Endpoints.API_CATEGORIES}`,
+        url: `${Cypress.env("STAGE_BASE_URL")}${Endpoints.API_CATEGORIES}`,
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -118,7 +118,7 @@ class UnitApi extends ApiHelper {
     return super.createUserJwtToken().then((token) => {
       return cy.request({
         method: "POST",
-        url: `${Cypress.env("BASE_URL")}${
+        url: `${Cypress.env("STAGE_BASE_URL")}${
           Endpoints.API_FAVOURITE_UNITS
         }${unitId}/`,
         headers: {
@@ -132,7 +132,7 @@ class UnitApi extends ApiHelper {
     return super.createAdminJwtToken().then((token) => {
       return cy.request({
         method: "POST",
-        url: `${Cypress.env("BASE_URL")}${Endpoints.API_ORDERS}`,
+        url: `${Cypress.env("STAGE_BASE_URL")}${Endpoints.API_ORDERS}`,
         failOnStatusCode: false,
         headers: {
           Authorization: `Bearer ${token}`,

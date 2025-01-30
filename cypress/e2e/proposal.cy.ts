@@ -33,6 +33,7 @@ describe("Proposal functionality", () => {
   });
 
   it("TC-1004 Confirm the proposal ", function () {
+    cy.reload();
     unitsPage.proposalBtn.should("be.visible").click();
     unitsPage.proposesUnitTitle.eq(0).should("be.visible");
     unitsPage.submitProposalBtn.should("be.visible").click();
@@ -69,6 +70,7 @@ describe("Proposal functionality", () => {
   });
 
   it("TC-1005 Reject the proposal", function () {
+    cy.reload();
     unitsPage.proposalBtn.click();
     unitsPage.proposesUnitTitle.eq(0).should("be.visible");
     unitsPage.unitName.invoke("text").then((unitName) => {
@@ -185,7 +187,9 @@ describe("Proposal functionality", () => {
     unitsPage.proposalDetailedBtn.click();
     unitsPage.proposalDetaiedTitle
       .should("be.visible")
-      .and("have.text", this.generalMsg.proposalDetailedTitle);
+    unitsPage.proposalDetaiedTitle.invoke("text").then((text) => {
+      expect(text).to.be.eq(this.generalMsg.proposalDetailedTitle)
+    }) 
     unitsPage.submitProposalBtn.should("be.visible");
     unitsPage.rejectProposalBtn.should("be.visible");
     unitsPage.backBtn.should("be.visible");
@@ -252,7 +256,7 @@ describe("Proposal functionality", () => {
       );
       const reasonForCanceledApplication = Cypress._.template(
         this.generalMsg.reasonForCanceledApplication
-      )({ unitName: unitName.slice(0, 10) });
+      )({ unitName: unitName.slice(0, 13) });
 
       unitsPage.cancelOrderPopUpDescription.should(
         "have.text",
@@ -307,7 +311,7 @@ describe("Proposal functionality", () => {
       );
       const reasonForCanceledApplication = Cypress._.template(
         this.generalMsg.reasonForCanceledApplication
-      )({ unitName: unitName.slice(0, 10) });
+      )({ unitName: unitName });
 
       unitsPage.cancelOrderPopUpDescription.should(
         "have.text",

@@ -28,11 +28,11 @@ describe("Unit Edit functionality", () => {
 
   it("TC-182 Edit Unit without changes", function () {
     unitsPage.unitCardNameText.then((unitName) => {
-      unitsPage.editBtn.click();
+      unitsPage.editAdsBtn.click();
       unitsPage.editAnnouncmentTitle.should("be.visible");
       unitsPage.preventBtn.first().click();
       unitsPage.unitCard.should("be.visible");
-      unitsPage.editBtn.click();
+      unitsPage.editAdsBtn.click();
       cy.wait(1000);
       unitsPage.nextBtn.first().should("be.visible").click();
       unitsPage.successfullyEditedMsg.should("be.visible");
@@ -48,7 +48,7 @@ describe("Unit Edit functionality", () => {
   });
 
   it("TC-272 Check 'Назва оголошення' input field", function () {
-    unitsPage.editBtn.click();
+    unitsPage.editAdsBtn.click();
     unitsPage.announcementInput.should("be.enabled").and("be.visible");
     cy.wait(2000);
     unitsPage.announcementInput.clear();
@@ -89,7 +89,7 @@ describe("Unit Edit functionality", () => {
   });
 
   it("TC-273 Check 'Виробник транспортного засобу' input field", function () {
-    unitsPage.editBtn.click();
+    unitsPage.editAdsBtn.click();
     unitsPage.closeBtn.click();
     unitsPage.servicesInput.should(
       "have.attr",
@@ -148,7 +148,7 @@ describe("Unit Edit functionality", () => {
   });
 
   it("TC-532 Check 'Назва моделі' input field", function () {
-    unitsPage.editBtn.click();
+    unitsPage.editAdsBtn.click();
     unitsPage.modelNameInput.should("be.visible");
     cy.wait(2000);
     unitsPage.modelNameInput.clear();
@@ -178,7 +178,7 @@ describe("Unit Edit functionality", () => {
   });
 
   it("TC-533 Check 'Технічні характеристики' input field", function () {
-    unitsPage.editBtn.click();
+    unitsPage.editAdsBtn.click();
     unitsPage.techSpecsTextArea.should("be.visible").should("be.enabled");
     cy.wait(2000);
     unitsPage.techSpecsTextArea.clear()
@@ -188,7 +188,7 @@ describe("Unit Edit functionality", () => {
     unitsPage.viewInMyList.should("be.visible");
     unitsPage.viewInMyList.click();
     unitsPage.expectingdUnit.click();
-    unitsPage.editBtn.eq(0).click();
+    unitsPage.editAdsBtn.eq(0).click();
     unitsPage.techSpecsTextArea.should("be.visible");
     unitsPage.techSpecsTextArea.should("have.value", "");
     unitsPage.techSpecsTextArea.type(this.generalMsg.invalidSymbols)
@@ -210,8 +210,9 @@ describe("Unit Edit functionality", () => {
       });
     });
   });
+  
   it("TC-534 Check 'Опис' input field", function () {
-    unitsPage.editBtn.click();
+    unitsPage.editAdsBtn.click();
     unitsPage.detailedDescriptionTextArea.should("be.visible");
     cy.wait(2000);
     unitsPage.detailedDescriptionTextArea.clear();
@@ -221,7 +222,7 @@ describe("Unit Edit functionality", () => {
     unitsPage.viewInMyList.should("be.visible");
     unitsPage.viewInMyList.click();
     unitsPage.expectingdUnit.click();
-    unitsPage.editBtn.eq(0).click();
+    unitsPage.editAdsBtn.eq(0).click();
     unitsPage.detailedDescriptionTextArea.should("have.value", "");
     unitsPage.detailedDescriptionTextArea.type(this.generalMsg.invalidSymbols);
     unitsPage.detailedDescriptionTextArea.should("have.value", "");
@@ -244,7 +245,7 @@ describe("Unit Edit functionality", () => {
   });
 
   it("TC-535 Check 'Місце розташування технічного засобу' functionality", function () {
-    unitsPage.editBtn.click();
+    unitsPage.editAdsBtn.click();
     unitsPage.choseOnMapBtn.click();
     unitsPage.mapPopUpTitle.should(
       "have.text",
@@ -253,7 +254,7 @@ describe("Unit Edit functionality", () => {
     unitsPage.getMapPopUpBoundingBox().then(({ x, y }) => {
       cy.get("body").click(x, y);
     });
-    cy.wait(3000);
+    cy.wait(5000);
     unitsPage.selectedAdress.invoke("text").then((address) => {
       unitsPage.mapPopUpsubmitProposalBtn.click();
       unitsPage.mapPopUp.should("not.exist");

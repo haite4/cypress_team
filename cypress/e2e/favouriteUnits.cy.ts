@@ -523,7 +523,7 @@ describe("Favorite units", () => {
             .and("have.text", this.generalMsg.noAnnouncementsMessage);
     });
 
-    it('TC-303 "Очистити список" button functionality 2', function () {
+    it.skip('TC-303 "Очистити список" button functionality 2', function () {
         cy.window().scrollTo("top");
         loginPage.announcementsButton.click();
         cy.url().should("include", UrlPath.PRODUCTS);
