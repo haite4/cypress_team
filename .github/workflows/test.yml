@@ -16,6 +16,7 @@ jobs:
           echo "ADMIN_PHONE_NUMBER=${{ secrets.ADMIN_PHONE_NUMBER }}" >> $GITHUB_ENV
           echo "VALID_PHONE_NUMBER=${{ secrets.VALID_PHONE_NUMBER }}" >> $GITHUB_ENV
           echo "BASE_URL=${{ secrets.BASE_URL }}" >> $GITHUB_ENV
+          echo "STAGE_BASE_URL=${{ secrets.STAGE_BASE_URL }}" >> $GITHUB_ENV
           echo "USER_EMAIL=${{ secrets.USER_EMAIL }}" >> $GITHUB_ENV
           echo "USER_PASSWORD=${{ secrets.USER_PASSWORD }}" >> $GITHUB_ENV
           echo "USER_PHONE_NUMBER=${{ secrets.USER_PHONE_NUMBER }}" >> $GITHUB_ENV
