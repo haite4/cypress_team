@@ -33,7 +33,6 @@ describe("Proposal functionality", () => {
   });
 
   it("TC-1004 Confirm the proposal ", function () {
-    cy.reload();
     unitsPage.proposalBtn.should("be.visible").click();
     unitsPage.proposesUnitTitle.eq(0).should("be.visible");
     unitsPage.submitProposalBtn.should("be.visible").click();
@@ -70,7 +69,6 @@ describe("Proposal functionality", () => {
   });
 
   it("TC-1005 Reject the proposal", function () {
-    cy.reload();
     unitsPage.proposalBtn.click();
     unitsPage.proposesUnitTitle.eq(0).should("be.visible");
     unitsPage.unitName.invoke("text").then((unitName) => {

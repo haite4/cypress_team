@@ -406,7 +406,7 @@ class UnitsPage {
   }
 
   get proposalBtn() {
-    return cy.get("button").contains("Пропозиції");
+    return cy.get('[class*="ItemButtons_darkBlueBtn"]').contains("Пропозиції");
   }
 
   get proposesUnittenderName() {
