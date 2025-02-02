@@ -1,4 +1,3 @@
-version: '3.7'
 
 services:
   regression:
@@ -19,6 +18,9 @@ services:
       - USER_PHONE_NUMBER=${USER_PHONE_NUMBER}
   
   allure:
-    volumes:
-      - ./:/usr/workspace
+    image: "frankescobar/allure-docker-service"
     entrypoint: ["sh", "-c", "allure generate allure-results --clean -o allure-report"]
+    volumes:
+    - ./:/usr/workspace
+    - allure-results:/usr/workspace/allure-results
+    
