@@ -173,7 +173,7 @@ describe("Unit Edit functionality", () => {
       }
       unitsPage.unitCardNameText.then((unitName) => {
         unitsPage.unitName.click();
-        cy.wait(1000);
+        cy.wait(5000);
         unitsPage.deleteBtn.click();
         unitsPage.popUpWrapper.should("be.visible");
         unitsPage.popUpCloseIcon.click();

@@ -9,43 +9,31 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Set up Set environment variable values
+      - name: Run Ui-tests via docker-compose
+        env:
+          ADMIN_EMAIL=${{ secrets.ADMIN_EMAIL }}
+          ADMIN_PASSWORD=${{ secrets.ADMIN_PASSWORD }}
+          ADMIN_PHONE_NUMBER=${{ secrets.ADMIN_PHONE_NUMBER }}
+          VALID_PHONE_NUMBER=${{ secrets.VALID_PHONE_NUMBER }}
+          BASE_URL=${{ secrets.BASE_URL }}
+          STAGE_BASE_URL=${{ secrets.STAGE_BASE_URL }}
+          USER_EMAIL=${{ secrets.USER_EMAIL }}
+          USER_PASSWORD=${{ secrets.USER_PASSWORD }}
+          USER_PHONE_NUMBER=${{ secrets.USER_PHONE_NUMBER }}
         run: |
-          echo "ADMIN_EMAIL=${{ secrets.ADMIN_EMAIL }}" >> $GITHUB_ENV
-          echo "ADMIN_PASSWORD=${{ secrets.ADMIN_PASSWORD }}" >> $GITHUB_ENV
-          echo "ADMIN_PHONE_NUMBER=${{ secrets.ADMIN_PHONE_NUMBER }}" >> $GITHUB_ENV
-          echo "VALID_PHONE_NUMBER=${{ secrets.VALID_PHONE_NUMBER }}" >> $GITHUB_ENV
-          echo "BASE_URL=${{ secrets.BASE_URL }}" >> $GITHUB_ENV
-          echo "STAGE_BASE_URL=${{ secrets.STAGE_BASE_URL }}" >> $GITHUB_ENV
-          echo "USER_EMAIL=${{ secrets.USER_EMAIL }}" >> $GITHUB_ENV
-          echo "USER_PASSWORD=${{ secrets.USER_PASSWORD }}" >> $GITHUB_ENV
-          echo "USER_PHONE_NUMBER=${{ secrets.USER_PHONE_NUMBER }}" >> $GITHUB_ENV
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Create download folder
-        run: mkdir -p cypress/downloads
-
-      - name: Run Cypress tests
-        run: npm run cy:all
-        continue-on-error: true
+        docker-compose up --exit-code-from regression || true
 
       - name: Generate Allure report
         if: always()
         run: npm run allure:generate
 
+      - name: Generate Allure report
+        run: |
+          sudo docker-compose run regression /bin/sh -c "allure generate  allure-results --clean -o allure-report"
 
       - name: Deploy Allure report to GitHub Pages
-        if: always()
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./allure-report
-
-      - name: Upload Allure report as GitHub artifact
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: allure-report
-          path: allure-report
+          
