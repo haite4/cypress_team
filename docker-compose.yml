@@ -19,6 +19,6 @@ services:
       - USER_PHONE_NUMBER=${USER_PHONE_NUMBER}
   
   allure:
-     volumes:
+    volumes:
       - ./:/usr/workspace
     entrypoint: ["sh", "-c", "allure generate allure-results --clean -o allure-report"]
