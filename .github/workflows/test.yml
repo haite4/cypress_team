@@ -24,6 +24,8 @@ jobs:
           docker compose up --exit-code-from regression || true
 
       - name: Generate Allure report
+        env:
+          BASE_URL: ${{ secrets.BASE_URL }}
         run: |
           docker compose run regression /bin/sh -c "allure generate  allure-results --clean -o allure-report"
 
