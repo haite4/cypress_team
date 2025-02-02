@@ -24,3 +24,5 @@ services:
     - ./:/usr/workspace
     - allure-results:/usr/workspace/allure-results
     
+volumes:
+  allure-results:
