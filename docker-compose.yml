@@ -6,7 +6,7 @@ services:
     working_dir: /usr/workspace
     volumes:
       - ./:/usr/workspace
-    command: npx cypress run
+    entrypoint: ["sh", "-c", "npm ci && npm run cy:createTender"]
     environment:
       - ADMIN_EMAIL=${ADMIN_EMAIL}
       - ADMIN_PASSWORD=${ADMIN_PASSWORD}
