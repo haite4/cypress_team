@@ -21,7 +21,7 @@ jobs:
           USER_PASSWORD=${{ secrets.USER_PASSWORD }}
           USER_PHONE_NUMBER=${{ secrets.USER_PHONE_NUMBER }}
         run: |
-        docker-compose up --exit-code-from regression || true
+          docker-compose up --exit-code-from regression || true
 
       - name: Generate Allure report
         if: always()
