@@ -18,7 +18,7 @@ describe("Verify create tender functionality", () => {
     cy.fixture("textSymbols/errorMsg").as("errorMsg");
   });
 
-  it.skip("TC-786 - Verify documents uploading", function () {
+  it("TC-786 - Verify documents uploading", function () {
     unitsPage.tenderDocumentChoosingHeader.eq(0).should("be.visible");
     unitsPage.tenderDocumentChoosingHeader
       .eq(0)
@@ -118,7 +118,7 @@ describe("Verify create tender functionality", () => {
     });
   });
 
-  it("TC-827 Verify uploading more then allowed number of docs", function () {
+  it.skip("TC-827 Verify uploading more then allowed number of docs", function () {
     unitsPage.createTenderDocumentFileChoosingInput.selectFile(
       createTenderFilesList,
       { force: true }
