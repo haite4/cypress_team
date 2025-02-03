@@ -1,5 +1,5 @@
-const { defineConfig } = require("cypress");
-const { allureCypress } = require("allure-cypress/reporter");
+const { defineConfig } = require('cypress');
+const { allureCypress } = require('allure-cypress/reporter');
 require("dotenv").config();
 
 module.exports = defineConfig({
@@ -20,6 +20,7 @@ module.exports = defineConfig({
       config.env.USER_PASSWORD = process.env.USER_PASSWORD;
       config.env.ADMIN_EMAIL = process.env.ADMIN_EMAIL;
       config.env.ADMIN_PASSWORD = process.env.ADMIN_PASSWORD;
+      config.env.STAGE_BASE_URL = process.env.STAGE_BASE_URL;
       return config;
     },
   },

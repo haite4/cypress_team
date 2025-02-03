@@ -31,7 +31,7 @@ describe("Unit Edit functionality", () => {
 
   it("TC-278 Deactivation of an active unit.", function () {
     unitsPage.deactivateBtn.should("be.visible");
-    unitsPage.unitCardTitleText.then((unitName) => {
+    unitsPage.unitCardNameText.then((unitName) => {
       unitsPage.deactivateBtn.click();
       unitsPage.popUpWrapper.should("be.visible");
       unitsPage.popUpCloseIcon.click();
@@ -45,7 +45,7 @@ describe("Unit Edit functionality", () => {
         "have.text",
         this.successMsg.deactivationSuccessMessage
       );
-      unitsPage.emptyBlockInfoTitle.should("be.visible");
+      unitsPage.emptyBlockInfotenderName.should("be.visible");
       unitsPage.notificationPopUpCrossIcon.click();
       unitsPage.notificationPopUpDescription.should("not.exist");
       unitsPage.deactivatedTab.click();
@@ -65,7 +65,7 @@ describe("Unit Edit functionality", () => {
     unitsPage.deactivatedTab.should("be.visible");
     unitsPage.deactivatedTab.click();
     unitsPage.activateBtn.should("be.visible");
-    unitsPage.unitCardTitleText.then((unitName) => {
+    unitsPage.unitCardNameText.then((unitName) => {
       unitsPage.activateBtn.click();
       unitsPage.popUpWrapper.should("be.visible");
       unitsPage.popUpCloseIcon.click();
@@ -78,7 +78,7 @@ describe("Unit Edit functionality", () => {
       unitsPage.notificationPopUpDescription.invoke("text").then((text) => {
         expect(text).to.be.eq(this.successMsg.activationSuccessMessage);
       });
-      unitsPage.emptyBlockInfoTitle.should("be.visible");
+      unitsPage.emptyBlockInfotenderName.should("be.visible");
       unitsPage.notificationPopUpCrossIcon.click();
       unitsPage.notificationPopUpDescription.should("not.exist");
       unitsPage.activeTab.should("be.visible");
@@ -100,7 +100,7 @@ describe("Unit Edit functionality", () => {
             expect(status).to.be.eq(201);
           });
           cy.reload();
-          unitsPage.pendingAnnouncements.click();
+          unitsPage.pendingTab.click();
           break;
 
         case "deactivatedTabs":
@@ -120,16 +120,16 @@ describe("Unit Edit functionality", () => {
       unitsPage.unitCard.then((unitcard) => {
         expect(unitcard.length).to.be.at.least(1);
       });
-      unitsPage.deleteUnitBtn.should("be.visible");
-      unitsPage.deleteUnitBtn.click();
+      unitsPage.deleteBtn.should("be.visible");
+      unitsPage.deleteBtn.click();
       unitsPage.popUpWrapper.should("be.visible");
       unitsPage.popUpCloseIcon.click();
-      unitsPage.deleteUnitBtn.should("be.visible");
-      unitsPage.deleteUnitBtn.click();
+      unitsPage.deleteBtn.should("be.visible");
+      unitsPage.deleteBtn.click();
       unitsPage.popUpCancelBtn.click();
-      unitsPage.deleteUnitBtn.should("be.visible");
-      unitsPage.unitCardTitleText.then((unitName) => {
-        unitsPage.deleteUnitBtn.click();
+      unitsPage.deleteBtn.should("be.visible");
+      unitsPage.unitCardNameText.then((unitName) => {
+        unitsPage.deleteBtn.click();
         unitsPage.popUpAgreementBtn.click();
         unitsPage.notificationPopUpDescription.should(
           "have.text",
@@ -137,7 +137,7 @@ describe("Unit Edit functionality", () => {
         );
         unitsPage.notificationPopUpCrossIcon.click();
         unitsPage.notificationPopUpDescription.should("not.exist");
-        unitsPage.emptyBlockInfoTitle.should("be.visible");
+        unitsPage.emptyBlockInfotenderName.should("be.visible");
         crmApi.searhAdsByName(unitName).then((response) => {
           expect(response.body.count).to.be.eq(0);
         });
@@ -155,7 +155,7 @@ describe("Unit Edit functionality", () => {
             expect(status).to.be.eq(201);
           });
           cy.reload();
-          unitsPage.pendingAnnouncements.click();
+          unitsPage.pendingTab.click();
           break;
 
         case "deactivatedTabs":
@@ -171,17 +171,19 @@ describe("Unit Edit functionality", () => {
           unitsPage.rejectedTabs.click();
           break;
       }
-      unitsPage.unitCardTitleText.then((unitName) => {
+      unitsPage.unitCardNameText.then((unitName) => {
         unitsPage.unitName.click();
-        cy.wait(1000);
-        unitsPage.deleteUnitBtn.click();
+        cy.wait(5000);
+        unitsPage.deleteBtn.click();
         unitsPage.popUpWrapper.should("be.visible");
         unitsPage.popUpCloseIcon.click();
-        unitsPage.deleteUnitBtn.should("be.visible");
-        unitsPage.deleteUnitBtn.click();
+        cy.wait(1000);
+        unitsPage.deleteBtn.should("be.visible");
+        unitsPage.deleteBtn.click();
         unitsPage.popUpCancelBtn.click();
-        unitsPage.deleteUnitBtn.should("be.visible");
-        unitsPage.deleteUnitBtn.click();
+        cy.wait(1000)
+        unitsPage.deleteBtn.should("be.visible");
+        unitsPage.deleteBtn.click();
         unitsPage.popUpAgreementBtn.click();
         unitsPage.notificationPopUpDescription.should(
           "have.text",
@@ -189,7 +191,7 @@ describe("Unit Edit functionality", () => {
         );
         unitsPage.notificationPopUpCrossIcon.click();
         unitsPage.notificationPopUpDescription.should("not.exist");
-        unitsPage.emptyBlockInfoTitle.should("be.visible");
+        unitsPage.emptyBlockInfotenderName.should("be.visible");
         crmApi.searhAdsByName(unitName).then((response) => {
           expect(response.body.count).to.be.eq(0);
         });

@@ -27,17 +27,17 @@ describe("Unit Edit functionality", () => {
   });
 
   it("TC-182 Edit Unit without changes", function () {
-    unitsPage.unitCardTitleText.then((unitName) => {
-      unitsPage.editBtn.click();
+    unitsPage.unitCardNameText.then((unitName) => {
+      unitsPage.editAdsBtn.click();
       unitsPage.editAnnouncmentTitle.should("be.visible");
       unitsPage.preventBtn.first().click();
       unitsPage.unitCard.should("be.visible");
-      unitsPage.editBtn.click();
+      unitsPage.editAdsBtn.click();
       cy.wait(1000);
       unitsPage.nextBtn.first().should("be.visible").click();
       unitsPage.successfullyEditedMsg.should("be.visible");
-      unitsPage.viewInMyAdsBtn.should("be.visible");
-      unitsPage.viewInMyAdsBtn.click();
+      unitsPage.viewInMyList.should("be.visible");
+      unitsPage.viewInMyList.click();
       unitsPage.emptyBlockInfoTitle.should("be.visible");
       crmApi.searhAdsByName(unitName).then((response) => {
         expect(response.body.results[0].is_approved).to.be.eq(null);
@@ -48,19 +48,19 @@ describe("Unit Edit functionality", () => {
   });
 
   it("TC-272 Check 'Назва оголошення' input field", function () {
-    unitsPage.editBtn.click();
-    unitsPage.announcementInput.should("be.visible").should("be.enabled");
-    cy.wait(1000);
+    unitsPage.editAdsBtn.click();
+    unitsPage.announcementInput.should("be.enabled").and("be.visible");
+    cy.wait(2000);
     unitsPage.announcementInput.clear();
-    cy.wait(1000);
     unitsPage.nextBtn.should("be.visible").click();
     unitsPage.descriptionError.should("have.text", this.errorMsg.requiredField);
+    cy.wait(1000)
     unitsPage.announcementInput.type(this.generalMsg.invalidSymbols);
     unitsPage.announcementInput.should(
       "have.attr",
       "placeholder",
       this.generalMsg.announcementPlaceholder
-    );
+    )
     unitsPage.announcementInput.should("have.value", "");
     unitsPage.announcementInput.type(randomValue.generateStringWithLength(9));
     unitsPage.nextBtn.should("be.visible").click();
@@ -80,7 +80,7 @@ describe("Unit Edit functionality", () => {
     cy.wait(1000);
     unitsPage.nextBtn.should("be.visible").click();
     unitsPage.successfullyEditedMsg.should("be.visible");
-    unitsPage.viewInMyAdsBtn.should("be.visible");
+    unitsPage.viewInMyList.should("be.visible");
     crmApi.searhAdsByName(randomUnitName).then((response) => {
       expect(response.status).to.be.eq(200);
       expect(response.body.results[0].name).to.be.eq(randomUnitName);
@@ -89,26 +89,26 @@ describe("Unit Edit functionality", () => {
   });
 
   it("TC-273 Check 'Виробник транспортного засобу' input field", function () {
-    unitsPage.editBtn.click();
-    unitsPage.closeVehicleBtn.click();
-    unitsPage.vehicleManufacturerInput.should(
+    unitsPage.editAdsBtn.click();
+    unitsPage.closeBtn.click();
+    unitsPage.servicesInput.should(
       "have.attr",
       "placeholder",
       this.generalMsg.manufacturerPlaceholder
     );
-    unitsPage.nextBtn.click();
-    unitsPage.vehicleManufacturerError.should(
+    unitsPage.nextBtn.should("be.enabled").and("be.visible").click();
+    unitsPage.serviceError.should(
       "have.text",
       this.errorMsg.requiredField
     );
-    unitsPage.vehicleManufacturerInput.type(this.generalMsg.invalidSymbols);
-    unitsPage.vehicleManufacturerInput.should("have.value", "");
-    unitsPage.vehicleManufacturerError.should(
+    unitsPage.servicesInput.type(this.generalMsg.invalidSymbols);
+    unitsPage.servicesInput.should("have.value", "");
+    unitsPage.serviceError.should(
       "have.text",
       this.errorMsg.requiredField
     );
     const randomName = randomValue.generateStringWithLength(12);
-    unitsPage.vehicleManufacturerInput.type(randomName);
+    unitsPage.servicesInput.type(randomName);
     unitsPage.vehicleManufacturerNotFoundItem.then((element) => {
       const regex = new RegExp(
         `На жаль, виробника “${randomName}“ не знайдено в нашій базі. Щоб додати виробника - зв\`яжіться із службою підтримки`,
@@ -116,15 +116,15 @@ describe("Unit Edit functionality", () => {
       );
       expect(element.text()).to.match(regex);
     });
-    unitsPage.vehicleManufacturerInput.clear();
-    unitsPage.vehicleManufacturerInput.type(
+    unitsPage.servicesInput.clear();
+    unitsPage.servicesInput.type(
       this.generalMsg.vehicleManufacturerName
     );
-    unitsPage.vehicleManufacturerDropDownItem.should("be.visible");
-    unitsPage.vehicleManufacturerDropDownItem.click();
-    unitsPage.vehicleManufacturerError.should("not.exist");
-    unitsPage.closeVehicleBtn.should("be.visible");
-    unitsPage.selectedVehicleManufacturer.should(
+    unitsPage.servicesDropDownItem.should("be.visible");
+    unitsPage.servicesDropDownItem.click();
+    unitsPage.serviceError.should("not.exist");
+    unitsPage.closeBtn.should("be.visible");
+    unitsPage.selectedServices.should(
       "have.text",
       this.generalMsg.vehicleManufacturerName
     );
@@ -132,7 +132,7 @@ describe("Unit Edit functionality", () => {
     unitsPage.announcementInput.invoke("val").then((value) => {
       unitsPage.nextBtn.click();
       unitsPage.successfullyEditedMsg.should("be.visible");
-      unitsPage.viewInMyAdsBtn.should("be.visible");
+      unitsPage.viewInMyList.should("be.visible");
       crmApi.searhAdsByName(String(value)).then((response) => {
         const manufacturerId = response.body.results[0].manufacturer;
         expect(response.body.results[0].is_approved).to.be.eq(null);
@@ -148,9 +148,9 @@ describe("Unit Edit functionality", () => {
   });
 
   it("TC-532 Check 'Назва моделі' input field", function () {
-    unitsPage.editBtn.click();
+    unitsPage.editAdsBtn.click();
     unitsPage.modelNameInput.should("be.visible");
-    cy.wait(1000);
+    cy.wait(2000);
     unitsPage.modelNameInput.clear();
     unitsPage.modelNameInput.should("have.value", "");
 
@@ -168,7 +168,7 @@ describe("Unit Edit functionality", () => {
       cy.wait(1000);
       unitsPage.nextBtn.should("be.visible").click();
       unitsPage.successfullyEditedMsg.should("be.visible");
-      unitsPage.viewInMyAdsBtn.should("be.visible");
+      unitsPage.viewInMyList.should("be.visible");
       crmApi.searhAdsByName(String(value)).then((response) => {
         const modelName = response.body.results[0].model_name;
         expect(modelName).to.be.eq(randomModelName);
@@ -178,28 +178,29 @@ describe("Unit Edit functionality", () => {
   });
 
   it("TC-533 Check 'Технічні характеристики' input field", function () {
-    unitsPage.editBtn.click();
+    unitsPage.editAdsBtn.click();
     unitsPage.techSpecsTextArea.should("be.visible").should("be.enabled");
+    cy.wait(2000);
+    unitsPage.techSpecsTextArea.clear()
     cy.wait(1000);
-    unitsPage.techSpecsTextArea.clear().should("have.value", "");
-    cy.wait(1000);
-    unitsPage.nextBtn.should("be.visible").click();
+    unitsPage.nextBtn.should("be.enabled").click();
     unitsPage.successfullyEditedMsg.should("be.visible");
-    unitsPage.viewInMyAdsBtn.should("be.visible");
-    unitsPage.viewInMyAdsBtn.click();
+    unitsPage.viewInMyList.should("be.visible");
+    unitsPage.viewInMyList.click();
     unitsPage.expectingdUnit.click();
-    unitsPage.editBtn.eq(0).click();
+    unitsPage.editAdsBtn.eq(0).click();
     unitsPage.techSpecsTextArea.should("be.visible");
     unitsPage.techSpecsTextArea.should("have.value", "");
-    unitsPage.techSpecsTextArea.type(this.generalMsg.invalidSymbols);
+    unitsPage.techSpecsTextArea.type(this.generalMsg.invalidSymbols)
     unitsPage.techSpecsTextArea.should("have.value", "");
     const randomTechSpecs = randomValue.generateStringWithLength(20);
+    cy.wait(1000)
     unitsPage.techSpecsTextArea.type(randomTechSpecs);
     unitsPage.announcementInput.invoke("val").then((value) => {
       cy.wait(1000);
       unitsPage.nextBtn.should("be.visible").click();
       unitsPage.successfullyEditedMsg.should("be.visible");
-      unitsPage.viewInMyAdsBtn.should("be.visible");
+      unitsPage.viewInMyList.should("be.visible");
       crmApi.searhAdsByName(String(value)).then((response) => {
         const unitId = response.body.results[0].id;
         crmApi.getUnitById(unitId).then((response) => {
@@ -209,30 +210,30 @@ describe("Unit Edit functionality", () => {
       });
     });
   });
-
+  
   it("TC-534 Check 'Опис' input field", function () {
-    unitsPage.editBtn.click();
+    unitsPage.editAdsBtn.click();
     unitsPage.detailedDescriptionTextArea.should("be.visible");
-    cy.wait(1000);
+    cy.wait(2000);
     unitsPage.detailedDescriptionTextArea.clear();
     unitsPage.detailedDescriptionTextArea.should("have.value", "");
-    cy.wait(2000);
-    unitsPage.nextBtn.click();
+    unitsPage.nextBtn.should("be.enabled").click();
     unitsPage.successfullyEditedMsg.should("be.visible");
-    unitsPage.viewInMyAdsBtn.should("be.visible");
-    unitsPage.viewInMyAdsBtn.click();
+    unitsPage.viewInMyList.should("be.visible");
+    unitsPage.viewInMyList.click();
     unitsPage.expectingdUnit.click();
-    unitsPage.editBtn.eq(0).click();
+    unitsPage.editAdsBtn.eq(0).click();
     unitsPage.detailedDescriptionTextArea.should("have.value", "");
     unitsPage.detailedDescriptionTextArea.type(this.generalMsg.invalidSymbols);
     unitsPage.detailedDescriptionTextArea.should("have.value", "");
     const randomDetaildDescription = randomValue.generateStringWithLength(60);
+    cy.wait(1000)
     unitsPage.detailedDescriptionTextArea.type(randomDetaildDescription);
     unitsPage.announcementInput.invoke("val").then((value) => {
       cy.wait(1000);
       unitsPage.nextBtn.should("be.visible").click();
       unitsPage.successfullyEditedMsg.should("be.visible");
-      unitsPage.viewInMyAdsBtn.should("be.visible");
+      unitsPage.viewInMyList.should("be.visible");
       crmApi.searhAdsByName(String(value)).then((response) => {
         const unitId = response.body.results[0].id;
         crmApi.getUnitById(unitId).then((response) => {
@@ -244,7 +245,7 @@ describe("Unit Edit functionality", () => {
   });
 
   it("TC-535 Check 'Місце розташування технічного засобу' functionality", function () {
-    unitsPage.editBtn.click();
+    unitsPage.editAdsBtn.click();
     unitsPage.choseOnMapBtn.click();
     unitsPage.mapPopUpTitle.should(
       "have.text",
@@ -253,7 +254,7 @@ describe("Unit Edit functionality", () => {
     unitsPage.getMapPopUpBoundingBox().then(({ x, y }) => {
       cy.get("body").click(x, y);
     });
-    cy.wait(3000);
+    cy.wait(5000);
     unitsPage.selectedAdress.invoke("text").then((address) => {
       unitsPage.mapPopUpsubmitProposalBtn.click();
       unitsPage.mapPopUp.should("not.exist");
@@ -262,7 +263,7 @@ describe("Unit Edit functionality", () => {
       unitsPage.announcementInput.invoke("val").then((value) => {
         unitsPage.nextBtn.click();
         unitsPage.successfullyEditedMsg.should("be.visible");
-        unitsPage.viewInMyAdsBtn.should("be.visible");
+        unitsPage.viewInMyList.should("be.visible");
         crmApi.searhAdsByName(String(value)).then((response) => {
           const unitId = response.body.results[0].id;
           crmApi.getUnitById(unitId).then((response) => {

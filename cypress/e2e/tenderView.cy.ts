@@ -1,13 +1,11 @@
 import page from "../pages/page";
 import loginPage from "../pages/loginPage";
-import tendersPage from "../pages/tendersPage";
 import tenderApi from "../api/tenderApi";
-import tendersMapPage from "../pages/tendersMapPage";
 import randomValue from "../helper/randomValue";
-import tenderDetailsPage from "cypress/pages/tenderDetailsPage";
 import { UrlPath } from "../constants/enumUrlPaths";
 import { tenderCategoriesDropdownListNames } from "../constants/tenderCategoriesNames";
-import { sortDropdownListNames } from "../constants/sortNames";
+import { sortingDropdownListNames } from "../constants/sortNames";
+import unitPage from "cypress/pages/unitsPage";
 import "cypress-clipboard";
 
 describe("Tender view", () => {
@@ -50,16 +48,16 @@ describe("Tender view", () => {
         });
 
         cy.reload();
-        tendersPage.activeTab.click();
-        tendersPage.tenderCards.then(tender => {
+        unitPage.activeTab.click();
+        unitPage.tenderCards.then(tender => {
             cy.wrap(tender).should("be.visible");
-            tendersPage.getTenderName(cy.wrap(tender)).should("have.text", tenders[0].name);
-            tendersPage.getTenderDate(cy.wrap(tender)).should("be.visible");
-            tendersPage.getTenderAddress(cy.wrap(tender)).should("be.visible");
-            tendersPage.getTenderPrice(cy.wrap(tender)).should("be.visible");
-            tendersPage.getTenderStatus(cy.wrap(tender)).should("be.visible");
-            tendersPage.getTenderEditButton(cy.wrap(tender)).should("be.visible");
-            tendersPage.getTenderCloseButton(cy.wrap(tender)).should("be.visible");
+            unitPage.getTenderName(cy.wrap(tender)).should("have.text", tenders[0].name);
+            unitPage.getTenderDate(cy.wrap(tender)).should("be.visible");
+            unitPage.getTenderAddress(cy.wrap(tender)).should("be.visible");
+            unitPage.getTenderPrice(cy.wrap(tender)).should("be.visible");
+            unitPage.getTenderStatus(cy.wrap(tender)).should("be.visible");
+            unitPage.editTenderBtn.should("be.visible");
+            unitPage.tenderCloseButton.should("be.visible");
         });
     });
 
@@ -79,14 +77,14 @@ describe("Tender view", () => {
         });
 
         cy.reload();
-        tendersPage.closedTab.click();
-        tendersPage.tenderCards.then(tender => {
+        unitPage.closedTab.click();
+        unitPage.tenderCards.then(tender => {
             cy.wrap(tender).should("be.visible");
-            tendersPage.getTenderName(cy.wrap(tender)).should("have.text", tenders[0].name);
-            tendersPage.getTenderDate(cy.wrap(tender)).should("be.visible");
-            tendersPage.getTenderAddress(cy.wrap(tender)).should("be.visible");
-            tendersPage.getTenderPrice(cy.wrap(tender)).should("be.visible");
-            tendersPage.getTenderDeleteButton(cy.wrap(tender)).should("be.visible");
+            unitPage.getTenderName(cy.wrap(tender)).should("have.text", tenders[0].name);
+            unitPage.getTenderDate(cy.wrap(tender)).should("be.visible");
+            unitPage.getTenderAddress(cy.wrap(tender)).should("be.visible");
+            unitPage.getTenderPrice(cy.wrap(tender)).should("be.visible");
+            unitPage.tenderCloseButton.should("be.visible");
         });
     });
 
@@ -100,15 +98,15 @@ describe("Tender view", () => {
         });
 
         cy.reload();
-        tendersPage.pendingTab.click();
-        tendersPage.tenderCards.then(tender => {
+        unitPage.pendingTab.click();
+        unitPage.tenderCards.then(tender => {
             cy.wrap(tender).should("be.visible");
-            tendersPage.getTenderName(cy.wrap(tender)).should("have.text", tenders[0].name);
-            tendersPage.getTenderDate(cy.wrap(tender)).should("be.visible");
-            tendersPage.getTenderAddress(cy.wrap(tender)).should("be.visible");
-            tendersPage.getTenderPrice(cy.wrap(tender)).should("be.visible");
-            tendersPage.getTenderEditButton(cy.wrap(tender)).should("be.visible");
-            tendersPage.getTenderCloseButton(cy.wrap(tender)).should("be.visible");
+            unitPage.getTenderName(cy.wrap(tender)).should("have.text", tenders[0].name);
+            unitPage.getTenderDate(cy.wrap(tender)).should("be.visible");
+            unitPage.getTenderAddress(cy.wrap(tender)).should("be.visible");
+            unitPage.getTenderPrice(cy.wrap(tender)).should("be.visible");
+            unitPage.editTenderBtn.should("be.visible");
+            unitPage.tenderCloseButton.should("be.visible");
         });
     });
 
@@ -125,15 +123,15 @@ describe("Tender view", () => {
         });
 
         cy.reload();
-        tendersPage.rejectedTab.click();
-        tendersPage.tenderCards.then(tender => {
+        unitPage.rejectedTabs.click();
+        unitPage.tenderCards.then(tender => {
             cy.wrap(tender).should("be.visible");
-            tendersPage.getTenderName(cy.wrap(tender)).should("have.text", tenders[0].name);
-            tendersPage.getTenderDate(cy.wrap(tender)).should("be.visible");
-            tendersPage.getTenderAddress(cy.wrap(tender)).should("be.visible");
-            tendersPage.getTenderPrice(cy.wrap(tender)).should("be.visible");
-            tendersPage.getTenderEditButton(cy.wrap(tender)).should("be.visible");
-            tendersPage.getTenderCloseButton(cy.wrap(tender)).should("be.visible");
+            unitPage.getTenderName(cy.wrap(tender)).should("have.text", tenders[0].name);
+            unitPage.getTenderDate(cy.wrap(tender)).should("be.visible");
+            unitPage.getTenderAddress(cy.wrap(tender)).should("be.visible");
+            unitPage.getTenderPrice(cy.wrap(tender)).should("be.visible");
+            unitPage.editTenderBtn.should("be.visible");
+            unitPage.tenderCloseButton.should("be.visible");
         });
     });
 
@@ -154,17 +152,17 @@ describe("Tender view", () => {
         });
 
         loginPage.userIcon.click();
-        loginPage.logoutButton.click();
+        loginPage.logoutBtn.click();
         loginPage.headerAuthBtn.should("be.visible").click();
         loginPage.login(Cypress.env("ADMIN_EMAIL"), Cypress.env("ADMIN_PASSWORD"));
         cy.window().scrollTo("top");
         page.tendersButton.click();
         cy.url().should("include", UrlPath.TENDERS_MAP);
         cy.reload();
-        tendersMapPage.searchInput.then(input => {
+        unitPage.searchInput.then(input => {
             cy.wrap(input).type(tenders[0].name);
         });
-        tendersMapPage.tenderCards.then(tenderCards => {
+        unitPage.tenderCards.then(tenderCards => {
             cy.wrap(tenderCards)
                 .should("be.visible")
                 .and("have.length", 1)
@@ -172,35 +170,35 @@ describe("Tender view", () => {
         });
         cy.url().should("include", UrlPath.SELECTED_TENDER);
 
-        tenderDetailsPage.title.then(tenderTitle => {
-            cy.wrap(tenderTitle)
+        unitPage.tenderName.then(tendertenderName => {
+            cy.wrap(tendertenderName)
                 .should("be.visible")
                 .and("have.text", tenders[0].name);
         });
-        tenderDetailsPage.proposeDate.should("be.visible");
-        tenderDetailsPage.budget.should("be.visible");
-        tenderDetailsPage.proposeButton.should("be.visible");
-        tenderDetailsPage.organizerName.should("be.visible");
-        tenderDetailsPage.proposeCount.should("be.visible");
-        tenderDetailsPage.dateOfWork.should("be.visible");
-        tenderDetailsPage.placeOfWork.should("be.visible");
-        tenderDetailsPage.services.should("be.visible");
-        tenderDetailsPage.description.should("be.visible");
-        tenderDetailsPage.documents.then(docs => {
+        unitPage.proposeDate.should("be.visible");
+        unitPage.budget.should("be.visible");
+        unitPage.proposeButton.should("be.visible");
+        unitPage.organizerName.should("be.visible");
+        unitPage.proposeCount.should("be.visible");
+        unitPage.dateOfWork.should("be.visible");
+        unitPage.placeOfWork.should("be.visible");
+        unitPage.services.should("be.visible");
+        unitPage.description.should("be.visible");
+        unitPage.documents.then(docs => {
             cy.wrap(docs)
                 .should("be.visible")
                 .and("have.length", 1);
             
-            tenderDetailsPage.getDocumentName(cy.wrap(docs)).should("be.visible");
-            tenderDetailsPage.getDocumentViewButton(cy.wrap(docs)).should("be.visible").click();
-            tenderDetailsPage.documentPopup.should("be.visible");
-            tenderDetailsPage.documentPopupCloseButton.click();
-            tenderDetailsPage.getDocumentName(cy.wrap(docs)).invoke("text").then((text) => {
-                tenderDetailsPage.getDocumentDownloadButton(cy.wrap(docs)).click();
+            unitPage.getDocumentName(cy.wrap(docs)).should("be.visible");
+            unitPage.getDocumentViewButton(cy.wrap(docs)).should("be.visible").click();
+            unitPage.documentPopup.should("be.visible");
+            unitPage.closeBtn.click();
+            unitPage.getDocumentName(cy.wrap(docs)).invoke("text").then((text) => {
+                unitPage.getDocumentDownloadButton(cy.wrap(docs)).click();
                 cy.readFile(`${Cypress.config("downloadsFolder")}/${text}`).should("exist");
             });
         });
-        tenderDetailsPage.otherTenders.should("be.visible");
+        unitPage.otherTenders.should("be.visible");
     });
 
     it("TC-241 Search and filter tenders", function () {
@@ -226,19 +224,19 @@ describe("Tender view", () => {
             }
         });
 
-
+        
         cy.reload();
-        tendersPage.tenderInput.focus();
-        tendersPage.tenderInput.should("have.value", "");
-        tendersPage.categoryDropdownList.should("have.text", tenderCategoriesDropdownListNames[4]);
-        tendersPage.sortDropdownList.should("have.text", sortDropdownListNames[0]);
+        unitPage.headerTenderInput.focus();
+        unitPage.headerTenderInput.should("have.value", "");
+        unitPage.categoriesDropdownList.should("have.text", tenderCategoriesDropdownListNames[4]);
+        unitPage.sortingDropdownList.should("have.text", sortingDropdownListNames[0]);
         const longText = randomValue.generateStringWithLength(101);
-        tendersPage.tenderInput.type(longText);
-        tendersPage.tenderInput.should("have.value", longText.substring(0, 100));
-        tendersPage.tenderInput.clear();
-        tendersPage.tenderInput.type(this.generalMsg.invalidSymbols);
-        tendersPage.tenderInput.should("have.value", "");
-        tendersPage.tenderInput.then(input => {
+        unitPage.headerTenderInput.type(longText);
+        unitPage.headerTenderInput.should("have.value", longText.substring(0, 100));
+        unitPage.headerTenderInput.clear();
+        unitPage.headerTenderInput.type(this.generalMsg.invalidSymbols);
+        unitPage.headerTenderInput.should("have.value", "");
+        unitPage.headerTenderInput.then(input => {
             const tenderName = tenders[0].name;
             cy.wrap(input).type(tenderName);
             cy.wrap(input).should("have.value", tenderName);
@@ -250,34 +248,34 @@ describe("Tender view", () => {
             });
             cy.wrap(input).should("have.value", tenderName);
 
-            tendersPage.tenderCards.each(tender => {
-                tendersPage.getTenderName(cy.wrap(tender)).should("include.text", tenderName);
+            unitPage.tenderCards.each(tender => {
+                unitPage.getTenderName(cy.wrap(tender)).should("include.text", tenderName);
             });
             cy.wrap(input).clear();
         });
 
         cy.window().then(() => {
             for (const category of tenderCategoriesDropdownListNames) {
-                tendersPage.categoryDropdownList.click();
-                tendersPage.selectListItemByName(category).click();
-                tendersPage.categoryDropdownList.should("have.text", category);
-                tendersPage.tenderCards.each(tender => {
+                unitPage.categoriesDropdownList.click();
+                unitPage.selectListItemByName(category).click();
+                unitPage.categoriesDropdownList.should("have.text", category);
+                unitPage.tenderCards.each(tender => {
                     if (category !== tenderCategoriesDropdownListNames[4]) {
-                        tendersPage.getTenderCategoty(cy.wrap(tender)).should("include.text", category);
+                        unitPage.getTenderCategoty(cy.wrap(tender)).should("include.text", category);
                     }
                 });
             }
         });
 
         cy.window().then(() => {
-            for (const sortName of sortDropdownListNames) {
-                tendersPage.sortDropdownList.click();
-                tendersPage.selectListItemByName(sortName).click();
-                tendersPage.sortDropdownList.should("have.text", sortName);
-                tendersPage.tenderCards.then(tenderCards => {
+            for (const sortName of sortingDropdownListNames) {
+                unitPage.sortingDropdownList.click();
+                unitPage.selectListItemByName(sortName).click();
+                unitPage.sortingDropdownList.should("have.text", sortName);
+                unitPage.tenderCards.then(tenderCards => {
                     for (let i = 0; i < tenderCards.length - 1; ++i) {
-                        tendersPage.getTenderName(cy.wrap(tenderCards[i])).invoke("text").then(firstTenderName => {
-                            tendersPage.getTenderName(cy.wrap(tenderCards[i + 1])).invoke("text").then(secondTenderName => {
+                        unitPage.getTenderName(cy.wrap(tenderCards[i])).invoke("text").then(firstTenderName => {
+                            unitPage.getTenderName(cy.wrap(tenderCards[i + 1])).invoke("text").then(secondTenderName => {
                                 switch (sortName) {
                                     case "по даті створення": {
                                         const firstTender = tenders.find(tender => tender.name === firstTenderName);

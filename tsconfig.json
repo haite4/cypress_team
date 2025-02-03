@@ -1,11 +1,11 @@
 {
     "compilerOptions": {
       "baseUrl": "./",
-      "target": "ES2015",
-      "lib": ["ES2015", "dom"],
+      "target": "ES2021",
+      "lib": ["ES2021", "dom"],
       "types": ["cypress", "node"],
       "moduleResolution": "NodeNext",
       "module": "NodeNext"
     },
-    "include": ["**/*.ts"]
+    "include": ["**/*.ts"],
   }

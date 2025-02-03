@@ -1,11 +1,11 @@
 {
     "requiredField": "Це поле обов’язкове",
-    "minimumAnnouncementTitleLengthIsTen": "У назві оголошення повинно бути не менше 10 символів",
-    "maximumAnnouncementTitleLengthIsOneHundred": "У назві оголошення може бути не більше 100 символів",
+    "minimumAnnouncementtenderNameLengthIsTen": "У назві оголошення повинно бути не менше 10 символів",
+    "maximumAnnouncementtenderNameLengthIsOneHundred": "У назві оголошення може бути не більше 100 символів",
     "modelNameMax15": "У назві моделі може бути не більше 15 символів",
     "fieldisReuqired": "Це поле є обов’язковим",
-    "orderAlreadyExists": "Вы не можете повторно сделать заказ на те же даты",
-    "fileSelectionRequired": "Выберите хотя бы один файл",
+    "orderAlreadyExists": "Ви не можете повторно зробити замовлення на ті самі дати to equal Вы не можете повторно сделать заказ на те же даты",
+    "fileSelectionRequired": "Оберіть хоча б один файл",
     "invalidFileFormatOrSize": "Формат документа не підтримується. Допустимі формати: jpg, jpeg, png, pdf, doc, docx, xls, xlsx, gif. Ви не можете завантажити файл більше 20 МВ. ",
     "invalidFileFormatOrSizeCreateTender": "Формат документа не підтримується, або завеликий розмір файлу. Допустимі формати: jpg, jpeg, png, pdf, doc, docx, xls, xlsx, zip. Ви не можете завантажити файл більше 20 МВ.",
     "duplicateFileUpload": "Ви не можете завантажити двічі один файл.",
@@ -16,5 +16,13 @@
     "selectVariantFromList": "* Оберіть будь-ласка один варіант зі списку",
     "canceledOrderPopUpReuiredField": "* Це поле обовіязкове",
     "missingFilesError": "Додайте до вашого тендеру як мінімум один файл",
-    "createTenderFileUploadLimit": "Ви можете додати максимум 5 файлів до одного тендеру. Або заархівуйте свої документи в zip файл."
+    "createTenderFileUploadLimit": "Ви можете додати максимум 5 файлів до одного тендеру. Або заархівуйте свої документи в zip файл.",
+    "tenderNameToShort": "Назва має містити щонайменше 10 символів",
+    "textAreaDescriptionMinLengthError": "Опис має містити щонайменше 40 символів (${symbolLength})",
+    "lastNameValidationError": "Прізвище має містити щонайменше дві літери",
+    "personInfoMaxCharacters": "Введіть не більше 25 символів",
+    "firstNameValidationError": "Ім'я має містити щонайменше дві літери",
+    "errorInvalidPhone": "Введіть коректний мобільний номер телефону",
+    "minimumAnnouncementTitleLengthIsTen": "У назві оголошення повинно бути не менше 10 символів",
+    "maximumAnnouncementTitleLengthIsOneHundred": "У назві оголошення може бути не більше 100 символів"
 }

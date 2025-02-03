@@ -16,7 +16,7 @@ export class ApiHelper {
     return cy
       .request({
         method: "POST",
-        url: `${Cypress.env("BASE_URL")}${Endpoints.API_AUTH_CREATE}`,
+        url: `${Cypress.env("STAGE_BASE_URL")}${Endpoints.API_AUTH_CREATE}`,
         body: {
           email: credentials.email,
           password: credentials.password,

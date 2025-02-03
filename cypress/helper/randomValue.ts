@@ -7,15 +7,23 @@ class RandomValue {
   }
 
   generateStringWithLength(length: number) {
-    return faker.string.alphanumeric(length);
+    return faker.string.alpha(length);
   }
 
   generateRandomNumber(minNumber: number, maxNumber: number) {
     return faker.number.int({ min: minNumber, max: maxNumber });
   }
 
-  generateRandomDate(firtsDate: Date, secondDate: Date, dateCount: number = 1) {
-    return faker.date.betweens({ from: firtsDate, to: secondDate, count: dateCount });
+  firstName() {
+    return faker.person.firstName();
+  }
+
+  lastName(){
+    return faker.person.lastName();
+  }
+
+  phoneNumeric(length: number){
+    return Array.from({ length: length }, () => Math.floor(Math.random() * 10)).join('');
   }
 }
 
