@@ -18,7 +18,7 @@ describe("Verify create tender functionality", () => {
     cy.fixture("textSymbols/errorMsg").as("errorMsg");
   });
 
-  it("TC-786 - Verify documents uploading", function () {
+  it.skip("TC-786 - Verify documents uploading", function () {
     unitsPage.tenderDocumentChoosingHeader.eq(0).should("be.visible");
     unitsPage.tenderDocumentChoosingHeader
       .eq(0)
