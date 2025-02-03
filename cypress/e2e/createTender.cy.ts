@@ -118,7 +118,7 @@ describe("Verify create tender functionality", () => {
     });
   });
 
-  it.skip("TC-827 Verify uploading more then allowed number of docs", function () {
+  it("TC-827 Verify uploading more then allowed number of docs", function () {
     unitsPage.createTenderDocumentFileChoosingInput.selectFile(
       createTenderFilesList,
       { force: true }
